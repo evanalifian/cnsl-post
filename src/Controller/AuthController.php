@@ -25,7 +25,10 @@ class AuthController
 
   public function page(): void
   {
-    View::render("login");
+    View::render("login", [
+      "title" => "Sign In - PHP Boilerplate",
+      "styles" => ["login.css"]
+    ]);
   }
 
   public function auth(): void
