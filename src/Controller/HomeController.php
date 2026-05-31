@@ -8,6 +8,8 @@ class HomeController
 {
   public function index(): void
   {
-    View::render("landing");
+    View::render("landing", [
+      "title" => "PHP Boilerplate - Clean & Structured Foundation"
+    ]);
   }
 }
