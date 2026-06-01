@@ -37,6 +37,12 @@
               <a class="nav-link custom-link small fw-medium text-secondary" href="#docs">Docs</a>
             </li>
             <li class="nav-item ms-lg-2">
+              <a class="btn btn-outline-dark btn-sm d-inline-flex align-items-center gap-2 px-3 py-2 rounded-2 fw-medium"
+                href="/login">
+                <i class="bi bi-box-arrow-in-right"></i> Sign In
+              </a>
+            </li>
+            <li class="nav-item">
               <a class="btn btn-dark btn-sm d-inline-flex align-items-center gap-2 px-3 py-2 rounded-2 fw-medium"
                 href="https://github.com/evanalifian/php-boilerplate" target="_blank">
                 <i class="bi bi-github"></i> Repository

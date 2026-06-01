@@ -16,7 +16,7 @@ class AuthMiddleware
   public static function isNotAuth(): void
   {
     if (!isset($_SESSION["auth"])) {
-      View::redirect("/login");
+      View::redirect("/");
     }
   }
 }
