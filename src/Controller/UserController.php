@@ -25,7 +25,11 @@ class UserController
 
   public function page(): void
   {
-    View::render("account");
+    View::render("account", [
+      "title" => "Profile Settings - PHP Boilerplate",
+      "styles" => ["form.css"],
+      "user" => self::$userService->findByID($_SESSION["auth"]["id"])
+    ]);
   }
 
   public function update(): void

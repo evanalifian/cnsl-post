@@ -1,50 +1,75 @@
-<div class="container pt-5 mt-5">
-  <div class="row justify-content-center">
-    <div class="col-sm-6">
-      <h2>Welcome <?= $_SESSION["auth"]["name"] ?><sup><?= $_SESSION["auth"]["id"] ?></sup></h2>
-      <?php if (isset($data["error_message"])): ?>
-        <div class="alert alert-danger" role="alert">
-          <?= $data["error_message"] ?>
-        </div>
-      <?php endif ?>
-      <form action="/account/update" method="POST" class="row g-3 mt-3">
-        <div class="col-md-6">
-          <label for="name" class="form-label">Name</label>
-          <input type="text" class="form-control" id="name" name="name" value="<?= $_SESSION["auth"]["name"] ?>">
-        </div>
-        <div class="col-md-6">
-          <label for="username" class="form-label">Username</label>
-          <input type="text" class="form-control" id="username" name="username" value="<?= $_SESSION["auth"]["username"] ?>">
-        </div>
-        <div class="col-12">
-          <button type="submit" class="btn btn-primary">Update</button>
-        </div>
-      </form>
+<!-- Minimal Navbar -->
+<nav class="navbar navbar-expand-lg border-bottom bg-white py-3">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center fw-bold tracking-tight text-dark" href="/">
+      <i class="bi bi-box-seam-fill text-dark me-2"></i> php-boilerplate
+    </a>
+    <div class="ms-auto d-flex align-items-center gap-3">
+      <span class="text-secondary small d-none d-sm-inline-block">Logged in as <strong
+          class="text-dark"><?= $data["user"]["username"] ?></strong></span>
+      <a href="/logout" class="btn btn-outline-danger btn-sm px-3 rounded-2 fw-medium">
+        <i class="bi bi-box-arrow-right me-1"></i> Sign Out
+      </a>
     </div>
   </div>
-  <div class="row justify-content-center mt-5">
-    <hr>
-    <div class="col-sm-6">
-      <a href="/logout" class="btn btn-danger">Log out</a>
-      <!-- Button trigger modal -->
-      <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modal">
-        Delete account
-      </button>
+</nav>
 
-      <!-- Modal -->
-      <div class="modal fade" id="modal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-body">
-              <p class="fs-5 text-danger">Are you sure want to delete your account?</p>
+<!-- Main Dashboard Container -->
+<main class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+
+      <!-- Back Link -->
+      <div class="mb-4">
+        <a href="/logout" class="text-secondary text-decoration-none small d-inline-flex align-items-center gap-1">
+          <i class="bi bi-arrow-left"></i> Back to Homepage (log out)
+        </a>
+      </div>
+
+      <!-- Section Header -->
+      <div class="mb-4">
+        <h1 class="h3 fw-bold text-dark mb-1">Account Settings</h1>
+        <p class="text-secondary">Keep your personal profile details updated and accurate.</p>
+      </div>
+
+      <!-- Update Information Form Card -->
+      <div class="card border border-light-subtle rounded-4 bg-white p-4 p-sm-5 shadow-sm mb-4">
+        <h3 class="h5 fw-bold text-dark mb-4">Personal Information</h3>
+
+        <form action="/account/update" method="POST" autocomplete="off">
+          <div class="row g-4">
+            <!-- Input Full Name -->
+            <div class="col-md-6">
+              <label for="name" class="form-label text-secondary small fw-semibold text-uppercase tracking-wider">Full
+                Name</label>
+              <div class="input-group border rounded-3 overflow-hidden">
+                <span class="input-group-text bg-light border-0 text-secondary px-3"><i class="bi bi-person"></i></span>
+                <input type="text" class="form-control bg-light border-0 py-3 px-1 fs-6 text-dark" id="name" name="name"
+                  value="<?= $data["user"]["name"] ?>" placeholder="John Doe" required>
+              </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <a href="/account/delete" type="button" class="btn btn-danger me-auto">Delete</a>
+
+            <!-- Input Username -->
+            <div class="col-md-6">
+              <label for="username"
+                class="form-label text-secondary small fw-semibold text-uppercase tracking-wider">Username</label>
+              <div class="input-group border rounded-3 overflow-hidden">
+                <span class="input-group-text bg-light border-0 text-secondary px-3"><i class="bi bi-at"></i></span>
+                <input type="text" class="form-control bg-light border-0 py-3 px-1 fs-6 text-dark" id="username"
+                  name="username" value="<?= $data["user"]["username"] ?>" placeholder="johndoe" required>
+              </div>
             </div>
           </div>
-        </div>
+
+          <!-- Form Actions -->
+          <div class="mt-4 pt-2 text-end">
+            <button type="submit" class="btn btn-dark px-4 py-2.5 rounded-3 fw-medium small shadow-sm">
+              Save Profile
+            </button>
+          </div>
+        </form>
       </div>
+
     </div>
   </div>
-</div>
+</main>

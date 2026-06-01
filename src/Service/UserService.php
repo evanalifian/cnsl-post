@@ -40,6 +40,10 @@ class UserService
     }
   }
 
+  public function findByID(int $id_user): array {
+    return self::$userRepository->findByID($id_user)->fetch();
+  }
+
   public function delete(int $userID): void
   {
     self::$userRepository->delete($userID);
