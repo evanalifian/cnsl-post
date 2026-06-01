@@ -42,6 +42,9 @@ class UserController
       View::redirect("/account");
     } catch (ValidationException $e) {
       View::render("account", [
+        "title" => "Profile Settings - PHP Boilerplate",
+        "styles" => ["form.css"],
+        "user" => self::$userService->findByID($_SESSION["auth"]["id"]),
         "error_message" => $e->getMessage()
       ]);
     }
@@ -54,6 +57,8 @@ class UserController
       View::redirect("/");
     } catch (ValidationException $e) {
       View::render("account", [
+        "title" => "Profile Settings - PHP Boilerplate",
+        "styles" => ["form.css"],
         "error_message" => $e->getMessage()
       ]);
     }

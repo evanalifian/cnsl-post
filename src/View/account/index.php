@@ -45,7 +45,7 @@
               <div class="input-group border rounded-3 overflow-hidden">
                 <span class="input-group-text bg-light border-0 text-secondary px-3"><i class="bi bi-person"></i></span>
                 <input type="text" class="form-control bg-light border-0 py-3 px-1 fs-6 text-dark" id="name" name="name"
-                  value="<?= $data["user"]["name"] ?>" placeholder="John Doe" required>
+                  value="<?= $data["user"]["name"] ?>" placeholder="John Doe">
               </div>
             </div>
 
@@ -56,7 +56,7 @@
               <div class="input-group border rounded-3 overflow-hidden">
                 <span class="input-group-text bg-light border-0 text-secondary px-3"><i class="bi bi-at"></i></span>
                 <input type="text" class="form-control bg-light border-0 py-3 px-1 fs-6 text-dark" id="username"
-                  name="username" value="<?= $data["user"]["username"] ?>" placeholder="johndoe" required>
+                  name="username" value="<?= $data["user"]["username"] ?>" placeholder="johndoe">
               </div>
             </div>
           </div>
@@ -73,3 +73,34 @@
     </div>
   </div>
 </main>
+
+<!-- Bootstrap Toast Container (Renders dynamically from PHP $error_message variable) -->
+<?php if (isset($data["error_message"]) && !empty($data["error_message"])): ?>
+  <div class="toast-container position-fixed bottom-0 end-0 p-4" style="z-index: 1055;">
+    <div id="errorToast" class="toast align-items-center text-bg-danger border-0 rounded-3 shadow" role="alert"
+      aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center gap-2 py-3">
+          <i class="bi bi-exclamation-circle-fill fs-5"></i>
+          <div>
+            <strong>Error:</strong>
+            <?php echo htmlspecialchars($data["error_message"]); ?>
+          </div>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-3 m-auto" data-bs-dismiss="toast"
+          aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+<?php endif; ?>
+
+<script>
+  // Automatically show the toast on load if the elements exist in DOM
+  document.addEventListener('DOMContentLoaded', function () {
+    const toastElement = document.getElementById('errorToast');
+    if (toastElement) {
+      const toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
+  });
+</script>

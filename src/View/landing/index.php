@@ -3,12 +3,6 @@
   <div class="container py-5">
     <div class="row justify-content-center text-center py-4">
       <div class="col-lg-8">
-        <div
-          class="d-inline-flex align-items-center gap-2 border border-light-subtle rounded-pill px-3 py-1.5 mb-4 bg-body-tertiary">
-          <span class="badge bg-dark rounded-pill fw-medium">v1.0.0</span>
-          <span class="text-body-secondary small fw-medium">Simple. Structured. Stable.</span>
-        </div>
-
         <h1 class="display-3 fw-bold text-dark lh-sm mb-4">
           The raw foundation for modern PHP development.
         </h1>

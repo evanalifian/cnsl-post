@@ -37,7 +37,7 @@ class AuthService
   private static function authValidation(AuthModel $authModel): void
   {
     if (strlen($authModel->username) === 0 || strlen($authModel->password) === 0) {
-      throw new ValidationException("Username and Password can noT be empty");
+      throw new ValidationException("Username and Password can not be empty");
     }
   }
 }

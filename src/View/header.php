@@ -15,7 +15,7 @@
 </head>
 
 <body class="bg-light text-dark data-bs-theme=dark">
-  <?php if ($_SERVER['REQUEST_URI'] !== "/login" && $_SERVER['REQUEST_URI'] !== "/signup" && $_SERVER['REQUEST_URI'] !== "/account"): ?>
+  <?php if ($_SERVER['REQUEST_URI'] !== "/login" && $_SERVER['REQUEST_URI'] !== "/signup" && $_SERVER['REQUEST_URI'] !== "/account" && $_SERVER['REQUEST_URI'] !== "/account/update" && $_SERVER['REQUEST_URI'] !== "/account/delete"): ?>
     <nav class="navbar navbar-expand-lg navbar-blur sticky-top border-bottom bg-white bg-opacity-75 backdrop-blur">
       <div class="container py-1">
         <a class="navbar-brand d-flex align-items-center fw-bold tracking-tight text-dark" href="#">

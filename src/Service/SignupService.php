@@ -34,7 +34,7 @@ class SignupService
   private static function signupValidation(SignupModel $signupModel): void
   {
     if (strlen($signupModel->name) === 0 || strlen($signupModel->username) === 0 || strlen($signupModel->password) === 0) {
-      throw new ValidationException("Name, Username, and Password can noT be empty");
+      throw new ValidationException("Name, Username, and Password can not be empty");
     }
   }
 }

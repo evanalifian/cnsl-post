@@ -36,7 +36,7 @@ class UserService
   private static function updateValidation(UserModel $userModel): void
   {
     if (strlen($userModel->name) === 0 || strlen($userModel->username) === 0) {
-      throw new ValidationException("Name and Username can noT be empty");
+      throw new ValidationException("Name and Username can not be empty");
     }
   }
 
