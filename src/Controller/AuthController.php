@@ -41,6 +41,8 @@ class AuthController
       View::redirect("/account");
     } catch (ValidationException $e) {
       View::render("login", [
+        "title" => "Sign In - PHP Boilerplate",
+        "styles" => ["form.css"],
         "error_message" => $e->getMessage()
       ]);
     }

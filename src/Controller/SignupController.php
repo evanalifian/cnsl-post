@@ -42,6 +42,8 @@ class SignupController
       View::redirect("/login");
     } catch (ValidationException $e) {
       View::render("signup", [
+        "title" => "Sign Up - PHP Boilerplate",
+        "styles" => ["form.css"],
         "error_message" => $e->getMessage()
       ]);
     }
