@@ -26,7 +26,7 @@ root:.
 │   ├───Config
 │   ├───Controller
 │   ├───Exception
-│   ├───middleware
+│   ├───Middleware
 │   ├───Model
 │   ├───Repository
 │   ├───Service
