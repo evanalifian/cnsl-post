@@ -21,7 +21,7 @@ class UserService
     return self::$userRepository->getUserByIdentity($identity);
   }
 
-  public function save(UserModel $model): void
+  public function save(UserModel $model): array
   {
     self::saveValidation($model);
 
@@ -39,6 +39,8 @@ class UserService
       self::$userRepository->save($model);
 
       Database::commit();
+
+      return $result;
     } catch (\Exception $e) {
       Database::rollback();
       throw $e;
@@ -53,7 +55,7 @@ class UserService
     }
   }
 
-  public function auth(UserModel $model): void
+  public function auth(UserModel $model): array
   {
     self::authValidation($model);
 
@@ -67,7 +69,7 @@ class UserService
       throw new ValidationException("Password incorrect");
     }
 
-    $_SESSION["auth"] = $result;
+    return $result;
   }
 
   private static function authValidation(UserModel $model): void
@@ -91,9 +93,6 @@ class UserService
       }
 
       self::$userRepository->update($model, $userID);
-
-      $_SESSION["auth"]["name"] = $model->name;
-      $_SESSION["auth"]["username"] = $model->username;
 
       Database::commit();
     } catch (\Exception $e) {

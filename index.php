@@ -13,17 +13,17 @@ $dotenv->safeLoad();
 $home = new HomeController();
 $user = new UserController();
 
-Router::add("/", "GET", fn() => $home->index(), fn() => AuthMiddleware::isAuth());
-Router::add("/account", "GET", fn() => $user->homePage(), fn() => AuthMiddleware::isNotAuth());
-Router::add("/account/update", "POST", fn() => $user->update(), fn() => AuthMiddleware::isNotAuth());
-Router::add("/account/delete", "GET", fn() => $user->delete(), fn() => AuthMiddleware::isNotAuth());
+Router::add("/", "GET", fn() => $home->index(), fn() => AuthMiddleware::requireGuest());
+Router::add("/account", "GET", fn() => $user->homePage(), fn() => AuthMiddleware::requireAuth());
+Router::add("/account/update", "POST", fn() => $user->update(), fn() => AuthMiddleware::requireAuth());
+Router::add("/account/delete", "GET", fn() => $user->delete(), fn() => AuthMiddleware::requireAuth());
 
-Router::add("/login", "GET", fn() => $user->authPage(), fn() => AuthMiddleware::isAuth());
-Router::add("/login", "POST", fn() => $user->auth(), fn() => AuthMiddleware::isAuth());
+Router::add("/login", "GET", fn() => $user->authPage(), fn() => AuthMiddleware::requireGuest());
+Router::add("/login", "POST", fn() => $user->auth(), fn() => AuthMiddleware::requireGuest());
 
-Router::add("/signup", "GET", fn() => $user->signupPage(), fn() => AuthMiddleware::isAuth());
-Router::add("/signup", "POST", fn() => $user->save(), fn() => AuthMiddleware::isAuth());
+Router::add("/signup", "GET", fn() => $user->signupPage(), fn() => AuthMiddleware::requireGuest());
+Router::add("/signup", "POST", fn() => $user->save(), fn() => AuthMiddleware::requireGuest());
 
-Router::add("/logout", "GET", fn() => $user->logout(), fn() => AuthMiddleware::isNotAuth());
+Router::add("/logout", "GET", fn() => $user->logout(), fn() => AuthMiddleware::requireAuth());
 
 Router::execute();
