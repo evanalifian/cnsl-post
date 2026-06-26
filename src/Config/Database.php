@@ -2,16 +2,56 @@
 
 namespace App\Config;
 
+use PDO;
+
 class Database
 {
-  public static function connect(): \PDO
-  {
-    $db_host = getenv("DB_HOST") ?: "localhost";
-    $db_port = getenv("DB_PORT") ?: "3306";
-    $db_database = getenv("DB_DATABASE") ?: "php_boilerplate";
-    $db_username = getenv("DB_USERNAME") ?: "root";
-    $db_password = getenv("DB_PASSWORD") ?: "";
+  private static ?PDO $connection = null;
 
-    return new \PDO("mysql:host=$db_host:$db_port;dbname=$db_database", $db_username, $db_password);
+  public static function connect(): PDO
+  {
+    if (self::$connection === null) {
+
+      $host = getenv('DB_HOST') ?: 'localhost';
+      $port = getenv('DB_PORT') ?: '3306';
+      $database = getenv('DB_DATABASE') ?: 'php_boilerplate';
+      $username = getenv('DB_USERNAME') ?: 'root';
+      $password = getenv('DB_PASSWORD') ?: '';
+
+      $dsn = sprintf(
+        'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
+        $host,
+        $port,
+        $database
+      );
+
+      self::$connection = new PDO(
+        $dsn,
+        $username,
+        $password,
+        [
+          PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+          PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+          PDO::ATTR_EMULATE_PREPARES => false,
+        ]
+      );
+    }
+
+    return self::$connection;
+  }
+
+  public static function beginTransaction(): bool
+  {
+    return self::connect()->beginTransaction();
+  }
+
+  public static function commit(): bool
+  {
+    return self::connect()->commit();
+  }
+
+  public static function rollback(): bool
+  {
+    return self::connect()->rollBack();
   }
 }

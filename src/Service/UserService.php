@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Config\Database;
 use App\Exception\ValidationException;
 use App\Model\UserModel;
 use App\Repository\UserRepository;
@@ -24,14 +25,25 @@ class UserService
   {
     self::saveValidation($model);
 
-    $result = $this->getUserByIdentity($model->username);
+    try {
+      Database::beginTransaction();
 
-    if ($result) {
-      throw new ValidationException("User already exist");
+      $result = $this->getUserByIdentity($model->username);
+
+      if ($result) {
+        throw new ValidationException("User already exist");
+      }
+
+      $model->password = password_hash($model->password, PASSWORD_BCRYPT);
+
+      self::$userRepository->save($model);
+
+      Database::commit();
+    } catch (\Exception $e) {
+      Database::rollback();
+      throw $e;
     }
 
-    $model->password = password_hash($model->password, PASSWORD_BCRYPT);
-    self::$userRepository->save($model);
   }
 
   private static function saveValidation(UserModel $model): void
@@ -65,27 +77,35 @@ class UserService
     }
   }
 
-  public function update(UserModel $userModel, int $userID): void
+  public function update(UserModel $model, int $userID): void
   {
-    $model = $userModel;
-
     self::updateValidation($model);
 
-    $result = $this->getUserByIdentity($userID);
+    try {
+      Database::beginTransaction();
 
-    if (!$result) {
-      throw new ValidationException("User does not match");
+      $result = $this->getUserByIdentity($userID);
+
+      if (!$result) {
+        throw new ValidationException("User does not match");
+      }
+
+      self::$userRepository->update($model, $userID);
+
+      $_SESSION["auth"]["name"] = $model->name;
+      $_SESSION["auth"]["username"] = $model->username;
+
+      Database::commit();
+    } catch (\Exception $e) {
+      Database::rollback();
+      throw $e;
     }
 
-    self::$userRepository->update($model, $userID);
-
-    $_SESSION["auth"]["name"] = $model->name;
-    $_SESSION["auth"]["username"] = $model->username;
   }
 
-  private static function updateValidation(UserModel $userModel): void
+  private static function updateValidation(UserModel $model): void
   {
-    if (empty($userModel->name) || empty($userModel->username)) {
+    if (empty($model->name) || empty($model->username)) {
       throw new ValidationException("Name and Username can not be empty");
     }
   }

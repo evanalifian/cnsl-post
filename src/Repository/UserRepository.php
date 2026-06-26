@@ -17,7 +17,7 @@ class UserRepository
   {
     $statement = self::$connDB->prepare("SELECT * FROM users WHERE id = ? OR username = ?");
     $statement->execute([$identity, $identity]);
-    return $statement->fetch();
+    return $statement->fetch()?:[];
   }
 
   public function save(UserModel $model): \PDOStatement
