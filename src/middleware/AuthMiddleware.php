@@ -34,7 +34,7 @@ class AuthMiddleware
     $user = self::sessionService()->current();
 
     if ($user !== null) {
-      View::redirect('/');
+      View::redirect('/home');
     }
   }
 }

@@ -1,3 +1,4 @@
 designs
 vendor
 .env
+*.sql

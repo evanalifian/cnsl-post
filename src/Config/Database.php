@@ -14,7 +14,7 @@ class Database
 
       $host = getenv('DB_HOST') ?: 'localhost';
       $port = getenv('DB_PORT') ?: '3306';
-      $database = getenv('DB_DATABASE') ?: 'php_boilerplate';
+      $database = getenv('DB_DATABASE') ?: 'cnsl_post';
       $username = getenv('DB_USERNAME') ?: 'root';
       $password = getenv('DB_PASSWORD') ?: '';
 

@@ -1,47 +1,36 @@
-<main class="my-auto py-5">
+<main class="flex-shrink-0 d-flex align-items-center my-auto py-5">
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-10 col-sm-8 col-md-6 col-lg-4">
-        <div class="bg-white border rounded-4 p-4 p-sm-5 shadow-sm">
-          <div class="text-center mb-4">
-            <h2 class="fw-extrabold text-dark tracking-tight mb-1">Create Account</h2>
-            <p class="text-secondary small">Get started with your boilerplate instantly</p>
+      <div class="col-12 col-sm-10 col-md-6 col-lg-4">
+        <div class="text-center mb-4">
+          <h2 class="fw-bold fs-4 mb-1">Create an account</h2>
+          <p class="text-secondary small">Join the community and start threading</p>
+        </div>
+        <form action="/signup" method="POST">
+          <div class="mb-3">
+            <label for="username" class="form-label small fw-medium mb-1">Username</label>
+            <input type="text"
+              class="form-control form-control-sm bg-transparent text-white border-secondary border-opacity-50 rounded-3 shadow-none py-2"
+              id="username" name="username" placeholder="choose a username">
           </div>
-
-          <form action="/signup" method="POST">
-            <div class="mb-3">
-              <label for="name" class="form-label small fw-medium text-secondary">Full Name</label>
-              <input type="text"
-                class="form-control rounded-3 py-2 text-dark bg-light border-0 shadow-none focus-ring focus-ring-dark"
-                id="name" name="name" placeholder="John Doe">
-            </div>
-
-            <div class="mb-3">
-              <label for="username" class="form-label small fw-medium text-secondary">Username</label>
-              <input type="text"
-                class="form-control rounded-3 py-2 text-dark bg-light border-0 shadow-none focus-ring focus-ring-dark"
-                id="username" name="username" placeholder="johndoe">
-            </div>
-
-            <div class="mb-4">
-              <label for="password" class="form-label small fw-medium text-secondary mb-1">Password</label>
-              <input type="password"
-                class="form-control rounded-3 py-2 text-dark bg-light border-0 shadow-none focus-ring focus-ring-dark"
-                id="password" name="password" placeholder="••••••••">
-              <div class="form-text text-muted extra-small mt-1" style="font-size: 0.75rem;">Must be at least 8
-                characters.</div>
-            </div>
-
-            <button type="submit" class="btn btn-dark w-100 py-2.5 rounded-3 fw-medium shadow-sm mb-3">
-              Get Started
-            </button>
-          </form>
-
-          <div class="text-center mt-4 pt-2 border-top">
-            <p class="small text-secondary mb-0">
-              Already have an account? <a href="/login" class="link-dark fw-medium text-decoration-none">Log in</a>
-            </p>
+          <div class="mb-3">
+            <label for="email" class="form-label small fw-medium mb-1">Email Address</label>
+            <input type="email"
+              class="form-control form-control-sm bg-transparent text-white border-secondary border-opacity-50 rounded-3 shadow-none py-2"
+              id="email" name="email" placeholder="name@example.com">
           </div>
+          <div class="mb-4">
+            <label for="password" class="form-label small fw-medium mb-1">Password</label>
+            <input type="password"
+              class="form-control form-control-sm bg-transparent text-white border-secondary border-opacity-50 rounded-3 shadow-none py-2"
+              id="password" name="password" placeholder="create a strong password">
+          </div>
+          <button type="submit" class="btn btn-sm btn-light w-100 py-2 rounded-pill fw-semibold mb-3">Sign Up</button>
+        </form>
+        <div class="text-center">
+          <p class="text-secondary small mb-0">
+            Already have an account? <a href="/login" class="text-white text-decoration-none fw-medium">Log in</a>
+          </p>
         </div>
       </div>
     </div>
