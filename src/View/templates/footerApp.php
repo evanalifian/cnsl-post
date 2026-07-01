@@ -1,8 +1,12 @@
 <div class="col-12 d-block d-lg-none fixed-bottom bg-black border-top border-secondary border-opacity-25 py-3 px-2 z-3">
   <div class="d-flex flex-row justify-content-around align-items-center mx-auto" style="max-width: 500px">
-    <a href="/home" class="text-white"><i class="bi bi-house-door-fill fs-4"></i></a>
-    <a href="/home" class="text-secondary"><i class="bi bi-search fs-4"></i></a>
-    <a href="/home" class="text-secondary"><i class="bi bi-plus-circle fs-4"></i></a>
+    <?php foreach ($navLinks as $nav): ?>
+      <a href="<?= $nav["path"] ?>"
+        class="
+      <?= $nav["path"] === $_SERVER['REQUEST_URI'] ? $activeNavItem : $navItem ?>">
+        <?= $nav["icon"] ?>
+      </a>
+    <?php endforeach ?>
     <a href="/profile" class="text-secondary text-decoration-none">
       <img src="/public/<?= $user["avatar_url"] ?>" class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
               align-items-center justify-content-center flex-shrink-0 object-fit-cover"
