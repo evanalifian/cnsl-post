@@ -16,9 +16,14 @@
         class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 object-fit-cover"
         style="width: 80px; height: 80px;" alt="Profile Picture" />
     </div>
-    <a href="/profile/update" class="btn btn-outline-light btn-sm rounded-pill px-3 fw-bold mb-2 shadow-none" style="font-size: 0.85rem;">
-      Edit profile
-    </a>
+    <div class="d-flex column-gap-3">
+      <a href="/profile/update" class="btn btn-outline-light btn-sm rounded-pill px-3 fw-bold mb-2 shadow-none" style="font-size: 0.85rem;">
+        Edit profile
+      </a>
+      <a href="/logout" class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold mb-2 shadow-none" style="font-size: 0.85rem;">
+        Logout
+      </a>
+    </div>
   </div>
   <div class="px-4 mt-3">
     <?php if (isset($data["user"]["display_name"])): ?>
