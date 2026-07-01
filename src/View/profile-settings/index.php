@@ -16,9 +16,7 @@
         style="width: 80px; height: 80px;" alt="Profile Picture" />
       <div>
         <form action="api/upload_avatar.php" method="POST" enctype="multipart/form-data">
-          <h3 class="fs-6 fw-bold mb-1">Profile picture</h3>
-          <p class="text-body-secondary small mb-3">PNG, JPG or GIF up to 2MB</p>
-          
+          <h3 class="fs-6 fw-bold mb-3">Profile picture</h3>
           <div class="d-flex gap-2">
             <label for="avatarFile" class="btn btn-sm btn-light px-3 rounded-pill fw-medium">
               Upload new
@@ -34,7 +32,7 @@
   </div>
 
   <div class="p-4 border-bottom border-secondary border-opacity-25">
-    <form action="/profile/edit" method="POST">
+    <form action="/profile/update" method="POST">
       <div class="mb-3">
         <label for="display_name" class="form-label small fw-medium mb-1">Display Name</label>
         <input type="text"
