@@ -21,10 +21,10 @@ class SearchController
 
   public function index(): void
   {
-    $query = htmlspecialchars($_GET['query']) ?? null;
+    $query = $_GET['query'] ?? null;
 
     if ($query) {
-      $results = $query ? self::$searchService->findUsers($query) : [];
+      $results = $query ? self::$searchService->findUsers(htmlspecialchars(trim($query))) : [];
       View::app("search", [
         "title" => "Search",
         "results" => $results
