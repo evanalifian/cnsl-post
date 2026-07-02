@@ -1,5 +1,5 @@
 <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1055;">
-  <div id="toastError" class="toast align-items-center text-danger bg-danger bg-opacity-10 border-0 rounded-3 shadow-lg"
+  <div id="toastError" class="toast align-items-center text-danger bg-danger-subtle border-0 rounded-3 shadow-lg"
     role="alert" aria-live="assertive" aria-atomic="true">
     <div class="d-flex py-1 px-2">
       <div class="toast-body d-flex align-items-center gap-2 small fw-medium">

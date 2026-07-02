@@ -8,25 +8,18 @@
       <h1 class="fw-bold fs-5 mb-0 tracking-tight">Edit Profile</h1>
     </div>
   </div>
-  
+
   <div class="p-4 border-bottom border-secondary border-opacity-25">
     <div class="d-flex align-items-center gap-4">
-      <img src="/public/<?= $data["user"]["avatar_url"] ?>"
-        class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 object-fit-cover"
-        style="width: 80px; height: 80px;" alt="Profile Picture" />
-      <div>
-        <form action="api/upload_avatar.php" method="POST" enctype="multipart/form-data">
-          <h3 class="fs-6 fw-bold mb-3">Profile picture</h3>
-          <div class="d-flex gap-2">
-            <label for="avatarFile" class="btn btn-sm btn-light px-3 rounded-pill fw-medium">
-              Upload new
-            </label>
-            <input type="file" id="avatarFile" class="d-none" accept="image/*" onchange="this.form.submit()" />
-            <button type="button" class="btn btn-sm btn-outline-danger px-3 rounded-pill fw-medium">
-              Remove
-            </button>
-          </div>
-        </form>
+      <img src="<?= $data["user"]["avatar_url"] ?>"
+        class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle object-fit-cover"
+        style="width:80px;height:80px;" alt="Preview">
+      <div class="d-flex flex-column">
+        <h3 class="fs-6 fw-bold mb-2">Profile picture</h3>
+        <button type="button" class="btn btn-sm btn-light px-3 rounded-pill fw-medium" data-bs-toggle="modal"
+          data-bs-target="#changePictureModal">
+          Change Picture
+        </button>
       </div>
     </div>
   </div>
@@ -37,7 +30,8 @@
         <label for="display_name" class="form-label small fw-medium mb-1">Display Name</label>
         <input type="text"
           class="form-control form-control-sm bg-transparent text-white border-secondary border-opacity-50 rounded-3 shadow-none py-2"
-          id="display_name" name="display_name" value="<?= $data["user"]["display_name"] ?>" placeholder="your display name">
+          id="display_name" name="display_name" value="<?= $data["user"]["display_name"] ?>"
+          placeholder="your display name">
       </div>
       <div class="mb-3">
         <label for="username" class="form-label small fw-medium mb-1">Username</label>
@@ -52,12 +46,13 @@
           id="bio" name="bio" rows="3" placeholder="Describe yourself..."
           style="resize: none;"><?= $data["user"]["bio"] ?></textarea>
       </div>
-      
+
       <div class="d-flex gap-3 pt-2">
         <button type="submit" class="btn btn-sm btn-light flex-grow-1 py-2 rounded-pill fw-semibold">
           Save Changes
         </button>
-        <a href="/profile" class="btn btn-sm btn-outline-secondary flex-grow-1 py-2 rounded-pill fw-semibold text-white text-decoration-none">
+        <a href="/profile"
+          class="btn btn-sm btn-outline-secondary flex-grow-1 py-2 rounded-pill fw-semibold text-white text-decoration-none">
           Cancel
         </a>
       </div>
@@ -65,12 +60,13 @@
   </div>
 
   <div class="p-4 border-bottom border-secondary border-opacity-25">
-    <div class="d-flex align-items-center justify-content-between">
+    <div class="d-flex flex-column align-items-start align-items-md-center justify-content-between flex-md-row gap-3">
       <div>
-        <h3 class="fs-6 fw-bold mb-1">Keluar dari Akun</h3>
-        <p class="text-body-secondary small mb-0">Sesi aktif Anda saat ini akan diakhiri.</p>
+        <h3 class="fs-6 fw-bold mb-1">Log out</h3>
+        <p class="text-body-secondary small mb-0">Your current active session will be terminated.</p>
       </div>
-      <a href="/logout" class="btn btn-sm btn-outline-secondary px-3 rounded-pill fw-medium text-white text-decoration-none shadow-none">
+      <a href="/logout"
+        class="btn btn-sm btn-outline-secondary px-3 rounded-pill fw-medium text-white text-decoration-none shadow-none">
         <i class="bi bi-box-arrow-right me-1"></i> Log Out
       </a>
     </div>
@@ -82,11 +78,12 @@
       <h3 class="fs-6 fw-bold mb-0">Danger Zone</h3>
     </div>
     <p class="text-body-secondary small mb-3">
-      Menghapus akun Anda bersifat permanen. Seluruh data postingan, profil, serta relasi pengikut akan dihapus secara total dari sistem dan tidak dapat dipulihkan kembali.
+      Deleting your account is permanent. All your posts, profile information, and follower relationships will be
+      deleted from the system and cannot be recovered.
     </p>
-    <button type="button" class="btn btn-sm btn-danger px-4 rounded-pill fw-semibold shadow-none" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+    <button type="button" class="btn btn-sm btn-danger px-4 rounded-pill fw-semibold shadow-none" data-bs-toggle="modal"
+      data-bs-target="#deleteAccountModal">
       Delete Account
     </button>
   </div>
 </div>
-<?php require_once __DIR__ . "/deleteModal.php"; ?>

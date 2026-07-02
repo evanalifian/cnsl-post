@@ -97,7 +97,9 @@ class UserController
 
     View::app("profile-settings", [
       "title" => "Profile Settings",
-      "user" => $user
+      "user" => $user,
+      "components" => ["deleteAccountModal.php", "saveAvatarModal.php"],
+      "scripts" => ["saveAvatarModal.js"]
     ]);
   }
 
@@ -110,14 +112,32 @@ class UserController
       self::$userModel->display_name = htmlspecialchars(trim($_POST["display_name"]));
       self::$userModel->bio = htmlspecialchars(trim($_POST["bio"]));
 
-      self::$userService->update(self::$userModel, $user["id"]);
+      self::$userService->update($user["id"], self::$userModel);
       View::redirect("/profile");
     } catch (ValidationException $e) {
-      View::app("update-profile", [
+      View::app("profile-settings", [
         "title" => "Update Profile",
         "user" => $user,
-        "components" => ["errorToast.php"],
-        "scripts" => ["errorToast.js"],
+        "components" => ["errorToast.php", "saveAvatarModal.php", "deleteAccountModal.php"],
+        "scripts" => ["errorToast.js", "saveAvatarModal.js"],
+        "error_message" => $e->getMessage()
+      ]);
+    }
+  }
+
+  public function updateAvatar(): void
+  {
+    $user = self::$sessionService->current();
+
+    try {
+      self::$userService->updateAvatar($user["id"], $_FILES["avatar"]);
+      View::redirect("/profile");
+    } catch (ValidationException $e) {
+      View::app("profile-settings", [
+        "title" => "Update Profile",
+        "user" => $user,
+        "components" => ["errorToast.php", "saveAvatarModal.php", "deleteAccountModal.php"],
+        "scripts" => ["errorToast.js", "saveAvatarModal.js"],
         "error_message" => $e->getMessage()
       ]);
     }

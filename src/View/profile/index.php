@@ -12,7 +12,7 @@
   </div>
   <div class="pt-2 px-4 d-flex justify-content-between align-items-center">
     <div class="bg-black p-1 rounded-circle d-flex align-items-center justify-content-center" style="z-index: 2;">
-      <img src="/public/<?= $data["user"]["avatar_url"] ?>"
+      <img src="<?= $data["user"]["avatar_url"] ?>"
         class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 object-fit-cover"
         style="width: 80px; height: 80px;" alt="Profile Picture" />
     </div>

@@ -48,12 +48,22 @@ class UserRepository
     return $statement;
   }
 
-  public function update(UserModel $model, int $userID): \PDOStatement
+  public function update(int $userID, UserModel $model): \PDOStatement
   {
-    $statement = self::$connDB->prepare("UPDATE users SET username = ?, display_name = ?, bio = ? WHERE id = ?");
-
     try {
+      $statement = self::$connDB->prepare("UPDATE users SET username = ?, display_name = ?, bio = ? WHERE id = ?");
       $statement->execute([$model->username, $model->display_name, $model->bio, $userID]);
+      return $statement;
+    } catch (\Exception $e) {
+      throw new ValidationException($e->getMessage());
+    }
+  }
+
+  public function updateAvatar(int $userID, string $avatar_url): \PDOStatement
+  {
+    try {
+      $statement = self::$connDB->prepare("UPDATE users SET avatar_url = ? WHERE id = ?");
+      $statement->execute([$avatar_url, $userID]);
       return $statement;
     } catch (\Exception $e) {
       throw new ValidationException($e->getMessage());

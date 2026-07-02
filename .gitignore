@@ -2,3 +2,4 @@ designs
 vendor
 .env
 *.sql
+public/uploads/avatars/*

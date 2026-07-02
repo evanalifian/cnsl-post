@@ -33,7 +33,7 @@
           <?php endforeach ?>
           <div class="mt-auto mb-4 pt-3 border-top border-secondary border-opacity-10">
             <a href="/profile" class="<?= $activeProfile ? $activeNavItem : $navItem ?>">
-              <img src="/public/<?= $user["avatar_url"] ?>"
+              <img src="<?= $user["avatar_url"] ?>"
               class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
               align-items-center justify-content-center flex-shrink-0 object-fit-cover"
               style="width: 32px; height: 32px;" alt="Profile Picture" />

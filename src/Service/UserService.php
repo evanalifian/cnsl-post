@@ -65,7 +65,7 @@ class UserService
     return $result;
   }
 
-  public function update(UserModel $model, int $userID): void
+  public function update(int $userID, UserModel $model): void
   {
     Helpers::updateValidation($model);
 
@@ -78,7 +78,39 @@ class UserService
         throw new ValidationException("User does not match");
       }
 
-      self::$userRepository->update($model, $userID);
+      self::$userRepository->update($userID, $model);
+
+      Database::commit();
+    } catch (\Exception $e) {
+      Database::rollback();
+      throw new ValidationException($e->getMessage());
+    }
+  }
+
+  public function updateAvatar(int $userID, array $files): void
+  {
+    $file_name = $files["name"];
+    $file_type = $files["type"];
+    $file_size = $files["size"];
+    $file_tmp_name = $files["tmp_name"];
+    $file_error = $files["error"];
+
+    Helpers::updateAvatarValidation($file_name, $file_type, $file_size, $file_error);
+
+    try {
+      Database::beginTransaction();
+
+      $filepath = __DIR__ . "/../../public/uploads/avatars/";
+
+      $filename = Helpers::updateAvatar($file_tmp_name, $file_name, $filepath);
+
+      $avatar_url = "/public/uploads/avatars/" . $filename;
+
+      $user = self::getUserByIdentity($userID);
+
+      Helpers::deleteAvatar(__DIR__ . "/../.." . $user["avatar_url"]);
+
+      self::$userRepository->updateAvatar($userID, $avatar_url);
 
       Database::commit();
     } catch (\Exception $e) {
