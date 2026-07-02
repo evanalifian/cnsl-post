@@ -15,7 +15,7 @@
         class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle object-fit-cover"
         style="width:80px;height:80px;" alt="Preview">
       <div class="d-flex flex-column">
-        <h3 class="fs-6 fw-bold mb-2">Profile picture</h3>
+        <h3 class="fs-6 fw-bold mb-3">Profile picture</h3>
         <button type="button" class="btn btn-sm btn-light px-3 rounded-pill fw-medium" data-bs-toggle="modal"
           data-bs-target="#changePictureModal">
           Change Picture

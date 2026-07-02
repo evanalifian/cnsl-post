@@ -37,7 +37,7 @@ class View
     $navItem = "nav-link link-secondary d-flex align-items-center gap-3 px-4 py-3 rounded-pill bg-white-hover bg-opacity-10-hover link-light-hover fw-semibold";
     $user = self::viewService()->current();
 
-    $activeProfile = "/profile" === $_SERVER['REQUEST_URI'] || "/profile/update" === $_SERVER['REQUEST_URI'];
+    $activeProfile = "/profile" === $_SERVER['REQUEST_URI'] || "/profile/setting" === $_SERVER['REQUEST_URI'];
 
     require_once __DIR__ . "/../View/templates/headerApp.php";
     require_once __DIR__ . "/../View/$src_path/index.php";
