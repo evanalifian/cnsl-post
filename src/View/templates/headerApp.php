@@ -25,8 +25,10 @@
             <a class="navbar-brand fw-bold fs-5 tracking-tight text-white" href="#">cnsl-post</a>
           </div>
           <?php foreach ($navLinks as $nav): ?>
-            <a href="<?= $nav["path"] ?>"
-              class="<?= $nav["path"] === $_SERVER['REQUEST_URI'] ? $activeNavItem : $navItem ?>">
+            <?php
+            $isActive = str_starts_with($currentPath, $nav["path"]);
+            ?>
+            <a href="<?= $nav["path"] ?>" class="<?= $isActive ? $activeNavItem : $navItem ?>">
               <?= $nav["icon"] ?>
               <span class="fs-6"><?= $nav["name"] ?></span>
             </a>

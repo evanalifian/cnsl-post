@@ -38,6 +38,7 @@ class View
     $user = self::viewService()->current();
 
     $activeProfile = "/profile" === $_SERVER['REQUEST_URI'] || "/profile/setting" === $_SERVER['REQUEST_URI'];
+    $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
     require_once __DIR__ . "/../View/templates/headerApp.php";
     require_once __DIR__ . "/../View/$src_path/index.php";
