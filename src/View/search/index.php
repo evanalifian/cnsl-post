@@ -11,13 +11,23 @@
       </span>
       <input type="text" name="query"
         class="form-control bg-transparent border-0 text-white shadow-none py-2-5 ps-1 fs-6"
+        value="<?= isset($_GET['query']) ? htmlspecialchars($_GET['query']) : '' ?>"
         placeholder="Search username or name..." aria-label="Search username" autocomplete="off" />
       <button class="btn btn-light rounded-pill px-4 m-1 fw-semibold fs-7" type="submit">
         Search
       </button>
     </form>
   </div>
-  <?php if (isset($data["results"])) {
+
+  <?php
+  // 1. JIKA USER SUDAH MELAKUKAN PENCARIAN DAN HASILNYA ADA
+  if (isset($data["results"]) && !empty($data["results"])) {
     require_once __DIR__ . "/userList.php";
-  } ?>
+  } else if (isset($_GET['query'])) {
+    require_once __DIR__ . "/usersNotFound.php";
+  } else {
+    require_once __DIR__ . "/searchBanner.php";
+  }
+  ?>
+
 </div>
