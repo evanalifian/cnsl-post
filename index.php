@@ -4,6 +4,7 @@ use App\Config\Router;
 use App\Controller\AboutController;
 use App\Controller\HomeController;
 use App\Controller\LandingController;
+use App\Controller\SearchController;
 use App\Controller\UserController;
 use App\Middleware\AuthMiddleware;
 
@@ -16,6 +17,7 @@ $landing = new LandingController();
 $about = new AboutController();
 $user = new UserController();
 $home = new HomeController();
+$search = new SearchController();
 
 Router::add("/", "GET", fn() => $landing->index(), fn() => AuthMiddleware::requireGuest());
 
@@ -36,5 +38,7 @@ Router::add("/profile/update-avatar", "POST", fn() => $user->updateAvatar(), fn(
 Router::add("/profile/delete", "POST", fn() => $user->delete(), fn() => AuthMiddleware::requireAuth());
 
 Router::add("/logout", "GET", fn() => $user->logout(), fn() => AuthMiddleware::requireAuth());
+
+Router::add("/search", "GET", fn() => $search->index(), fn() => AuthMiddleware::requireAuth());
 
 Router::execute();

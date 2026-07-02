@@ -25,12 +25,14 @@ class Router
 
   public static function execute(): void
   {
+    $requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
     foreach (self::$routes as $route) {
 
       $pattern = "#^" . $route["path"] . "$#";
 
       if (
-        preg_match($pattern, $_SERVER['REQUEST_URI'], $variables)
+        preg_match($pattern, $requestPath, $variables)
         && $route["http_method"] === $_SERVER['REQUEST_METHOD']
       ) {
 
@@ -51,6 +53,6 @@ class Router
     }
 
     http_response_code(404);
-    View::notFound();
+    View::notFound(["title" => "Page not found"]);
   }
 }
