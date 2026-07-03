@@ -7,8 +7,10 @@ use App\Config\View;
 use App\Exception\ValidationException;
 use App\Model\SessionModel;
 use App\Model\UserModel;
+use App\Repository\PostRepository;
 use App\Repository\SessionRepository;
 use App\Repository\UserRepository;
+use App\Service\PostService;
 use App\Service\SessionService;
 use App\Service\UserService;
 use App\Utils\Utils;
@@ -19,17 +21,20 @@ class UserController
   private static SessionModel $sessionModel;
   private static UserService $userService;
   private static SessionService $sessionService;
+  private static PostService $postService;
 
   public function __construct()
   {
     $connDB = Database::connect();
     $userRepository = new UserRepository($connDB);
     $sessionRepository = new SessionRepository($connDB);
+    $postRepository = new PostRepository($connDB);
 
     self::$userModel = new UserModel();
     self::$sessionModel = new SessionModel();
     self::$userService = new UserService($userRepository);
     self::$sessionService = new SessionService($sessionRepository, $userRepository);
+    self::$postService = new PostService($postRepository);
   }
 
   public function signupPage(): void
@@ -87,7 +92,8 @@ class UserController
 
     View::app("profile", [
       "title" => "Profile",
-      "user" => $user
+      "user" => $user,
+      "posts" => self::$postService->getAllPostsByUser($user["id"])
     ]);
   }
 

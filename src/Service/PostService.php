@@ -8,6 +8,7 @@ use App\Helpers\Helpers;
 use App\Model\PostImageModel;
 use App\Model\PostModel;
 use App\Repository\PostRepository;
+use App\Utils\Utils;
 
 class PostService
 {
@@ -59,11 +60,23 @@ class PostService
 
   public function getAllPosts(): array
   {
-    return self::$postRepository->getAllPosts();
+    $posts = self::$postRepository->getAllPosts();
+
+    foreach ($posts as $index => $post) {
+      $posts[$index]["created_at"] = Helpers::timeAgo($post["created_at"]);
+    }
+
+    return $posts;
   }
 
   public function getAllPostsByUser(string|int $identity): array
   {
-    return self::$postRepository->getAllPostsByUser($identity);
+    $posts = self::$postRepository->getAllPostsByUser($identity);
+
+    foreach ($posts as $index => $post) {
+      $posts[$index]["created_at"] = Helpers::timeAgo($post["created_at"]);
+    }
+
+    return $posts;
   }
 }
