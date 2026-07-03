@@ -171,36 +171,12 @@ class UserController
     $user["created_at"] = Utils::formatJoinTime($user["created_at"]);
 
     $currentUser = self::$sessionService->current();
-    $isFollowing = self::$userService->isFollowing($currentUser["id"], $user["id"]);
 
     View::app("view-user", [
       "title" => $username,
       "username" => $username,
       "user" => $user,
-      "currentUser" => $currentUser,
-      "isFollowing" => $isFollowing
+      "currentUser" => $currentUser
     ]);
-  }
-
-  public function folllow(int $id): void
-  {
-    try {
-      $user = self::$sessionService->current();
-      self::$userService->follow($user["id"], $id);
-
-    } catch (ValidationException $e) {
-      var_dump($e->getMessage());
-    }
-  }
-
-  public function unfolllow(int $id): void
-  {
-    try {
-      $user = self::$sessionService->current();
-      self::$userService->unfollow($user["id"], $id);
-
-    } catch (ValidationException $e) {
-      var_dump($e->getMessage());
-    }
   }
 }

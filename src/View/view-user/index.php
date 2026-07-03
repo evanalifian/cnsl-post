@@ -20,14 +20,6 @@
         class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 object-fit-cover"
         style="width: 80px; height: 80px;" alt="Profile Picture" />
     </div>
-    <?php if ($data["user"]["username"] !== $data["currentUser"]["username"]): ?>
-      <div id="cta-following">
-        <button id="btn-follow" data-following="<?= $data["isFollowing"] ? "true" : "false" ?>"
-          class="btn btn-light btn-sm rounded-pill px-4 fw-bold shadow-none">
-          <?= $data["isFollowing"] ? "Unfollow" : "Follow" ?>
-        </button>
-      </div>
-    <?php endif ?>
   </div>
   <div class="px-4 mt-3">
     <?php if (isset($data["user"]["display_name"])): ?>
@@ -47,13 +39,6 @@
         <i class="bi bi-calendar3 small"></i>
         <span>Joined <?= $data["user"]["created_at"] ?></span>
       </div>
-    </div>
-    <div class="d-flex gap-3 small pt-1">
-      <span class="text-secondary"><strong id="follower-count"
-          class="text-white"><?= $data["user"]["follower"] ?></strong> Following</span>
-      <span class="text-secondary"><strong id="following-count"
-          class="text-white"><?= $data["user"]["following"] ?></strong>
-        Followers</span>
     </div>
   </div>
   <div class="mt-4 border-top border-secondary border-opacity-10">
@@ -151,4 +136,3 @@
     </div>
   </div>
 </div>
-<?php require_once __DIR__ . "/script.php" ?>

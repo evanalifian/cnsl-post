@@ -25,21 +25,12 @@ class UserRepository
           u.display_name,
           u.bio,
           u.avatar_url,
-          u.created_at,
-          (SELECT COUNT(*) FROM follows WHERE following_id = u.id) AS follower,
-          (SELECT COUNT(*) FROM follows WHERE follower_id = u.id) AS following
+          u.created_at
       FROM users AS u
       WHERE u.id = ? OR u.username = ?;
     ");
     $statement->execute([$identity, $identity]);
     return $statement->fetch() ?: [];
-  }
-
-  public function isFollowing(int $followerID, int $followingID): bool
-  {
-    $statement = self::$connDB->prepare("SELECT 1 FROM follows WHERE follower_id = ? AND following_id = ? LIMIT 1");
-    $statement->execute([$followerID, $followingID]);
-    return (bool) $statement->fetchColumn();
   }
 
   public function save(UserModel $model): \PDOStatement
@@ -82,28 +73,6 @@ class UserRepository
     try {
       $statement = self::$connDB->prepare("DELETE FROM users WHERE id = ?");
       $statement->execute([$userID]);
-      return $statement;
-    } catch (\Exception $e) {
-      throw new ValidationException($e->getMessage());
-    }
-  }
-
-  public function follow(int $followerID, int $followingID): \PDOStatement
-  {
-    try {
-      $statement = self::$connDB->prepare("INSERT INTO follows (follower_id, following_id) VALUES (?, ?)");
-      $statement->execute([$followerID, $followingID]);
-      return $statement;
-    } catch (\Exception $e) {
-      throw new ValidationException($e->getMessage());
-    }
-  }
-
-  public function unfollow(int $followerID, int $followingID): \PDOStatement
-  {
-    try {
-      $statement = self::$connDB->prepare("DELETE FROM follows WHERE follower_id = ? AND following_id = ?");
-      $statement->execute([$followerID, $followingID]);
       return $statement;
     } catch (\Exception $e) {
       throw new ValidationException($e->getMessage());
