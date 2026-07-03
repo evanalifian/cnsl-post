@@ -124,6 +124,10 @@ class UserService
     try {
       Database::beginTransaction();
 
+      $user = self::getUserByIdentity($userID);
+
+      Helpers::deleteAvatar(__DIR__ . "/../.." . $user["avatar_url"]);
+
       self::$userRepository->delete($userID);
 
       Database::commit();
