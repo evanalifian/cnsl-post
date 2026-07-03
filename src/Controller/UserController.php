@@ -93,7 +93,9 @@ class UserController
     View::app("profile", [
       "title" => "Profile",
       "user" => $user,
-      "posts" => self::$postService->getAllPostsByUser($user["id"])
+      "posts" => self::$postService->getAllPostsByUser($user["id"]),
+      "styles" => ["postCard.css"],
+      "scripts" => ["postCard.js"]
     ]);
   }
 

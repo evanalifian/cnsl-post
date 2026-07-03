@@ -126,7 +126,7 @@ class UserService
 
       $user = self::getUserByIdentity($userID);
 
-      Helpers::deleteAvatar(__DIR__ . "/../.." . $user["avatar_url"]);
+      Helpers::deleteImage(__DIR__ . "/../.." . $user["avatar_url"]);
 
       self::$userRepository->delete($userID);
 

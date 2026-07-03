@@ -1,6 +1,6 @@
 <div class="d-flex flex-column">
   <?php foreach ($data["posts"] as $post): ?>
-    <div class="p-4 pb-0">
+    <div class="p-4 pb-0 post-card">
       <div class="d-flex flex-column w-100">
         <div class="d-flex align-items-center justify-content-between mb-2">
           <div class="d-flex align-items-center gap-3">
@@ -17,9 +17,12 @@
             <i class="bi bi-three-dots"></i>
           </button>
         </div>
-        <div class="mt-2">
+        <div class="mt-2 post-body" data-url="/post/<?= $post["post_id"] ?>">
           <p class="text-white fs-6 lh-base mb-3">
-            <?= htmlspecialchars($post["preview_content"]) ?> <a href="/post/<?= $post["post_id"] ?>">see more</a>
+            <?= htmlspecialchars($post["preview_content"]) ?>
+            <?php if (strlen($post["preview_content"]) > 100): ?>
+              <a href="/post/<?= $post["post_id"] ?>">see more</a>
+            <?php endif ?>
           </p>
           <?php if (isset($post["image_url"])): ?>
             <a href="/post/<?= $post["post_id"] ?>" class="text-decoration-none text-reset">

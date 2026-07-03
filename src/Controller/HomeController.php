@@ -30,7 +30,9 @@ class HomeController
   {
     View::app("home", [
       "title" => "Home",
-      "posts" => self::$postService->getAllPosts()
+      "posts" => self::$postService->getAllPosts(),
+      "styles" => ["postCard.css"],
+      "scripts" => ["postCard.js"]
     ]);
   }
 }
