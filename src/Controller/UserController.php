@@ -131,7 +131,7 @@ class UserController
 
     try {
       self::$userService->updateAvatar($user["id"], $_FILES["avatar"]);
-      View::redirect("/profile");
+      View::redirect("/profile/setting");
     } catch (ValidationException $e) {
       View::app("profile-settings", [
         "title" => "Update Profile",
