@@ -42,4 +42,7 @@ Router::add("/logout", "GET", fn() => $user->logout(), fn() => AuthMiddleware::r
 Router::add("/search", "GET", fn() => $search->index(), fn() => AuthMiddleware::requireAuth());
 Router::add("/user/([0-9a-zA-Z]*)", "GET", fn(string $username) => $user->viewUser((string) $username), fn() => AuthMiddleware::requireAuth());
 
+Router::add("/user/([0-9]+)/follow", "POST", fn(int $id) => $user->folllow((int) $id), fn() => AuthMiddleware::requireAuth());
+Router::add("/user/([0-9]+)/unfollow", "POST", fn(int $id) => $user->unfolllow((int) $id), fn() => AuthMiddleware::requireAuth());
+
 Router::execute();

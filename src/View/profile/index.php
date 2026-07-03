@@ -40,8 +40,8 @@
       </div>
     </div>
     <div class="d-flex gap-3 small pt-1">
-      <span class="text-secondary"><strong class="text-white"><?= $data["user"]["follower"] ?></strong> Following</span>
-      <span class="text-secondary"><strong class="text-white"><?= $data["user"]["following"] ?></strong> Followers</span>
+      <span class="text-secondary"><strong class="text-white"><?= $data["user"]["follower"] ?></strong> Followers</span>
+      <span class="text-secondary"><strong class="text-white"><?= $data["user"]["following"] ?></strong> Following</span>
     </div>
   </div>
   <div class="mt-4 border-top border-secondary border-opacity-10">

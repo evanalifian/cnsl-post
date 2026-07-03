@@ -22,6 +22,11 @@ class UserService
     return self::$userRepository->getUserByIdentity($identity);
   }
 
+  public function isFollowing(int $followerID, int $followingID): bool
+  {
+    return self::$userRepository->isFollowing($followerID, $followingID);
+  }
+
   public function save(UserModel $model): array
   {
     Helpers::saveValidation($model);
@@ -129,6 +134,34 @@ class UserService
       Helpers::deleteAvatar(__DIR__ . "/../.." . $user["avatar_url"]);
 
       self::$userRepository->delete($userID);
+
+      Database::commit();
+    } catch (\Exception $e) {
+      Database::rollback();
+      throw new ValidationException($e->getMessage());
+    }
+  }
+
+  public function follow(int $followerID, int $followingID): void
+  {
+    try {
+      Database::beginTransaction();
+
+      self::$userRepository->follow($followerID, $followingID);
+
+      Database::commit();
+    } catch (\Exception $e) {
+      Database::rollback();
+      throw new ValidationException($e->getMessage());
+    }
+  }
+
+  public function unfollow(int $followerID, int $followingID): void
+  {
+    try {
+      Database::beginTransaction();
+
+      self::$userRepository->unfollow($followerID, $followingID);
 
       Database::commit();
     } catch (\Exception $e) {
