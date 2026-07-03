@@ -34,6 +34,8 @@ class PostService
     try {
       Database::beginTransaction();
 
+      $postModel->preview_content = Helpers::previewText($postModel->content, 100);
+
       self::$postRepository->savePost($postModel);
 
       if (!empty($file_name)) {

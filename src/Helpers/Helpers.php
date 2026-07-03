@@ -127,4 +127,21 @@ class Helpers
 
     return $diff->s . ' second' . ($diff->s > 1 ? 's' : '') . ' ago';
   }
+
+  public static function previewText(string $text, int $length = 30): string
+  {
+    $text = trim($text);
+
+    if (mb_strlen($text) <= $length) {
+      return $text;
+    }
+
+    $preview = mb_substr($text, 0, $length);
+
+    if (($lastSpace = mb_strrpos($preview, ' ')) !== false) {
+      $preview = mb_substr($preview, 0, $lastSpace);
+    }
+
+    return $preview . '...';
+  }
 }

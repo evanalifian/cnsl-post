@@ -18,8 +18,8 @@ class PostRepository
   public function savePost(PostModel $model): \PDOStatement
   {
     try {
-      $statement = self::$connDB->prepare("INSERT INTO posts (user_id, content) VALUES (?, ?)");
-      $statement->execute([$model->user_id, $model->content]);
+      $statement = self::$connDB->prepare("INSERT INTO posts (user_id, preview_content, content) VALUES (?, ?, ?)");
+      $statement->execute([$model->user_id, $model->preview_content, $model->content]);
       return $statement;
     } catch (\Exception $e) {
       throw new ValidationException($e->getMessage());
@@ -43,6 +43,7 @@ class PostRepository
       $statement = self::$connDB->prepare("
         SELECT
           p.id AS post_id,
+          p.preview_content,
           p.content,
           p.created_at,
           pi.image_url,
@@ -69,6 +70,7 @@ class PostRepository
         SELECT
           p.id AS post_id,
           p.content,
+          p.preview_content,
           p.created_at,
           pi.image_url,
           u.id AS user_id,

@@ -18,11 +18,15 @@
           </button>
         </div>
         <div class="mt-2">
-          <p class="text-white fs-6 lh-base mb-3"><?= $post["content"] ?></p>
+          <p class="text-white fs-6 lh-base mb-3">
+            <?= htmlspecialchars($post["preview_content"]) ?> <a href="/post/<?= $post["post_id"] ?>">see more</a>
+          </p>
           <?php if (isset($post["image_url"])): ?>
-            <div class="mb-3 border border-secondary border-opacity-25 rounded-3 overflow-hidden">
-              <img src="<?= $post["image_url"] ?>" class="img-fluid w-100" alt="Post image" />
-            </div>
+            <a href="/post/<?= $post["post_id"] ?>" class="text-decoration-none text-reset">
+              <div class="mb-3 border border-secondary border-opacity-25 rounded-3 overflow-hidden">
+                <img src="<?= $post["image_url"] ?>" class="img-fluid w-100" alt="Post image" />
+              </div>
+            </a>
           <?php endif ?>
         </div>
       </div>
