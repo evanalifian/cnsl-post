@@ -34,7 +34,9 @@ class View
       ]
     ];
     $activeNavItem = "nav-link link-light d-flex align-items-center gap-3 px-4 py-3 rounded-pill bg-secondary bg-opacity-10 fw-bold";
+    $activeNavItemMobile = "text-light";
     $navItem = "nav-link link-secondary d-flex align-items-center gap-3 px-4 py-3 rounded-pill bg-white-hover bg-opacity-10-hover link-light-hover fw-semibold";
+    $navItemMobile = "text-secondary";
     $user = self::viewService()->current();
 
     $activeProfile = "/profile" === $_SERVER['REQUEST_URI'] || "/profile/setting" === $_SERVER['REQUEST_URI'];

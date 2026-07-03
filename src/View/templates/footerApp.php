@@ -3,7 +3,7 @@
     <?php foreach ($navLinks as $nav): ?>
       <a href="<?= $nav["path"] ?>"
         class="
-      <?= $nav["path"] === $_SERVER['REQUEST_URI'] ? $activeNavItem : $navItem ?>">
+      <?= $nav["path"] === $_SERVER['REQUEST_URI'] ? $activeNavItemMobile : $navItemMobile ?>">
         <?= $nav["icon"] ?>
       </a>
     <?php endforeach ?>

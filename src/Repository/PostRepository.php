@@ -81,6 +81,7 @@ class PostRepository
         LEFT JOIN post_images AS pi ON pi.post_id = p.id
         LEFT JOIN users AS u ON u.id = p.user_id
         WHERE u.id = ? OR u.username = ?
+        ORDER BY p.created_at DESC
       ");
       $statement->execute([$identity, $identity]);
       return $statement->fetchAll() ?: [];

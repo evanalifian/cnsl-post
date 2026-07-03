@@ -10,10 +10,11 @@
   <div class="p-4">
     <form action="/post/create" method="POST" enctype="multipart/form-data">
       <div class="d-flex gap-3">
-        <img src="<?= $data["user"]["avatar_url"] ?>" class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
-        align-items-center justify-content-center flex-shrink-0 object-fit-cover" style="width: 40px; height: 40px;"
-          alt="Profile Picture" />
-
+        <div class="d-none d-md-block">
+          <img src="<?= $data["user"]["avatar_url"] ?>" class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
+          align-items-center justify-content-center flex-shrink-0 object-fit-cover" style="width: 40px; height: 40px;"
+            alt="Profile Picture" />
+        </div>
         <div class="w-100">
           <div class="mb-2">
             <?php if (isset($data["user"]["display_name"])): ?>
