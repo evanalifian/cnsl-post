@@ -53,7 +53,7 @@ class PostController
 
     try {
       self::$postModel->user_id = $user["id"];
-      self::$postModel->content = htmlspecialchars(trim($_POST["content"]));
+      self::$postModel->content = trim($_POST["content"]);
 
       self::$postService->save(self::$postModel, self::$postImageModel, $_FILES["image"]);
       View::redirect("/home");
