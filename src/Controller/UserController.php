@@ -164,4 +164,16 @@ class UserController
     self::$sessionService->destroy();
     View::redirect("/login");
   }
+
+  public function viewUser(string $username): void
+  {
+    $user = self::$sessionService->current();
+    $user["created_at"] = Utils::formatJoinTime($user["created_at"]);
+
+    View::app("view-user", [
+      "title" => $username,
+      "username" => $username,
+      "user" => $user
+    ]);
+  }
 }

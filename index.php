@@ -40,5 +40,6 @@ Router::add("/profile/delete", "POST", fn() => $user->delete(), fn() => AuthMidd
 Router::add("/logout", "GET", fn() => $user->logout(), fn() => AuthMiddleware::requireAuth());
 
 Router::add("/search", "GET", fn() => $search->index(), fn() => AuthMiddleware::requireAuth());
+Router::add("/user/([0-9a-zA-Z]*)", "GET", fn(string $username) => $user->viewUser((string) $username), fn() => AuthMiddleware::requireAuth());
 
 Router::execute();
