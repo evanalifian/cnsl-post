@@ -3,4 +3,5 @@ vendor
 .env
 *.sql
 /public/uploads/avatars/*
+/public/uploads/post-images/*
 /public/assets/default-avatar.png

@@ -4,6 +4,7 @@ use App\Config\Router;
 use App\Controller\AboutController;
 use App\Controller\HomeController;
 use App\Controller\LandingController;
+use App\Controller\PostController;
 use App\Controller\SearchController;
 use App\Controller\UserController;
 use App\Middleware\AuthMiddleware;
@@ -18,6 +19,7 @@ $about = new AboutController();
 $user = new UserController();
 $home = new HomeController();
 $search = new SearchController();
+$post = new PostController();
 
 Router::add("/", "GET", fn() => $landing->index(), fn() => AuthMiddleware::requireGuest());
 
@@ -41,5 +43,8 @@ Router::add("/logout", "GET", fn() => $user->logout(), fn() => AuthMiddleware::r
 
 Router::add("/search", "GET", fn() => $search->index(), fn() => AuthMiddleware::requireAuth());
 Router::add("/user/([0-9a-zA-Z]*)", "GET", fn(string $username) => $user->viewUser((string) $username), fn() => AuthMiddleware::requireAuth());
+
+Router::add("/post/create", "GET", fn() => $post->index(), fn() => AuthMiddleware::requireAuth());
+Router::add("/post/create", "POST", fn() => $post->save(), fn() => AuthMiddleware::requireAuth());
 
 Router::execute();

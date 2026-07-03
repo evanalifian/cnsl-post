@@ -33,7 +33,7 @@ class Helpers
     }
   }
 
-  public static function updateAvatarValidation(string $file_name, string $file_type, int $file_size, int $file_error): void
+  public static function imageValidation(string $file_name, string $file_type, int $file_size, int $file_error): void
   {
     if ($file_error !== UPLOAD_ERR_OK) {
       if ($file_error === UPLOAD_ERR_INI_SIZE) {
@@ -70,7 +70,7 @@ class Helpers
     }
   }
 
-  public static function updateAvatar(string $tmpFile, string $originalName, string $directory): string
+  public static function imageCoverter(string $tmpFile, string $originalName, string $directory): string
   {
     $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
 
@@ -89,7 +89,7 @@ class Helpers
     return $newFilename;
   }
 
-  public static function deleteAvatar(string $path): void
+  public static function deleteImage(string $path): void
   {
     if (file_exists($path) && !unlink($path)) {
       throw new ValidationException("The file could not be deleted");
