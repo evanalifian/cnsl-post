@@ -30,7 +30,7 @@
     <span class="text-secondary small">@<?= $data["user"]["username"] ?></span>
     
     <?php if (isset($data["user"]["bio"])): ?>
-      <p class="text-white fs-6 lh-base mt-3 mb-3 fw-light"><?= $data["user"]["bio"] ?></p>
+      <p class="text-white fs-6 lh-base mt-3 mb-3 fw-light"><?= nl2br(htmlspecialchars($data["user"]["bio"])) ?></p>
     <?php endif ?>
 
     <div class="d-flex flex-column gap-2 mt-3 mb-2">

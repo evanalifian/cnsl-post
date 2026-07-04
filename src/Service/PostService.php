@@ -41,14 +41,21 @@ class PostService
       if (!empty($file_name)) {
         $lastID = Database::connect()->lastInsertId();
 
-        $filepath = __DIR__ . "/../../public/uploads/post-images/";
+        Helpers::imageValidation(
+          $file_name,
+          $file_type,
+          $file_size,
+          $file_error,
+          5 * 1024 * 1024 // Maksimal 5 MB untuk post
+        );
 
-        $filename = Helpers::imageCoverter($file_tmp_name, $file_name, $filepath);
-
-        $avatar_url = "/public/uploads/post-images/" . $filename;
+        $postImageModel->image_url = Helpers::uploadImage(
+          $files,
+          __DIR__ . "/../../public/uploads/post-images",
+          "/public/uploads/post-images"
+        );
 
         $postImageModel->post_id = $lastID;
-        $postImageModel->image_url = $avatar_url;
 
         self::$postRepository->savePostImage($postImageModel);
       }

@@ -51,8 +51,13 @@ class Helpers
     }
   }
 
-  public static function imageValidation(string $file_name, string $file_type, int $file_size, int $file_error): void
-  {
+  public static function imageValidation(
+    string $file_name,
+    string $file_type,
+    int $file_size,
+    int $file_error,
+    int $max_size = 2 * 1024 * 1024
+  ): void {
     if ($file_error !== UPLOAD_ERR_OK) {
       if ($file_error === UPLOAD_ERR_INI_SIZE) {
         throw new ValidationException(
@@ -66,16 +71,14 @@ class Helpers
     }
 
     if ($file_name === '' || $file_size === 0) {
-      throw new ValidationException(
-        "File can not be empty"
-      );
+      throw new ValidationException("File can not be empty");
     }
-
-    $max_size = 2 * 1024 * 1024;
 
     if ($file_size > $max_size) {
       throw new ValidationException(
-        "The file size must not exceed 2MB"
+        "The file size must not exceed " .
+        round($max_size / 1024 / 1024) .
+        "MB"
       );
     }
 
@@ -118,20 +121,31 @@ class Helpers
     string $projectRoot
   ): string {
 
+    $avatarUrl = self::uploadImage(
+      $file,
+      $uploadDirectory,
+      "/public/uploads/avatars"
+    );
+
+    if ($oldAvatar !== "/public/assets/default-avatar.png") {
+      self::deleteImage($projectRoot . $oldAvatar);
+    }
+
+    return $avatarUrl;
+  }
+
+  public static function uploadImage(
+    array $file,
+    string $uploadDirectory,
+    string $publicDirectory
+  ): string {
+
     $filename = self::imageConverter(
       $file,
       $uploadDirectory
     );
 
-    if ($oldAvatar !== "/public/assets/default-avatar.png") {
-
-      self::deleteImage(
-        $projectRoot . $oldAvatar
-      );
-
-    }
-
-    return "/public/uploads/avatars/" . $filename;
+    return rtrim($publicDirectory, "/") . "/" . $filename;
   }
 
   public static function deleteImage(string $path): void
