@@ -167,6 +167,8 @@ class UserController
       View::render("account", [
         "title" => "Profile Settings - PHP Boilerplate",
         "styles" => ["form.css"],
+        "components" => ["errorToast.php", "saveAvatarModal.php", "deleteAccountModal.php"],
+        "scripts" => ["errorToast.js", "saveAvatarModal.js"],
         "error_message" => $e->getMessage()
       ]);
     }
