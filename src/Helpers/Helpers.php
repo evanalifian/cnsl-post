@@ -127,9 +127,7 @@ class Helpers
       "/public/uploads/avatars"
     );
 
-    if ($oldAvatar !== "/public/assets/default-avatar.png") {
-      self::deleteImage($projectRoot . $oldAvatar);
-    }
+    self::deleteImage($projectRoot . $oldAvatar);
 
     return $avatarUrl;
   }
@@ -148,8 +146,19 @@ class Helpers
     return rtrim($publicDirectory, "/") . "/" . $filename;
   }
 
-  public static function deleteImage(string $path): void
-  {
+  public static function deleteImage(
+    string $path,
+    string $defaultImage = "/public/assets/default-avatar.png"
+  ): void {
+
+    // Jangan hapus gambar bawaan
+    if (
+      $path === $defaultImage ||
+      str_ends_with($path, $defaultImage)
+    ) {
+      return;
+    }
+
     if (file_exists($path) && !unlink($path)) {
       throw new ValidationException("The file could not be deleted");
     }

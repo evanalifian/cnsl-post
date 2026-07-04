@@ -122,18 +122,27 @@ class UserService
   public function delete(int $userID): void
   {
     try {
+
       Database::beginTransaction();
 
       $user = $this->getUserByIdentity($userID);
 
-      Helpers::deleteImage(__DIR__ . "/../.." . $user["avatar_url"]);
+      Helpers::deleteImage(
+        __DIR__ . "/../.." . $user["avatar_url"]
+      );
 
       self::$userRepository->delete($userID);
 
       Database::commit();
+
     } catch (\Exception $e) {
+
       Database::rollback();
-      throw new ValidationException($e->getMessage());
+
+      throw new ValidationException(
+        $e->getMessage()
+      );
+
     }
   }
 }
