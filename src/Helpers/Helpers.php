@@ -8,14 +8,18 @@ use App\Utils\Utils;
 
 class Helpers
 {
-  public static function saveValidation(UserModel $model): void
-  {
+  public static function saveValidation(UserModel $model, ?array $user): void {
+
     if (empty($model->username) || empty($model->email) || empty($model->password)) {
       throw new ValidationException("Username, Email and Password can not be empty");
     }
 
     if (Utils::emailValidation($model->email)) {
       throw new ValidationException("Email is not valid");
+    }
+
+    if ($user !== null) {
+      throw new ValidationException("User already exist");
     }
   }
 

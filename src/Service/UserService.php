@@ -25,16 +25,12 @@ class UserService
 
   public function save(UserModel $model): array
   {
-    Helpers::saveValidation($model);
-
     try {
       Database::beginTransaction();
 
-      $result = $this->getUserByIdentity($model->username);
+      $user = $this->getUserByIdentity($model->username);
 
-      if ($result) {
-        throw new ValidationException("User already exist");
-      }
+      Helpers::saveValidation($model, $user);
 
       $model->password = Utils::passwordHash($model->password);
 
@@ -42,7 +38,7 @@ class UserService
 
       Database::commit();
 
-      return $result;
+      return $user;
     } catch (\Exception $e) {
       Database::rollback();
       throw new ValidationException($e->getMessage());
