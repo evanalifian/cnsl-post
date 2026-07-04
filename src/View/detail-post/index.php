@@ -5,7 +5,7 @@
               z-index: 9999;
             ">
     <div class="d-flex align-items-center gap-3">
-      <a href="home.php" class="text-white text-decoration-none"><i class="bi bi-arrow-left fs-5"></i></a>
+      <a href="/home" class="text-white text-decoration-none"><i class="bi bi-arrow-left fs-5"></i></a>
       <h1 class="fw-bold fs-5 mb-0 tracking-tight">Post</h1>
     </div>
   </div>
@@ -15,15 +15,19 @@
       <div class="d-flex flex-column w-100">
         <div class="d-flex align-items-center justify-content-between mb-3">
           <div class="d-flex align-items-center gap-3">
-            <img src="<?= $data["post"]["avatar_url"] ?>"
-            class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
+            <img src="<?= $data["post"]["avatar_url"] ?>" class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
             align-items-center justify-content-center flex-shrink-0 object-fit-cover"
-            style="width: 40px; height: 40px;" alt="Profile Picture" />
+              style="width: 40px; height: 40px;" alt="Profile Picture" />
             <div class="d-flex flex-column">
               <?php if (isset($data["post"]["display_name"])): ?>
-                <span class="text-white fw-bold fs-6 lh-sm"><?= $data["post"]["display_name"] ?></span>
+                <a href="/user/<?= $data["post"]["username"] ?>"
+                  class="text-white text-decoration-none fw-bold fs-6 lh-sm"><?= $data["post"]["display_name"] ?></a>
               <?php endif ?>
-              <span class="text-secondary small">@<?= $data["post"]["username"] ?> &middot;
+              <span class="text-secondary small">
+                <a href="/user/<?= $data["post"]["username"] ?>" class="link-secondary text-decoration-none">
+                  @<?= $data["post"]["username"] ?>
+                </a>
+                &middot;
                 <?= $data["post"]["created_at"] ?></span>
             </div>
           </div>

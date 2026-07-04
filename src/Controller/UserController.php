@@ -185,7 +185,10 @@ class UserController
       "title" => $username,
       "username" => $username,
       "user" => $user,
-      "currentUser" => $currentUser
+      "posts" => self::$postService->getAllPostsByUser($user["id"]),
+      "currentUser" => $currentUser,
+      "styles" => ["postCard.css"],
+      "scripts" => ["postCard.js"]
     ]);
   }
 }

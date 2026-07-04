@@ -41,98 +41,24 @@
       </div>
     </div>
   </div>
-  <div class="mt-4 border-top border-secondary border-opacity-10">
-    <ul class="nav nav-tabs border-bottom border-secondary border-opacity-10 px-4 nav-justified" id="profileTabs"
-      role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active border-0 text-white py-3 fw-semibold bg-transparent shadow-none" id="posts-tab"
-          data-bs-toggle="tab" data-bs-target="#posts-tab-pane" type="button" role="tab" aria-controls="posts-tab-pane"
-          aria-selected="true">
-          Posts
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link border-0 text-secondary py-3 fw-semibold bg-transparent shadow-none" id="media-tab"
-          data-bs-toggle="tab" data-bs-target="#media-tab-pane" type="button" role="tab" aria-controls="media-tab-pane"
-          aria-selected="false">
-          Media
-        </button>
-      </li>
-    </ul>
-
-    <div class="tab-content" id="profileTabsContent">
-      <div class="tab-pane fade show active" id="posts-tab-pane" role="tabpanel" aria-labelledby="posts-tab"
-        tabindex="0">
-        <div class="d-flex flex-column">
-          <div class="p-4 border-bottom border-secondary border-opacity-10">
-            <div class="d-flex flex-column w-100">
-              <div class="d-flex align-items-center justify-content-between mb-2">
-                <div class="d-flex align-items-center gap-3">
-                  <div
-                    class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex align-items-center justify-content-center text-secondary flex-shrink-0"
-                    style="
-                              width: 40px;
-                              height: 40px;
-                              font-family: monospace;
-                              font-size: 0.8rem;
-                            ">
-                    AP
-                  </div>
-                  <div class="d-flex align-items-center gap-2">
-                    <span class="text-white fw-bold small">Alexander Pierce</span>
-                    <span class="text-secondary small">&middot; 5h</span>
-                  </div>
-                </div>
-                <button class="btn btn-link text-secondary p-0 border-0 shadow-none">
-                  <i class="bi bi-three-dots"></i>
-                </button>
-              </div>
-              <div class="mt-2">
-                <p class="text-white fs-6 lh-base mb-3">
-                  Just experimenting with Atomic Design principles on my
-                  latest project. Keeping components separated, clean,
-                  and easily maintainable.
-                </p>
-                <div class="d-flex gap-4 text-secondary">
-                  <button
-                    class="btn btn-link text-secondary p-0 border-0 shadow-none d-flex align-items-center gap-2 fs-7 text-decoration-none">
-                    <i class="bi bi-heart"></i> 84
-                  </button>
-                  <button
-                    class="btn btn-link text-secondary p-0 border-0 shadow-none d-flex align-items-center gap-2 fs-7 text-decoration-none">
-                    <i class="bi bi-chat"></i> 14
-                  </button>
-                  <button
-                    class="btn btn-link text-secondary p-0 border-0 shadow-none d-flex align-items-center gap-2 fs-7 text-decoration-none">
-                    <i class="bi bi-arrow-left-right"></i> 3
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div class="mt-4 border-top border-secondary border-opacity-25">
+    <div class="d-flex border-bottom border-secondary border-opacity-10">
+      <div class="px-4 py-3 position-relative fw-bold text-white small tracking-wide text-uppercase" style="cursor: default;">
+        > Posts
       </div>
+    </div>
 
-      <div class="tab-pane fade" id="media-tab-pane" role="tabpanel" aria-labelledby="media-tab" tabindex="0">
-        <div class="p-4">
-          <div class="row g-2">
-            <div class="col-4">
-              <div
-                class="ratio ratio-1x1 border border-secondary border-opacity-10 rounded overflow-hidden bg-secondary bg-opacity-10">
-                <img src="https://images.unsplash.com/photo-1607799279861-4dd421887fb3?q=80&w=500"
-                  class="object-fit-cover w-100 h-100" alt="Gallery Media" />
-              </div>
-            </div>
-            <div class="col-4">
-              <div
-                class="ratio ratio-1x1 border border-secondary border-opacity-10 rounded overflow-hidden bg-secondary bg-opacity-10">
-                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=500"
-                  class="object-fit-cover w-100 h-100" alt="Gallery Media" />
-              </div>
-            </div>
+    <div class="bg-black">
+      <?php if (count($data["posts"]) === 0): ?>
+        <div class="d-flex flex-column align-items-center justify-content-center text-center py-5 px-4 mt-3">
+          <div class="text-secondary mb-2 opacity-25">
+            <i class="bi bi-chat-square-text" style="font-size: 2.5rem;"></i>
           </div>
+          <h3 class="fw-bold fs-6 text-white mb-1">No posts yet</h3>
         </div>
-      </div>
+      <?php else: ?>
+        <?php require_once __DIR__ . "/postList.php" ?>
+      <?php endif ?>
     </div>
   </div>
 </div>

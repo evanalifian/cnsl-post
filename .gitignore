@@ -2,6 +2,7 @@ designs
 vendor
 .env
 *.sql
+*.zip
 /public/uploads/avatars/*
 /public/uploads/post-images/*
 /public/assets/default-avatar.png
