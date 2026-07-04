@@ -13,7 +13,7 @@
         <div class="d-none d-md-block">
           <img src="<?= $data["user"]["avatar_url"] ?>" class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
           align-items-center justify-content-center flex-shrink-0 object-fit-cover" style="width: 40px; height: 40px;"
-            alt="Profile Picture" />
+            alt="Profile Picture" loading="lazy" />
         </div>
         <div class="w-100">
           <div class="mb-2">
@@ -62,7 +62,8 @@
 
           <div
             class="d-flex align-items-center justify-content-between pt-3 border-top border-secondary border-opacity-10">
-            <button type="submit" id="btn-submit-post" disabled class="btn btn-light rounded-pill px-4 fw-bold fs-7 shadow-none hover-opacity">
+            <button type="submit" id="btn-submit-post" disabled
+              class="btn btn-light rounded-pill px-4 fw-bold fs-7 shadow-none hover-opacity">
               Post
             </button>
           </div>

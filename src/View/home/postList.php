@@ -6,7 +6,7 @@
           <div class="d-flex align-items-center gap-3">
             <img src="<?= $post["avatar_url"] ?>" class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
                           align-items-center justify-content-center flex-shrink-0 object-fit-cover"
-              style="width: 40px; height: 40px;" alt="Profile Picture" />
+              style="width: 40px; height: 40px;" alt="Profile Picture" loading="lazy" />
             <div class="d-flex align-items-center gap-2">
               <a href="/user/<?= $post["username"] ?>"
                 class="link-light text-decoration-none small">@<?= $post["username"] ?></a>
@@ -21,7 +21,7 @@
           <?php if (isset($post["image_url"])): ?>
             <a href="/post/<?= $post["post_id"] ?>" class="text-decoration-none text-reset">
               <div class="mt-3 border border-secondary border-opacity-25 rounded-3 overflow-hidden">
-                <img src="<?= $post["image_url"] ?>" class="img-fluid w-100" alt="Post image" />
+                <img src="<?= $post["image_url"] ?>" class="img-fluid w-100" alt="Post image" loading="lazy" />
               </div>
             </a>
           <?php endif ?>

@@ -32,7 +32,7 @@
           <?php if (isset($post["image_url"])): ?>
             <a href="/post/<?= $post["post_id"] ?>" class="text-decoration-none text-reset">
               <div class="mt-3 border border-secondary border-opacity-25 rounded-3 overflow-hidden">
-                <img src="<?= $post["image_url"] ?>" class="img-fluid w-100" alt="Post image" />
+                <img src="<?= $post["image_url"] ?>" class="img-fluid w-100" alt="Post image" loading="lazy" />
               </div>
             </a>
           <?php endif ?>

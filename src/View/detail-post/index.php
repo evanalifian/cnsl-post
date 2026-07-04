@@ -17,7 +17,7 @@
           <div class="d-flex align-items-center gap-3">
             <img src="<?= $data["post"]["avatar_url"] ?>" class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
             align-items-center justify-content-center flex-shrink-0 object-fit-cover"
-              style="width: 40px; height: 40px;" alt="Profile Picture" />
+              style="width: 40px; height: 40px;" alt="Profile Picture" loading="lazy" />
             <div class="d-flex flex-column">
               <?php if (isset($data["post"]["display_name"])): ?>
                 <a href="/user/<?= $data["post"]["username"] ?>"
@@ -37,8 +37,8 @@
           <?php if (isset($data["post"]["image_url"])): ?>
             <div
               class="my-5 border border-secondary border-opacity-25 rounded-3 overflow-hidden bg-black d-flex justify-content-center align-items-center">
-              <img src="<?= $data["post"]["image_url"] ?>" class="img-fluid img-post-detail"
-                alt="Post Attachment Media" />
+              <img src="<?= $data["post"]["image_url"] ?>" class="img-fluid img-post-detail" alt="Post Attachment Media"
+                loading="lazy" />
             </div>
           <?php endif ?>
         </div>

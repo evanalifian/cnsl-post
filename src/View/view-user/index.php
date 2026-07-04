@@ -18,7 +18,7 @@
     <div class="bg-black p-1 rounded-circle d-flex align-items-center justify-content-center" style="z-index: 2">
       <img src="<?= $data["user"]["avatar_url"] ?>"
         class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 object-fit-cover"
-        style="width: 80px; height: 80px;" alt="Profile Picture" />
+        style="width: 80px; height: 80px;" alt="Profile Picture" loading="lazy" />
     </div>
   </div>
   <div class="px-4 mt-3">

@@ -35,10 +35,9 @@
           <?php endforeach ?>
           <div class="mt-auto mb-4 pt-3 border-top border-secondary border-opacity-10">
             <a href="/profile" class="<?= $activeProfile ? $activeNavItem : $navItem ?>">
-              <img src="<?= $user["avatar_url"] ?>"
-              class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
+              <img src="<?= $user["avatar_url"] ?>" class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
               align-items-center justify-content-center flex-shrink-0 object-fit-cover"
-              style="width: 32px; height: 32px;" alt="Profile Picture" />
+                style="width: 32px; height: 32px;" alt="Profile Picture" loading="lazy" />
               <div class="d-flex flex-column lh-sm">
                 <?php if (isset($user["display_name"])): ?>
                   <span class="fs-6 fw-bold text-white d-block"><?= $user["display_name"] ?></span>
