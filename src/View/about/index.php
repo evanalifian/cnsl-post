@@ -1,12 +1,3 @@
-<nav class="navbar navbar-expand navbar-dark bg-black border-bottom border-secondary border-opacity-25 py-2">
-  <div class="container">
-    <a class="navbar-brand fw-bold fs-6 tracking-tight text-white" href="/">cnsl-post</a>
-    <div class="d-flex gap-2">
-      <a href="/login" class="btn btn-sm btn-outline-light px-3 rounded-pill fs-7 fw-medium">Log in</a>
-      <a href="/signup" class="btn btn-sm btn-light px-3 rounded-pill fs-7 fw-medium">Sign up</a>
-    </div>
-  </div>
-</nav>
 <main class="flex-shrink-0 my-auto py-5">
   <div class="container">
     <div class="row justify-content-center">
