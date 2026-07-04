@@ -88,31 +88,47 @@ class Helpers
     }
   }
 
-  public static function imageCoverter(string $tmpFile, string $originalName, string $directory): string
-  {
-    $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+  public static function imageConverter(
+    array $file,
+    string $directory
+  ): string {
 
-    $filename = pathinfo($originalName, PATHINFO_FILENAME);
+    $filename = Utils::generateImageName(
+      $file["name"]
+    );
 
-    $filename = preg_replace('/[^a-zA-Z0-9_]/', '_', $filename);
+    $destination =
+      rtrim($directory, DIRECTORY_SEPARATOR)
+      . DIRECTORY_SEPARATOR
+      . $filename;
 
-    $newFilename = uniqid('', true) . '.' . $extension;
+    Utils::convertToWebp(
+      $file["tmp_name"],
+      $destination,
+      $file["type"]
+    );
 
-    $destination = $directory . $newFilename;
-
-    if (!move_uploaded_file($tmpFile, $destination)) {
-      throw new ValidationException("Failed to upload file");
-    }
-
-    return $newFilename;
+    return $filename;
   }
 
-  public static function replaceAvatar(array $files, string $oldAvatarUrl, string $destination, string $projectRoot): string
-  {
-    $filename = self::imageCoverter($files["tmp_name"], $files["name"], $destination);
+  public static function replaceAvatar(
+    array $file,
+    string $oldAvatar,
+    string $uploadDirectory,
+    string $projectRoot
+  ): string {
 
-    if ($oldAvatarUrl !== "/public/assets/default-avatar.png") {
-      self::deleteImage($projectRoot . $oldAvatarUrl);
+    $filename = self::imageConverter(
+      $file,
+      $uploadDirectory
+    );
+
+    if ($oldAvatar !== "/public/assets/default-avatar.png") {
+
+      self::deleteImage(
+        $projectRoot . $oldAvatar
+      );
+
     }
 
     return "/public/uploads/avatars/" . $filename;

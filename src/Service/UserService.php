@@ -76,23 +76,46 @@ class UserService
     }
   }
 
-  public function updateAvatar(int $userID, array $files): void
-  {
-    Helpers::imageValidation($files["name"], $files["type"], $files["size"], $files["error"]);
+  public function updateAvatar(
+    int $userID,
+    array $files
+  ): void {
+
+    Helpers::imageValidation(
+      $files["name"],
+      $files["type"],
+      $files["size"],
+      $files["error"]
+    );
 
     try {
+
       Database::beginTransaction();
 
       $user = $this->getUserByIdentity($userID);
 
-      $avatarUrl = Helpers::replaceAvatar($files, $user["avatar_url"], __DIR__ . "/../../public/uploads/avatars/", __DIR__ . "/../..");
+      $avatarUrl = Helpers::replaceAvatar(
+        $files,
+        $user["avatar_url"],
+        __DIR__ . "/../../public/uploads/avatars",
+        __DIR__ . "/../.."
+      );
 
-      self::$userRepository->updateAvatar($userID, $avatarUrl);
+      self::$userRepository->updateAvatar(
+        $userID,
+        $avatarUrl
+      );
 
       Database::commit();
+
     } catch (\Exception $e) {
+
       Database::rollback();
-      throw new ValidationException($e->getMessage());
+
+      throw new ValidationException(
+        $e->getMessage()
+      );
+
     }
   }
 

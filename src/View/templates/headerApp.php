@@ -22,7 +22,7 @@
         style="height: 100vh">
         <div class="d-flex flex-column h-100 gap-3">
           <div class="px-3 mb-2 py-2">
-            <a class="navbar-brand fw-bold fs-5 tracking-tight text-white" href="#">cnsl-post</a>
+            <a class="navbar-brand fw-bold fs-5 tracking-tight text-white" href="/home">cnsl-post</a>
           </div>
           <?php foreach ($navLinks as $nav): ?>
             <?php
