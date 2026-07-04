@@ -13,6 +13,7 @@ use App\Repository\UserRepository;
 use App\Service\PostService;
 use App\Service\SessionService;
 use App\Service\UserService;
+use App\Utils\Utils;
 
 class PostController
 {
@@ -76,5 +77,24 @@ class PostController
       "title" => "Detail post - " . $post["post_id"],
       "post" => $post
     ]);
+  }
+
+  public function deletePost(int $postID): void {
+    $user = self::$sessionService->current();
+    $user["created_at"] = Utils::formatJoinTime($user["created_at"]);
+    
+    try {
+      self::$postService->deletePostByID($postID);
+      View::redirect("/profile");
+    } catch (ValidationException $e) {
+      View::app("profile", [
+        "title" => "Profile",
+        "user" => $user,
+        "posts" => self::$postService->getAllPostsByUser($user["id"]),
+        "styles" => ["postCard.css"],
+        "scripts" => ["postCard.js", "postModal.js", "errorToast.js"],
+        "components" => ["postModal.php", "errorToast.php"]
+      ]);
+    }
   }
 }

@@ -90,4 +90,18 @@ class PostService
 
     return $post;
   }
+
+  public function deletePostByID(int $postID): void
+  {
+    try {
+      Database::beginTransaction();
+
+      self::$postRepository->deletePostByID($postID);
+
+      Database::commit();
+    } catch (\Exception $e) {
+      Database::rollback();
+      throw new ValidationException($e->getMessage());
+    }
+  }
 }

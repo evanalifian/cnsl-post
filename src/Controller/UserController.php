@@ -95,7 +95,8 @@ class UserController
       "user" => $user,
       "posts" => self::$postService->getAllPostsByUser($user["id"]),
       "styles" => ["postCard.css"],
-      "scripts" => ["postCard.js"]
+      "scripts" => ["postCard.js", "postModal.js"],
+      "components" => ["postModal.php"]
     ]);
   }
 

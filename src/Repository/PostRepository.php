@@ -115,4 +115,15 @@ class PostRepository
       throw new ValidationException($e->getMessage());
     }
   }
+
+  public function deletePostByID(int $postID): \PDOStatement
+  {
+    try {
+      $statement = self::$connDB->prepare("DELETE FROM posts WHERE id = ?");
+      $statement->execute([$postID]);
+      return $statement;
+    } catch (\Exception $e) {
+      throw new ValidationException($e->getMessage());
+    }
+  }
 }

@@ -47,5 +47,6 @@ Router::add("/user/([0-9a-zA-Z]*)", "GET", fn(string $username) => $user->viewUs
 Router::add("/post/create", "GET", fn() => $post->index(), fn() => AuthMiddleware::requireAuth());
 Router::add("/post/create", "POST", fn() => $post->save(), fn() => AuthMiddleware::requireAuth());
 Router::add("/post/([0-9]*)", "GET", fn($postID) => $post->detailPost((int) $postID), fn() => AuthMiddleware::requireAuth());
+Router::add("/post/([0-9]*)/delete", "POST", fn($postID) => $post->deletePost((int) $postID), fn() => AuthMiddleware::requireAuth());
 
 Router::execute();
