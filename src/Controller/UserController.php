@@ -77,7 +77,7 @@ class UserController
       $user = self::$userService->getUserByIdentity(self::$userModel->username);
       
       self::$sessionService->save($user["id"]);
-      
+
       View::redirect("/home");
     } catch (ValidationException $e) {
       View::render("login", [
@@ -92,12 +92,12 @@ class UserController
   public function profilePage(): void
   {
     $user = self::$sessionService->current();
-    $user["created_at"] = Utils::formatJoinTime($user["created_at"]);
+    $posts = self::$postService->getAllPostsByUser($user["id"]);
 
     View::app("profile", [
       "title" => "Profile",
       "user" => $user,
-      "posts" => self::$postService->getAllPostsByUser($user["id"]),
+      "posts" => $posts,
       "styles" => ["postCard.css"],
       "scripts" => ["postCard.js", "postModal.js"],
       "components" => ["postModal.php"]

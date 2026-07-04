@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Model\SessionModel;
 use App\Repository\SessionRepository;
 use App\Repository\UserRepository;
+use App\Utils\Utils;
 
 class SessionService
 {
@@ -47,6 +48,10 @@ class SessionService
       return null;
     }
 
-    return self::$userRepository->getUserByIdentity($session->user_id);
+    $user = self::$userRepository->getUserByIdentity($session->user_id);
+
+    $user["created_at"] = Utils::formatJoinTime($user["created_at"]);
+
+    return $user;
   }
 }

@@ -46,7 +46,7 @@
   <div class="mt-4 border-top border-secondary border-opacity-25">
     <div class="d-flex border-bottom border-secondary border-opacity-10">
       <div class="px-4 py-3 position-relative fw-bold text-white small tracking-wide text-uppercase" style="cursor: default;">
-        > Posts
+        <?= count($data["posts"]) ?> Posts
       </div>
     </div>
 
