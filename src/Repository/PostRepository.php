@@ -89,4 +89,30 @@ class PostRepository
       throw new ValidationException($e->getMessage());
     }
   }
+
+  public function getPostByID(int $postID): array
+  {
+    try {
+      $statement = self::$connDB->prepare("
+        SELECT
+          p.id AS post_id,
+          p.content,
+          p.preview_content,
+          p.created_at,
+          pi.image_url,
+          u.id AS user_id,
+          u.username,
+          u.display_name,
+          u.avatar_url
+        FROM posts AS p
+        LEFT JOIN post_images AS pi ON pi.post_id = p.id
+        LEFT JOIN users AS u ON u.id = p.user_id
+        WHERE p.id = ?
+      ");
+      $statement->execute([$postID]);
+      return $statement->fetch() ?: [];
+    } catch (\Exception $e) {
+      throw new ValidationException($e->getMessage());
+    }
+  }
 }

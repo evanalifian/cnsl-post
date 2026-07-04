@@ -67,4 +67,14 @@ class PostController
       ]);
     }
   }
+
+  public function detailPost(int $postID): void
+  {
+    $post = self::$postService->getPostByID($postID);
+
+    View::app("detail-post", [
+      "title" => "Detail post - " . $post["post_id"],
+      "post" => $post
+    ]);
+  }
 }

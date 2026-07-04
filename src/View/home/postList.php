@@ -16,7 +16,7 @@
         </div>
         <div class="mt-2 post-body" data-url="/post/<?= $post["post_id"] ?>">
           <p class="text-white fs-6 lh-base mb-0">
-            <?= htmlspecialchars($post["content"]) ?>
+            <?= htmlspecialchars($post["preview_content"]) ?>
           </p>
           <?php if (isset($post["image_url"])): ?>
             <a href="/post/<?= $post["post_id"] ?>" class="text-decoration-none text-reset">

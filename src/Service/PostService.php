@@ -81,4 +81,13 @@ class PostService
 
     return $posts;
   }
+
+  public function getPostByID(int $postID): array
+  {
+    $post = self::$postRepository->getPostByID($postID);
+
+    $post["created_at"] = Helpers::timeAgo($post["created_at"]);
+
+    return $post;
+  }
 }
