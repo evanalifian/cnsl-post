@@ -33,7 +33,7 @@
           </div>
         </div>
         <div class="mt-1">
-          <p class="text-white fs-6 lh-base mb-3"><?= htmlspecialchars($data["post"]["content"]) ?></p>
+          <p class="text-white fs-6 lh-base mb-3"><?= nl2br(htmlspecialchars($data["post"]["content"])) ?></p>
           <?php if (isset($data["post"]["image_url"])): ?>
             <div
               class="my-5 border border-secondary border-opacity-25 rounded-3 overflow-hidden bg-black d-flex justify-content-center align-items-center">

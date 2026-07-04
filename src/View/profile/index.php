@@ -2,7 +2,7 @@
   <div class="sticky-top bg-black bg-opacity-75 py-3 px-4"
     style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 1020;">
     <div class="d-flex align-items-center gap-3">
-      <a href="home.php" class="text-white text-decoration-none d-lg-none">
+      <a href="/home" class="text-white text-decoration-none d-lg-none">
         <i class="bi bi-arrow-left fs-5"></i>
       </a>
       <div class="d-flex flex-column">
