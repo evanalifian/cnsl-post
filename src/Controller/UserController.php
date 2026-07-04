@@ -72,8 +72,12 @@ class UserController
       self::$userModel->username = htmlspecialchars(trim($_POST["username"]));
       self::$userModel->password = htmlspecialchars(trim($_POST["password"]));
 
-      $user = self::$userService->auth(self::$userModel);
+      self::$userService->auth(self::$userModel);
+
+      $user = self::$userService->getUserByIdentity(self::$userModel->username);
+      
       self::$sessionService->save($user["id"]);
+      
       View::redirect("/home");
     } catch (ValidationException $e) {
       View::render("login", [

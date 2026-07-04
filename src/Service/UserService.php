@@ -47,19 +47,11 @@ class UserService
 
   public function auth(UserModel $model): array
   {
-    Helpers::authValidation($model);
+    $res = $this->getUserByIdentity($model->username);
 
-    $result = $this->getUserByIdentity($model->username);
+    Helpers::authValidation($model, $res);
 
-    if (!$result) {
-      throw new ValidationException("Username does not exist");
-    }
-
-    if (!password_verify($model->password, $result["password"])) {
-      throw new ValidationException("Password incorrect");
-    }
-
-    return $result;
+    return $res;
   }
 
   public function update(int $userID, UserModel $model): void

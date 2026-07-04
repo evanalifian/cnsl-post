@@ -13,20 +13,33 @@ class Helpers
     if (empty($model->username) || empty($model->email) || empty($model->password)) {
       throw new ValidationException("Username, Email and Password can not be empty");
     }
+    
+    if ($user) {
+      throw new ValidationException("User already exist");
+    }
 
     if (Utils::emailValidation($model->email)) {
       throw new ValidationException("Email is not valid");
     }
 
-    if ($user !== null) {
-      throw new ValidationException("User already exist");
+    if (Utils::passwordLength($model->password) < 8) {
+      throw new ValidationException("Password must be at least 8 characters long.");
     }
+
   }
 
-  public static function authValidation(UserModel $model): void
+  public static function authValidation(UserModel $model, ?array $user): void
   {
     if (empty($model->username) || empty($model->password)) {
       throw new ValidationException("Username and Password can not be empty");
+    }
+
+    if (!$user) {
+      throw new ValidationException("Username does not exist");
+    }
+
+    if (!password_verify($model->password, $user["password"])) {
+      throw new ValidationException("Password incorrect");
     }
   }
 
