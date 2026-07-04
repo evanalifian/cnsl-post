@@ -8,12 +8,13 @@ use App\Utils\Utils;
 
 class Helpers
 {
-  public static function saveValidation(UserModel $model, ?array $user): void {
+  public static function saveValidation(UserModel $model, ?array $user): void
+  {
 
     if (empty($model->username) || empty($model->email) || empty($model->password)) {
       throw new ValidationException("Username, Email and Password can not be empty");
     }
-    
+
     if ($user) {
       throw new ValidationException("User already exist");
     }
@@ -104,6 +105,17 @@ class Helpers
     }
 
     return $newFilename;
+  }
+
+  public static function replaceAvatar(array $files, string $oldAvatarUrl, string $destination, string $projectRoot): string
+  {
+    $filename = self::imageCoverter($files["tmp_name"], $files["name"], $destination);
+
+    if ($oldAvatarUrl !== "/public/assets/default-avatar.png") {
+      self::deleteImage($projectRoot . $oldAvatarUrl);
+    }
+
+    return "/public/uploads/avatars/" . $filename;
   }
 
   public static function deleteImage(string $path): void

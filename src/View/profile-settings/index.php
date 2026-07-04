@@ -5,7 +5,7 @@
       <a href="/profile" class="text-white text-decoration-none">
         <i class="bi bi-arrow-left fs-5"></i>
       </a>
-      <h1 class="fw-bold fs-5 mb-0 tracking-tight">Edit Profile</h1>
+      <h1 class="fw-bold fs-5 mb-0 tracking-tight">Profile Setting</h1>
     </div>
   </div>
 

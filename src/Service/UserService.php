@@ -78,28 +78,16 @@ class UserService
 
   public function updateAvatar(int $userID, array $files): void
   {
-    $file_name = $files["name"];
-    $file_type = $files["type"];
-    $file_size = $files["size"];
-    $file_tmp_name = $files["tmp_name"];
-    $file_error = $files["error"];
-
-    Helpers::imageValidation($file_name, $file_type, $file_size, $file_error);
+    Helpers::imageValidation($files["name"], $files["type"], $files["size"], $files["error"]);
 
     try {
       Database::beginTransaction();
 
-      $filepath = __DIR__ . "/../../public/uploads/avatars/";
-
-      $filename = Helpers::imageCoverter($file_tmp_name, $file_name, $filepath);
-
-      $avatar_url = "/public/uploads/avatars/" . $filename;
-
       $user = $this->getUserByIdentity($userID);
 
-      Helpers::deleteImage(__DIR__ . "/../.." . $user["avatar_url"]);
+      $avatarUrl = Helpers::replaceAvatar($files, $user["avatar_url"], __DIR__ . "/../../public/uploads/avatars/", __DIR__ . "/../..");
 
-      self::$userRepository->updateAvatar($userID, $avatar_url);
+      self::$userRepository->updateAvatar($userID, $avatarUrl);
 
       Database::commit();
     } catch (\Exception $e) {
