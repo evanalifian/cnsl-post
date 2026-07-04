@@ -14,4 +14,8 @@ class Utils
     $date = new \DateTime($datetime_str);
     return $date->format('M Y');
   }
+
+  public static function passwordHash(string $password): string {
+    return password_hash($password, PASSWORD_BCRYPT);
+  }
 }

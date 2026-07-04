@@ -7,6 +7,7 @@ use App\Exception\ValidationException;
 use App\Helpers\Helpers;
 use App\Model\UserModel;
 use App\Repository\UserRepository;
+use App\Utils\Utils;
 
 class UserService
 {
@@ -35,7 +36,7 @@ class UserService
         throw new ValidationException("User already exist");
       }
 
-      $model->password = password_hash($model->password, PASSWORD_BCRYPT);
+      $model->password = Utils::passwordHash($model->password);
 
       self::$userRepository->save($model);
 
@@ -106,7 +107,7 @@ class UserService
 
       $avatar_url = "/public/uploads/avatars/" . $filename;
 
-      $user = self::getUserByIdentity($userID);
+      $user = $this->getUserByIdentity($userID);
 
       Helpers::deleteImage(__DIR__ . "/../.." . $user["avatar_url"]);
 
@@ -124,7 +125,7 @@ class UserService
     try {
       Database::beginTransaction();
 
-      $user = self::getUserByIdentity($userID);
+      $user = $this->getUserByIdentity($userID);
 
       Helpers::deleteImage(__DIR__ . "/../.." . $user["avatar_url"]);
 
