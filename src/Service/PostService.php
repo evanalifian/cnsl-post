@@ -62,6 +62,7 @@ class PostService
 
       Database::commit();
     } catch (\Exception $e) {
+      Helpers::deleteImage(__DIR__ . "/../.." . $postImageModel->image_url);
       Database::rollback();
       throw new ValidationException($e->getMessage());
     }
@@ -103,6 +104,10 @@ class PostService
     try {
       Database::beginTransaction();
 
+      $post = self::$postRepository->getPostByID($postID);
+
+      Helpers::deleteImage(__DIR__ . "/../.." . $post["image_url"]);
+      
       self::$postRepository->deletePostByID($postID);
 
       Database::commit();
