@@ -18,8 +18,8 @@ class PostRepository
   public function savePost(PostModel $model): \PDOStatement
   {
     try {
-      $statement = self::$connDB->prepare("INSERT INTO posts (user_id, preview_content, content) VALUES (?, ?, ?)");
-      $statement->execute([$model->user_id, $model->preview_content, $model->content]);
+      $statement = self::$connDB->prepare("INSERT INTO posts (id, user_id, preview_content, content) VALUES (?, ?, ?, ?)");
+      $statement->execute([$model->id, $model->user_id, $model->preview_content, $model->content]);
       return $statement;
     } catch (\Exception $e) {
       throw new ValidationException($e->getMessage());
@@ -29,8 +29,8 @@ class PostRepository
   public function savePostImage(PostImageModel $model): \PDOStatement
   {
     try {
-      $statement = self::$connDB->prepare("INSERT INTO post_images (post_id, image_url) VALUES (?, ?)");
-      $statement->execute([$model->post_id, $model->image_url]);
+      $statement = self::$connDB->prepare("INSERT INTO post_images (id, post_id, image_url) VALUES (?, ?, ?)");
+      $statement->execute([$model->id, $model->post_id, $model->image_url]);
       return $statement;
     } catch (\Exception $e) {
       throw new ValidationException($e->getMessage());
@@ -90,7 +90,7 @@ class PostRepository
     }
   }
 
-  public function getPostByID(int $postID): array
+  public function getPostByID(string $postID): array
   {
     try {
       $statement = self::$connDB->prepare("
@@ -116,7 +116,7 @@ class PostRepository
     }
   }
 
-  public function deletePostByID(int $postID): \PDOStatement
+  public function deletePostByID(string $postID): \PDOStatement
   {
     try {
       $statement = self::$connDB->prepare("DELETE FROM posts WHERE id = ?");

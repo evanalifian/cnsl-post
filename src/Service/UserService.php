@@ -32,6 +32,7 @@ class UserService
 
       Helpers::saveValidation($model, $user);
 
+      $model->id = bin2hex(random_bytes(32));
       $model->password = Utils::passwordHash($model->password);
 
       self::$userRepository->save($model);
@@ -54,7 +55,7 @@ class UserService
     return $res;
   }
 
-  public function update(int $userID, UserModel $model): void
+  public function update(string $userID, UserModel $model): void
   {
     Helpers::updateValidation($model);
 
@@ -77,7 +78,7 @@ class UserService
   }
 
   public function updateAvatar(
-    int $userID,
+    string $userID,
     array $files
   ): void {
 
@@ -119,7 +120,7 @@ class UserService
     }
   }
 
-  public function delete(int $userID): void
+  public function delete(string $userID): void
   {
     try {
 

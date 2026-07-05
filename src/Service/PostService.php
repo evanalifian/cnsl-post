@@ -34,13 +34,12 @@ class PostService
     try {
       Database::beginTransaction();
 
+      $postModel->id = bin2hex(random_bytes(32));
       $postModel->preview_content = Helpers::previewText($postModel->content, 100);
 
       self::$postRepository->savePost($postModel);
 
       if (!empty($file_name)) {
-        $lastID = Database::connect()->lastInsertId();
-
         Helpers::imageValidation(
           $file_name,
           $file_type,
@@ -55,7 +54,8 @@ class PostService
           "/public/uploads/post-images"
         );
 
-        $postImageModel->post_id = $lastID;
+        $postImageModel->post_id = $postModel->id;
+        $postImageModel->id = bin2hex(random_bytes(32));
 
         self::$postRepository->savePostImage($postImageModel);
       }
@@ -89,7 +89,7 @@ class PostService
     return $posts;
   }
 
-  public function getPostByID(int $postID): array
+  public function getPostByID(string $postID): array
   {
     $post = self::$postRepository->getPostByID($postID);
 
@@ -98,7 +98,7 @@ class PostService
     return $post;
   }
 
-  public function deletePostByID(int $postID): void
+  public function deletePostByID(string $postID): void
   {
     try {
       Database::beginTransaction();

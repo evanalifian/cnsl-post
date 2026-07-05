@@ -69,7 +69,7 @@ class PostController
     }
   }
 
-  public function detailPost(int $postID): void
+  public function detailPost(string $postID): void
   {
     $post = self::$postService->getPostByID($postID);
 
@@ -79,7 +79,7 @@ class PostController
     ]);
   }
 
-  public function deletePost(int $postID): void {
+  public function deletePost(string $postID): void {
     $user = self::$sessionService->current();
     $user["created_at"] = Utils::formatJoinTime($user["created_at"]);
     

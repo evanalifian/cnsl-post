@@ -35,10 +35,10 @@ class UserRepository
 
   public function save(UserModel $model): \PDOStatement
   {
-    $statement = self::$connDB->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+    $statement = self::$connDB->prepare("INSERT INTO users (id, username, email, password) VALUES (?, ?, ?, ?)");
 
     try {
-      $statement->execute([$model->username, $model->email, $model->password]);
+      $statement->execute([$model->id, $model->username, $model->email, $model->password]);
     } catch (\Exception $e) {
       throw new ValidationException($e->getMessage());
     }
@@ -46,7 +46,7 @@ class UserRepository
     return $statement;
   }
 
-  public function update(int $userID, UserModel $model): \PDOStatement
+  public function update(string $userID, UserModel $model): \PDOStatement
   {
     try {
       $statement = self::$connDB->prepare("UPDATE users SET username = ?, display_name = ?, bio = ? WHERE id = ?");
@@ -57,7 +57,7 @@ class UserRepository
     }
   }
 
-  public function updateAvatar(int $userID, string $avatar_url): \PDOStatement
+  public function updateAvatar(string $userID, string $avatar_url): \PDOStatement
   {
     try {
       $statement = self::$connDB->prepare("UPDATE users SET avatar_url = ? WHERE id = ?");
@@ -68,7 +68,7 @@ class UserRepository
     }
   }
 
-  public function delete(int $userID): \PDOStatement
+  public function delete(string $userID): \PDOStatement
   {
     try {
       $statement = self::$connDB->prepare("DELETE FROM users WHERE id = ?");

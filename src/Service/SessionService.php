@@ -20,7 +20,7 @@ class SessionService
     self::$userRepository = $userRepository;
   }
 
-  public function save(int $userId): void
+  public function save(string $userId): void
   {
     $session = new SessionModel();
     $session->session_id = bin2hex(random_bytes(32));
