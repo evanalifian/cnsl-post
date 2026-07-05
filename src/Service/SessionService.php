@@ -23,12 +23,16 @@ class SessionService
   public function save(int $userId): void
   {
     $session = new SessionModel();
-    $session->session_id = uniqid();
+    $session->session_id = bin2hex(random_bytes(32));
     $session->user_id = $userId;
+
+    $expiredDate = time() + (20);
+
+    $session->expired_at = date("Y-m-d H:i:s", $expiredDate);
 
     self::$sessionRepository->save($session);
 
-    setcookie(self::$COOKIE_NAME, $session->session_id, time() + (60 * 60 * 24 * 30), "/");
+    setcookie(self::$COOKIE_NAME, $session->session_id, $expiredDate, "/");
   }
 
   public function destroy()

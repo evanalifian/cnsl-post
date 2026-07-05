@@ -15,8 +15,8 @@ class SessionRepository
 
   public function save(SessionModel $model): \PDOStatement
   {
-    $statement = self::$connDB->prepare("INSERT INTO sessions (session_id, user_id) VALUES (?, ?)");
-    $statement->execute([$model->session_id, $model->user_id]);
+    $statement = self::$connDB->prepare("INSERT INTO sessions (session_id, user_id, expired_at) VALUES (?, ?, ?)");
+    $statement->execute([$model->session_id, $model->user_id, $model->expired_at]);
     return $statement;
   }
 
