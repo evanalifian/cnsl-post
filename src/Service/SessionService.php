@@ -26,7 +26,7 @@ class SessionService
     $session->session_id = bin2hex(random_bytes(32));
     $session->user_id = $userId;
 
-    $expiredDate = time() + (20);
+    $expiredDate = time() + (60 * 60 * 24 * 30);
 
     $session->expired_at = date("Y-m-d H:i:s", $expiredDate);
 
