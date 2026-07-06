@@ -8,45 +8,45 @@ use App\Utils\Utils;
 
 class Helpers
 {
-  public static function saveValidation(UserModel $model, ?array $user): void
+  public static function saveValidation(UserModel $userModel, ?UserModel $userResult): void
   {
 
-    if (empty($model->username) || empty($model->email) || empty($model->password)) {
+    if (empty($userModel->username) || empty($userModel->email) || empty($userModel->password)) {
       throw new ValidationException("Username, Email and Password can not be empty");
     }
 
-    if ($user) {
+    if ($userResult) {
       throw new ValidationException("User already exist");
     }
 
-    if (Utils::emailValidation($model->email)) {
+    if (Utils::emailValidation($userModel->email)) {
       throw new ValidationException("Email is not valid");
     }
 
-    if (Utils::passwordLength($model->password) < 8) {
+    if (Utils::passwordLength($userModel->password) < 8) {
       throw new ValidationException("Password must be at least 8 characters long.");
     }
 
   }
 
-  public static function authValidation(UserModel $model, ?array $user): void
+  public static function authValidation(UserModel $userModel, ?UserModel $userResult): void
   {
-    if (empty($model->username) || empty($model->password)) {
+    if (empty($userModel->username) || empty($userModel->password)) {
       throw new ValidationException("Username and Password can not be empty");
     }
 
-    if (!$user) {
+    if (!$userResult) {
       throw new ValidationException("Username does not exist");
     }
 
-    if (!password_verify($model->password, $user["password"])) {
+    if (!password_verify($userModel->password, $userResult->password)) {
       throw new ValidationException("Password incorrect");
     }
   }
 
-  public static function updateValidation(UserModel $model): void
+  public static function updateValidation(UserModel $userModel): void
   {
-    if (empty($model->username)) {
+    if (empty($userModel->username)) {
       throw new ValidationException("Username can not be empty");
     }
   }

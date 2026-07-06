@@ -18,35 +18,33 @@ class UserService
     self::$userRepository = $userRepository;
   }
 
-  public function getUserByIdentity(string|int $identity): array
+  public function getUserByIdentity(string|int $identity): ?UserModel
   {
     return self::$userRepository->getUserByIdentity($identity);
   }
 
-  public function save(UserModel $model): array
+  public function save(UserModel $userModel): void
   {
     try {
       Database::beginTransaction();
 
-      $user = $this->getUserByIdentity($model->username);
+      $user = $this->getUserByIdentity($userModel->username);
 
-      Helpers::saveValidation($model, $user);
+      Helpers::saveValidation($userModel, $user);
 
-      $model->id = bin2hex(random_bytes(32));
-      $model->password = Utils::passwordHash($model->password);
+      $userModel->id = Utils::generateUniqueID();
+      $userModel->password = Utils::passwordHash($userModel->password);
 
-      self::$userRepository->save($model);
+      self::$userRepository->save($userModel);
 
       Database::commit();
-
-      return $user;
     } catch (\Exception $e) {
       Database::rollback();
       throw new ValidationException($e->getMessage());
     }
   }
 
-  public function auth(UserModel $model): array
+  public function auth(UserModel $model): ?UserModel
   {
     $res = $this->getUserByIdentity($model->username);
 

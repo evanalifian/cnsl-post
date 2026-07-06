@@ -33,14 +33,14 @@
           <?php endforeach ?>
           <div class="mt-auto mb-4 pt-3 border-top border-secondary border-opacity-10">
             <a href="/profile" class="<?= $activeProfile ? $activeNavItem : $navItem ?>">
-              <img src="<?= $user["avatar_url"] ?>" class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
+              <img src="<?= $data["user"]->avatar_url ?>" class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
               align-items-center justify-content-center flex-shrink-0 object-fit-cover"
                 style="width: 32px; height: 32px;" alt="Profile Picture" loading="lazy" />
               <div class="d-flex flex-column lh-sm">
-                <?php if (isset($user["display_name"])): ?>
-                  <span class="fs-6 fw-bold text-white d-block"><?= $user["display_name"] ?></span>
+                <?php if (isset($data["user"]->display_name)): ?>
+                  <span class="fs-6 fw-bold text-white d-block"><?= $data["user"]->display_name ?></span>
                 <?php endif ?>
-                <span class="text-secondary opacity-75" style="font-size: 0.75rem">@<?= $user["username"] ?></span>
+                <span class="text-secondary opacity-75" style="font-size: 0.75rem">@<?= $data["user"]->username ?></span>
               </div>
               <i class="bi bi-three-dots ms-auto text-secondary opacity-50 pe-1"></i>
             </a>

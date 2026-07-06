@@ -8,13 +8,15 @@ use App\Model\UserModel;
 class UserRepository
 {
   private static \PDO $connDB;
+  private static UserModel $userModel;
 
   public function __construct(\PDO $connDB)
   {
     self::$connDB = $connDB;
+    self::$userModel = new UserModel();
   }
 
-  public function getUserByIdentity(string|int $identity): array
+  public function getUserByIdentity(string|int $identity): ?UserModel
   {
     $statement = self::$connDB->prepare("
       SELECT
@@ -25,12 +27,35 @@ class UserRepository
           u.display_name,
           u.bio,
           u.avatar_url,
-          u.created_at
+          u.created_at,
+          u.updated_at
       FROM users AS u
       WHERE u.id = ? OR u.username = ?;
     ");
+
     $statement->execute([$identity, $identity]);
-    return $statement->fetch() ?: [];
+
+    try {
+      if ($row = $statement->fetch()) {
+        self::$userModel->id = $row["id"];
+        self::$userModel->username = $row["username"];
+        self::$userModel->email = $row["email"];
+        self::$userModel->password = $row["password"];
+        self::$userModel->display_name = $row["display_name"];
+        self::$userModel->bio = $row["bio"];
+        self::$userModel->avatar_url = $row["avatar_url"];
+        self::$userModel->created_at = $row["created_at"];
+        self::$userModel->updated_at = $row["updated_at"];
+
+        return self::$userModel;
+      } else {
+        return null;
+      }
+    } catch (\Exception $e) {
+      throw new ValidationException($e->getMessage());
+    } finally {
+      $statement->closeCursor();
+    }
   }
 
   public function save(UserModel $model): \PDOStatement
@@ -39,11 +64,12 @@ class UserRepository
 
     try {
       $statement->execute([$model->id, $model->username, $model->email, $model->password]);
+      return $statement;
     } catch (\Exception $e) {
       throw new ValidationException($e->getMessage());
+    } finally {
+      $statement->closeCursor();
     }
-
-    return $statement;
   }
 
   public function update(string $userID, UserModel $model): \PDOStatement

@@ -25,21 +25,28 @@ class UserController
 
   public function __construct()
   {
-    $connDB = Database::connect();
-    $userRepository = new UserRepository($connDB);
-    $sessionRepository = new SessionRepository($connDB);
-    $postRepository = new PostRepository($connDB);
-
     self::$userModel = new UserModel();
     self::$sessionModel = new SessionModel();
-    self::$userService = new UserService($userRepository);
-    self::$sessionService = new SessionService($sessionRepository, $userRepository);
-    self::$postService = new PostService($postRepository);
+    self::$userService = new UserService(new UserRepository(Database::connect()));
+    self::$sessionService = new SessionService(new SessionRepository(Database::connect()), new UserRepository(Database::connect()));
+    self::$postService = new PostService(new PostRepository(Database::connect()));
+  }
+
+  private static function renderPage(
+    string $typePage,
+    string $pageName,
+    string $title,
+    array $items = [],
+  ): void {
+    $data = ["title" => $title];
+    $data = $items ? $data + $items : $data;
+
+    $typePage === "page" ? View::render($pageName, $data) : View::app($pageName, $data);
   }
 
   public function signupPage(): void
   {
-    View::render("signup", ["title" => "Create Account"]);
+    self::renderPage("page", "signup", "Create Account");
   }
 
   public function save(): void
@@ -52,8 +59,7 @@ class UserController
       self::$userService->save(self::$userModel);
       View::redirect("/login");
     } catch (ValidationException $e) {
-      View::render("signup", [
-        "title" => "Create Account",
+      self::renderPage("page", "signup", "Create Account", [
         "scripts" => ["errorToast.js"],
         "components" => ["errorToast.php"],
         "error_message" => $e->getMessage()
@@ -63,7 +69,7 @@ class UserController
 
   public function loginPage(): void
   {
-    View::render("login", ["title" => "Sign In - PHP Boilerplate"]);
+    self::renderPage("page", "login", "Sign In - PHP Boilerplate");
   }
 
   public function login(): void
@@ -75,12 +81,12 @@ class UserController
       self::$userService->auth(self::$userModel);
 
       $user = self::$userService->getUserByIdentity(self::$userModel->username);
-      
-      self::$sessionService->save($user["id"]);
+
+      self::$sessionService->save($user->id);
 
       View::redirect("/home");
     } catch (ValidationException $e) {
-      View::render("login", [
+      self::renderPage("page", "login", "Sign In - PHP Boilerplate", [
         "title" => "Sign In - PHP Boilerplate",
         "scripts" => ["errorToast.js"],
         "components" => ["errorToast.php"],
@@ -92,9 +98,9 @@ class UserController
   public function profilePage(): void
   {
     $user = self::$sessionService->current();
-    $posts = self::$postService->getAllPostsByUser($user["id"]);
+    $posts = self::$postService->getAllPostsByUser($user->id);
 
-    View::app("profile", [
+    self::renderPage("app", "profile", "Profile", [
       "title" => "Profile",
       "user" => $user,
       "posts" => $posts,
@@ -108,7 +114,7 @@ class UserController
   {
     $user = self::$sessionService->current();
 
-    View::app("profile-settings", [
+    self::renderPage("app", "profile-settings", "Profile Settings", [
       "title" => "Profile Settings",
       "user" => $user,
       "components" => ["deleteAccountModal.php", "saveAvatarModal.php"],
@@ -125,10 +131,10 @@ class UserController
       self::$userModel->display_name = htmlspecialchars(trim($_POST["display_name"]));
       self::$userModel->bio = htmlspecialchars(trim($_POST["bio"]));
 
-      self::$userService->update($user["id"], self::$userModel);
+      self::$userService->update($user->id, self::$userModel);
       View::redirect("/profile");
     } catch (ValidationException $e) {
-      View::app("profile-settings", [
+      self::renderPage("app", "profile-settings", "Update Profle", [
         "title" => "Update Profile",
         "user" => $user,
         "components" => ["errorToast.php", "saveAvatarModal.php", "deleteAccountModal.php"],
@@ -143,10 +149,10 @@ class UserController
     $user = self::$sessionService->current();
 
     try {
-      self::$userService->updateAvatar($user["id"], $_FILES["avatar"]);
+      self::$userService->updateAvatar($user->id, $_FILES["avatar"]);
       View::redirect("/profile/setting");
     } catch (ValidationException $e) {
-      View::app("profile-settings", [
+      self::renderPage("app", "profile-settings", "Update Profle", [
         "title" => "Update Profile",
         "user" => $user,
         "components" => ["errorToast.php", "saveAvatarModal.php", "deleteAccountModal.php"],
@@ -161,12 +167,12 @@ class UserController
     $user = self::$sessionService->current();
 
     try {
-      self::$userService->delete($user["id"]);
+      self::$userService->delete($user->id);
       View::redirect("/");
     } catch (ValidationException $e) {
-      View::render("account", [
-        "title" => "Profile Settings - PHP Boilerplate",
-        "styles" => ["form.css"],
+      self::renderPage("app", "profile-settings", "Update Profle", [
+        "title" => "Update Profile",
+        "user" => $user,
         "components" => ["errorToast.php", "saveAvatarModal.php", "deleteAccountModal.php"],
         "scripts" => ["errorToast.js", "saveAvatarModal.js"],
         "error_message" => $e->getMessage()
@@ -183,7 +189,7 @@ class UserController
   public function viewUser(string $username): void
   {
     $user = self::$userService->getUserByIdentity($username);
-    $user["created_at"] = Utils::formatJoinTime($user["created_at"]);
+    $user->created_at = Utils::formatJoinTime($user->created_at);
 
     $currentUser = self::$sessionService->current();
 
@@ -191,7 +197,7 @@ class UserController
       "title" => $username,
       "username" => $username,
       "user" => $user,
-      "posts" => self::$postService->getAllPostsByUser($user["id"]),
+      "posts" => self::$postService->getAllPostsByUser($user->id),
       "currentUser" => $currentUser,
       "styles" => ["postCard.css"],
       "scripts" => ["postCard.js"]

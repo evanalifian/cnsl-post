@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Model\SessionModel;
+use App\Model\UserModel;
 use App\Repository\SessionRepository;
 use App\Repository\UserRepository;
 use App\Utils\Utils;
@@ -43,7 +44,7 @@ class SessionService
     setcookie(self::$COOKIE_NAME, '', 1, "/");
   }
 
-  public function current(): ?array
+  public function current(): ?UserModel
   {
     $sessionId = $_COOKIE[self::$COOKIE_NAME] ?? '';
     $session = self::$sessionRepository->getById($sessionId);
@@ -54,7 +55,7 @@ class SessionService
 
     $user = self::$userRepository->getUserByIdentity($session->user_id);
 
-    $user["created_at"] = Utils::formatJoinTime($user["created_at"]);
+    $user->created_at = Utils::formatJoinTime($user->created_at);
 
     return $user;
   }

@@ -17,11 +17,18 @@ class Utils
     return $date->format('M Y');
   }
 
-  public static function passwordLength(string $password): int {
+  public static function generateUniqueID(): string
+  {
+    return bin2hex(random_bytes(32));
+  }
+
+  public static function passwordLength(string $password): int
+  {
     return strlen($password);
   }
 
-  public static function passwordHash(string $password): string {
+  public static function passwordHash(string $password): string
+  {
     return password_hash($password, PASSWORD_BCRYPT);
   }
 

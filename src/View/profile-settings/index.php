@@ -11,7 +11,7 @@
 
   <div class="p-4 border-bottom border-secondary border-opacity-25">
     <div class="d-flex align-items-center gap-4">
-      <img src="<?= $data["user"]["avatar_url"] ?>"
+      <img src="<?= $data["user"]->avatar_url ?>"
         class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle object-fit-cover"
         style="width:80px;height:80px;" alt="Preview" loading="lazy">
       <div class="d-flex flex-column">
@@ -30,21 +30,21 @@
         <label for="display_name" class="form-label small fw-medium mb-1">Display Name</label>
         <input type="text"
           class="form-control form-control-sm bg-transparent text-white border-secondary border-opacity-50 rounded-3 shadow-none py-2"
-          id="display_name" name="display_name" value="<?= $data["user"]["display_name"] ?>"
+          id="display_name" name="display_name" value="<?= $data["user"]->display_name ?>"
           placeholder="your display name">
       </div>
       <div class="mb-3">
         <label for="username" class="form-label small fw-medium mb-1">Username</label>
         <input type="text"
           class="form-control form-control-sm bg-transparent text-white border-secondary border-opacity-50 rounded-3 shadow-none py-2"
-          id="username" name="username" value="<?= $data["user"]["username"] ?>" placeholder="choose a username">
+          id="username" name="username" value="<?= $data["user"]->username ?>" placeholder="choose a username">
       </div>
       <div class="mb-4">
         <label for="bio" class="form-label small fw-medium mb-1">Bio</label>
         <textarea
           class="form-control form-control-sm bg-transparent text-white border-secondary border-opacity-50 rounded-3 shadow-none py-2"
           id="bio" name="bio" rows="3" placeholder="Describe yourself..."
-          style="resize: none;"><?= $data["user"]["bio"] ?></textarea>
+          style="resize: none;"><?= $data["user"]->bio ?></textarea>
       </div>
 
       <div class="d-flex gap-3 pt-2">

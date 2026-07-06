@@ -2,18 +2,8 @@
 
 namespace App\Config;
 
-use App\Repository\SessionRepository;
-use App\Repository\UserRepository;
-use App\Service\SessionService;
-
 class View
 {
-  private static function viewService(): SessionService
-  {
-    $connDB = Database::connect();
-    return new SessionService(new SessionRepository($connDB), new UserRepository($connDB));
-  }
-
   public static function app(string $src_path, array $data = []): void
   {
     $navLinks = [
@@ -37,9 +27,8 @@ class View
     $activeNavItemMobile = "text-light";
     $navItem = "nav-link link-secondary d-flex align-items-center gap-3 px-4 py-3 rounded-pill bg-white-hover bg-opacity-10-hover link-light-hover fw-semibold";
     $navItemMobile = "text-secondary";
-    $user = self::viewService()->current();
 
-    $activeProfile = "/profile" === $_SERVER['REQUEST_URI'] || "/profile/setting" === $_SERVER['REQUEST_URI'];
+    $activeProfile = "/profile" === $_SERVER['REQUEST_URI'] || "/profile/setting" === $_SERVER['REQUEST_URI'] || "/profile/update" === $_SERVER['REQUEST_URI'];
     $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
     require_once __DIR__ . "/../View/templates/headerApp.php";
