@@ -75,73 +75,45 @@ class UserService
     }
   }
 
-  public function updateAvatar(
-    string $userID,
-    array $files
-  ): void {
-
-    Helpers::imageValidation(
-      $files["name"],
-      $files["type"],
-      $files["size"],
-      $files["error"]
-    );
+  public function updateAvatar(string $userID, array $files): void
+  {
+    Helpers::imageValidation($files["name"], $files["type"], $files["size"], $files["error"]);
 
     try {
-
       Database::beginTransaction();
 
       $user = $this->getUserByIdentity($userID);
 
-      $avatarUrl = Helpers::replaceAvatar(
-        $files,
-        $user["avatar_url"],
-        __DIR__ . "/../../public/uploads/avatars",
-        __DIR__ . "/../.."
-      );
+      $avatarUrl = Helpers::replaceAvatar($files, $user->avatar_url, __DIR__ . "/../../public/uploads/avatars", __DIR__ . "/../..");
 
-      self::$userRepository->updateAvatar(
-        $userID,
-        $avatarUrl
-      );
+      self::$userRepository->updateAvatar($userID, $avatarUrl);
 
       Database::commit();
-
     } catch (\Exception $e) {
-
       Database::rollback();
-
       throw new ValidationException(
         $e->getMessage()
       );
-
     }
   }
 
   public function delete(string $userID): void
   {
     try {
-
       Database::beginTransaction();
 
       $user = $this->getUserByIdentity($userID);
 
-      Helpers::deleteImage(
-        __DIR__ . "/../.." . $user["avatar_url"]
-      );
+      Helpers::deleteImage(__DIR__ . "/../.." . $user->avatar_url);
 
       self::$userRepository->delete($userID);
 
       Database::commit();
-
     } catch (\Exception $e) {
-
       Database::rollback();
-
       throw new ValidationException(
         $e->getMessage()
       );
-
     }
   }
 }

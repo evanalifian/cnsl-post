@@ -74,34 +74,43 @@ class UserRepository
 
   public function update(string $userID, UserModel $model): \PDOStatement
   {
+    $statement = self::$connDB->prepare("UPDATE users SET username = ?, display_name = ?, bio = ? WHERE id = ?");
+
     try {
-      $statement = self::$connDB->prepare("UPDATE users SET username = ?, display_name = ?, bio = ? WHERE id = ?");
       $statement->execute([$model->username, $model->display_name, $model->bio, $userID]);
       return $statement;
     } catch (\Exception $e) {
       throw new ValidationException($e->getMessage());
+    } finally {
+      $statement->closeCursor();
     }
   }
 
   public function updateAvatar(string $userID, string $avatar_url): \PDOStatement
   {
+    $statement = self::$connDB->prepare("UPDATE users SET avatar_url = ? WHERE id = ?");
+
     try {
-      $statement = self::$connDB->prepare("UPDATE users SET avatar_url = ? WHERE id = ?");
       $statement->execute([$avatar_url, $userID]);
       return $statement;
     } catch (\Exception $e) {
       throw new ValidationException($e->getMessage());
+    } finally {
+      $statement->closeCursor();
     }
   }
 
   public function delete(string $userID): \PDOStatement
   {
+    $statement = self::$connDB->prepare("DELETE FROM users WHERE id = ?");
+
     try {
-      $statement = self::$connDB->prepare("DELETE FROM users WHERE id = ?");
       $statement->execute([$userID]);
       return $statement;
     } catch (\Exception $e) {
       throw new ValidationException($e->getMessage());
+    } finally {
+      $statement->closeCursor();
     }
   }
 }
