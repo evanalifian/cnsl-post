@@ -21,7 +21,7 @@
 
   <?php
   // 1. JIKA USER SUDAH MELAKUKAN PENCARIAN DAN HASILNYA ADA
-  if (isset($data["results"]) && !empty($data["results"])) {
+  if (isset($data["users"]) && !empty($data["users"])) {
     require_once __DIR__ . "/userList.php";
   } else if (isset($_GET['query'])) {
     require_once __DIR__ . "/usersNotFound.php";

@@ -53,9 +53,9 @@ Router::add("/search", "GET", fn() => $search->index(), fn() => AuthMiddleware::
 
 // View User Page
 Router::add("/user/([0-9a-zA-Z]*)", "GET", fn(string $username) => $user->viewUser((string) $username), fn() => AuthMiddleware::requireAuth());
-Router::add("/post/create", "GET", fn() => $post->index(), fn() => AuthMiddleware::requireAuth());
 
 // Blog Route
+Router::add("/post/create", "GET", fn() => $post->index(), fn() => AuthMiddleware::requireAuth());
 Router::add("/post/create", "POST", fn() => $post->save(), fn() => AuthMiddleware::requireAuth());
 Router::add("/post/([0-9a-z]*)", "GET", fn($postID) => $post->detailPost((string) $postID), fn() => AuthMiddleware::requireAuth());
 Router::add("/post/([0-9a-z]*)/delete", "POST", fn($postID) => $post->deletePost((string) $postID), fn() => AuthMiddleware::requireAuth());
