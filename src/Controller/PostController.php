@@ -13,55 +13,56 @@ use App\Repository\UserRepository;
 use App\Service\PostService;
 use App\Service\SessionService;
 use App\Service\UserService;
-use App\Utils\Utils;
 
 class PostController
 {
   private static PostModel $postModel;
   private static PostImageModel $postImageModel;
-  private static PostService $postService;
   private static UserService $userService;
+  private static PostService $postService;
   private static SessionService $sessionService;
 
   public function __construct()
   {
-    $connDB = Database::connect();
-    $postRepository = new PostRepository($connDB);
-    $sessionRepository = new SessionRepository($connDB);
-    $userRepository = new UserRepository($connDB);
-
     self::$postModel = new PostModel();
     self::$postImageModel = new PostImageModel();
-    self::$postService = new PostService($postRepository);
-    self::$userService = new UserService($userRepository);
-    self::$sessionService = new SessionService($sessionRepository, $userRepository);
+    self::$postService = new PostService(new PostRepository(Database::connect()));
+    self::$userService = new UserService(new UserRepository(Database::connect()));
+    self::$sessionService = new SessionService(
+      new SessionRepository(Database::connect()),
+      new UserRepository(Database::connect())
+    );
+  }
+
+  private static function renderPage(
+    string $typePage,
+    string $pageName,
+    string $title,
+    array $items = [],
+  ): void {
+    $data = [
+      "title" => $title,
+      "user" => self::$sessionService->current()
+    ];
+    $data = $items ? $data + $items : $data;
+    $typePage === "page" ? View::render($pageName, $data) : View::app($pageName, $data);
   }
 
   public function index(): void
   {
-    $user = self::$sessionService->current();
-
-    View::app("create-post", [
-      "title" => "Create Post",
-      "user" => $user,
-      "scripts" => ["createPost.js"]
-    ]);
+    self::renderPage("app", "create-post", "Create Post", ["scripts" => ["createPost.js"]]);
   }
 
   public function save(): void
   {
     $user = self::$sessionService->current();
-
     try {
-      self::$postModel->user_id = $user["id"];
+      self::$postModel->user_id = $user->id;
       self::$postModel->content = trim($_POST["content"]);
-
       self::$postService->save(self::$postModel, self::$postImageModel, $_FILES["image"]);
       View::redirect("/home");
     } catch (ValidationException $e) {
-      View::app("create-post", [
-        "title" => "Create Post",
-        "user" => $user,
+      self::renderPage("app", "create-post", "Create Post", [
         "components" => ["errorToast.php"],
         "scripts" => ["createPost.js", "errorToast.js"],
         "error_message" => $e->getMessage()
@@ -72,28 +73,22 @@ class PostController
   public function detailPost(string $postID): void
   {
     $post = self::$postService->getPostByID($postID);
-
-    View::app("detail-post", [
-      "title" => "Detail post - " . $post["post_id"],
-      "post" => $post
-    ]);
+    self::renderPage("app", "detail-post", "Detail post", ["post" => $post]);
   }
 
-  public function deletePost(string $postID): void {
+  public function deletePost(string $postID): void
+  {
     $user = self::$sessionService->current();
-    $user["created_at"] = Utils::formatJoinTime($user["created_at"]);
-    
     try {
       self::$postService->deletePostByID($postID);
       View::redirect("/profile");
     } catch (ValidationException $e) {
-      View::app("profile", [
-        "title" => "Profile",
-        "user" => $user,
-        "posts" => self::$postService->getAllPostsByUser($user["id"]),
+      self::renderPage("app", "profile", "Profile", [
+        "posts" => self::$postService->getAllPostsByUser($user->id),
         "styles" => ["postCard.css"],
         "scripts" => ["postCard.js", "postModal.js", "errorToast.js"],
-        "components" => ["postModal.php", "errorToast.php"]
+        "components" => ["postModal.php", "errorToast.php"],
+        "error_message" => $e->getMessage()
       ]);
     }
   }

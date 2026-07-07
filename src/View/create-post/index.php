@@ -11,14 +11,14 @@
     <form action="/post/create" method="POST" enctype="multipart/form-data">
       <div class="d-flex gap-3">
         <div class="d-none d-md-block">
-          <img src="<?= $data["user"]["avatar_url"] ?>" class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
+          <img src="<?= $data["user"]->avatar_url ?>" class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
           align-items-center justify-content-center flex-shrink-0 object-fit-cover" style="width: 40px; height: 40px;"
             alt="Profile Picture" loading="lazy" />
         </div>
         <div class="w-100">
           <div class="mb-2">
-            <?php if (isset($data["user"]["display_name"])): ?>
-              <span class="fw-bold text-white fs-6"><?= $data["user"]["display_name"] ?></span>
+            <?php if (isset($data["user"]->display_name)): ?>
+              <span class="fw-bold text-white fs-6"><?= $data["user"]->display_name ?></span>
             <?php endif ?>
             <span class="text-secondary small ms-1">@evanalifian</span>
           </div>

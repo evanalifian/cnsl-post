@@ -42,16 +42,14 @@
       </div>
     </div>
   </div>
-
   <div class="mt-4 border-top border-secondary border-opacity-25">
     <div class="d-flex border-bottom border-secondary border-opacity-10">
       <div class="px-4 py-3 position-relative fw-bold text-white small tracking-wide text-uppercase" style="cursor: default;">
-        <?= count($data["posts"]) ?> Posts
+        <?= $data["posts"] === null ? 0 : count($data["posts"]) ?> Posts
       </div>
     </div>
-
     <div class="bg-black">
-      <?php if (count($data["posts"]) === 0): ?>
+      <?php if ($data["posts"] === null): ?>
         <div class="d-flex flex-column align-items-center justify-content-center text-center py-5 px-4 mt-3">
           <div class="text-secondary mb-2 opacity-25">
             <i class="bi bi-chat-square-text" style="font-size: 2.5rem;"></i>
@@ -63,5 +61,4 @@
       <?php endif ?>
     </div>
   </div>
-
 </div>

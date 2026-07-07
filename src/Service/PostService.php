@@ -7,6 +7,7 @@ use App\Exception\ValidationException;
 use App\Helpers\Helpers;
 use App\Model\PostImageModel;
 use App\Model\PostModel;
+use App\Model\PostResponseModel;
 use App\Repository\PostRepository;
 use App\Utils\Utils;
 
@@ -33,12 +34,9 @@ class PostService
 
     try {
       Database::beginTransaction();
-
       $postModel->id = bin2hex(random_bytes(32));
       $postModel->preview_content = Helpers::previewText($postModel->content, 100);
-
       self::$postRepository->savePost($postModel);
-
       if (!empty($file_name)) {
         Helpers::imageValidation(
           $file_name,
@@ -47,19 +45,15 @@ class PostService
           $file_error,
           5 * 1024 * 1024 // Maksimal 5 MB untuk post
         );
-
         $postImageModel->image_url = Helpers::uploadImage(
           $files,
           __DIR__ . "/../../public/uploads/post-images",
           "/public/uploads/post-images"
         );
-
         $postImageModel->post_id = $postModel->id;
         $postImageModel->id = bin2hex(random_bytes(32));
-
         self::$postRepository->savePostImage($postImageModel);
       }
-
       Database::commit();
     } catch (\Exception $e) {
       Helpers::deleteImage(__DIR__ . "/../.." . $postImageModel->image_url);
@@ -68,48 +62,48 @@ class PostService
     }
   }
 
-  public function getAllPosts(): array
+  public function getAllPosts(): ?array
   {
     $posts = self::$postRepository->getAllPosts();
-
-    foreach ($posts as $index => $post) {
-      $posts[$index]["created_at"] = Helpers::timeAgo($post["created_at"]);
+    if ($posts !== null) {
+      foreach ($posts as $index => $post) {
+        $posts[$index]->created_at = Helpers::timeAgo($post->created_at);
+      }
     }
-
     return $posts;
   }
 
-  public function getAllPostsByUser(string|int $identity): array
+  public function getAllPostsByUser(string|int $identity): ?array
   {
     $posts = self::$postRepository->getAllPostsByUser($identity);
-
-    foreach ($posts as $index => $post) {
-      $posts[$index]["created_at"] = Helpers::timeAgo($post["created_at"]);
+    if ($posts) {
+      foreach ($posts as $index => $post) {
+        $posts[$index]->created_at = Helpers::timeAgo($post->created_at);
+      }
+      return $posts;
     }
-
-    return $posts;
+    return null;
   }
 
-  public function getPostByID(string $postID): array
+  public function getPostByID(string $postID): ?PostResponseModel
   {
     $post = self::$postRepository->getPostByID($postID);
-
-    $post["created_at"] = Helpers::timeAgo($post["created_at"]);
-
-    return $post;
+    if ($post) {
+      $post->created_at = Helpers::timeAgo($post->created_at);
+      return $post;
+    }
+    return null;
   }
 
   public function deletePostByID(string $postID): void
   {
     try {
       Database::beginTransaction();
-
       $post = self::$postRepository->getPostByID($postID);
-
-      Helpers::deleteImage(__DIR__ . "/../.." . $post["image_url"]);
-      
+      if ($post->image_url) {
+        Helpers::deleteImage(__DIR__ . "/../.." . $post->image_url);
+      }
       self::$postRepository->deletePostByID($postID);
-
       Database::commit();
     } catch (\Exception $e) {
       Database::rollback();

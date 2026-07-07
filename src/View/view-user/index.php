@@ -9,25 +9,25 @@
         <i class="bi bi-arrow-left fs-5"></i>
       </a>
       <div class="d-flex flex-column">
-        <h1 class="fw-bold fs-5 mb-0 tracking-tight"><?= $data["user"]["username"] ?></h1>
+        <h1 class="fw-bold fs-5 mb-0 tracking-tight"><?= $data["user"]->username ?></h1>
       </div>
     </div>
   </div>
 
   <div class="pt-2 px-4 d-flex justify-content-between align-items-center">
     <div class="bg-black p-1 rounded-circle d-flex align-items-center justify-content-center" style="z-index: 2">
-      <img src="<?= $data["user"]["avatar_url"] ?>"
+      <img src="<?= $data["user"]->avatar_url ?>"
         class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 object-fit-cover"
         style="width: 80px; height: 80px;" alt="Profile Picture" loading="lazy" />
     </div>
   </div>
   <div class="px-4 mt-3">
-    <?php if (isset($data["user"]["display_name"])): ?>
-      <h2 class="fw-bold fs-5 tracking-tight text-white mb-0"><?= $data["user"]["display_name"] ?></h2>
+    <?php if (isset($data["user"]->display_name)): ?>
+      <h2 class="fw-bold fs-5 tracking-tight text-white mb-0"><?= $data["user"]->display_name ?></h2>
     <?php endif ?>
-    <span class="text-secondary small">@<?= $data["user"]["username"] ?></span>
-    <?php if (isset($data["user"]["bio"])): ?>
-      <p class="text-white fs-6 lh-base mt-3 mb-3 fw-light"><?= $data["user"]["bio"] ?></p>
+    <span class="text-secondary small">@<?= $data["user"]->username ?></span>
+    <?php if (isset($data["user"]->bio)): ?>
+      <p class="text-white fs-6 lh-base mt-3 mb-3 fw-light"><?= $data["user"]->bio ?></p>
     <?php endif ?>
     <div class="d-flex flex-wrap gap-3 text-secondary small my-3 opacity-75">
       <!-- <div class="d-flex align-items-center gap-1">
@@ -37,19 +37,19 @@
       </div> -->
       <div class="d-flex align-items-center gap-1">
         <i class="bi bi-calendar3 small"></i>
-        <span>Joined <?= $data["user"]["created_at"] ?></span>
+        <span>Joined <?= $data["user"]->created_at ?></span>
       </div>
     </div>
   </div>
   <div class="mt-4 border-top border-secondary border-opacity-25">
     <div class="d-flex border-bottom border-secondary border-opacity-10">
       <div class="px-4 py-3 position-relative fw-bold text-white small tracking-wide text-uppercase" style="cursor: default;">
-        <?= count($data["posts"]) ?> Posts
+        <?= $data["posts"] === null ? 0 : count($data["posts"]) ?> Posts
       </div>
     </div>
-
+  
     <div class="bg-black">
-      <?php if (count($data["posts"]) === 0): ?>
+      <?php if ($data["posts"] === null): ?>
         <div class="d-flex flex-column align-items-center justify-content-center text-center py-5 px-4 mt-3">
           <div class="text-secondary mb-2 opacity-25">
             <i class="bi bi-chat-square-text" style="font-size: 2.5rem;"></i>
