@@ -32,11 +32,9 @@ class Helpers
     if (empty($userModel->username) || empty($userModel->password)) {
       throw new ValidationException("Username and Password can not be empty");
     }
-
     if (!$userResult) {
       throw new ValidationException("Username does not exist");
     }
-
     if (!password_verify($userModel->password, $userResult->password)) {
       throw new ValidationException("Password incorrect");
     }

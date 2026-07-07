@@ -83,7 +83,6 @@ class UserController
       $user = self::$userService->getUserByIdentity(self::$userModel->username);
 
       self::$sessionService->save($user->id);
-
       View::redirect("/home");
     } catch (ValidationException $e) {
       self::renderPage("page", "login", "Sign In - PHP Boilerplate", [
