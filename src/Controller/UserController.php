@@ -53,7 +53,7 @@ class UserController
   {
     try {
       self::$userModel->username = htmlspecialchars(trim($_POST["username"]));
-      self::$userModel->email = htmlspecialchars(trim($_POST["email"]));
+      self::$userModel->display_name = htmlspecialchars(trim($_POST["display_name"]));
       self::$userModel->password = htmlspecialchars(trim($_POST["password"]));
 
       self::$userService->save(self::$userModel);
@@ -83,7 +83,6 @@ class UserController
       $user = self::$userService->getUserByIdentity(self::$userModel->username);
 
       self::$sessionService->save($user->id);
-
       View::redirect("/home");
     } catch (ValidationException $e) {
       self::renderPage("page", "login", "Sign In - PHP Boilerplate", [

@@ -8,12 +8,10 @@ use App\Model\UserModel;
 class UserRepository
 {
   private static \PDO $connDB;
-  private static UserModel $userModel;
 
   public function __construct(\PDO $connDB)
   {
     self::$connDB = $connDB;
-    self::$userModel = new UserModel();
   }
 
   public function getUserByIdentity(string|int $identity): ?UserModel
@@ -22,7 +20,6 @@ class UserRepository
       SELECT
           u.id,
           u.username,
-          u.email,
           u.password,
           u.display_name,
           u.bio,
@@ -37,17 +34,17 @@ class UserRepository
 
     try {
       if ($row = $statement->fetch()) {
-        self::$userModel->id = $row["id"];
-        self::$userModel->username = $row["username"];
-        self::$userModel->email = $row["email"];
-        self::$userModel->password = $row["password"];
-        self::$userModel->display_name = $row["display_name"];
-        self::$userModel->bio = $row["bio"];
-        self::$userModel->avatar_url = $row["avatar_url"];
-        self::$userModel->created_at = $row["created_at"];
-        self::$userModel->updated_at = $row["updated_at"];
+        $userModel = new UserModel();
+        $userModel->id = $row["id"];
+        $userModel->username = $row["username"];
+        $userModel->password = $row["password"];
+        $userModel->display_name = $row["display_name"];
+        $userModel->bio = $row["bio"];
+        $userModel->avatar_url = $row["avatar_url"];
+        $userModel->created_at = $row["created_at"];
+        $userModel->updated_at = $row["updated_at"];
 
-        return self::$userModel;
+        return $userModel;
       } else {
         return null;
       }
@@ -60,10 +57,10 @@ class UserRepository
 
   public function save(UserModel $model): \PDOStatement
   {
-    $statement = self::$connDB->prepare("INSERT INTO users (id, username, email, password) VALUES (?, ?, ?, ?)");
+    $statement = self::$connDB->prepare("INSERT INTO users (id, username, display_name, password) VALUES (?, ?, ?, ?)");
 
     try {
-      $statement->execute([$model->id, $model->username, $model->email, $model->password]);
+      $statement->execute([$model->id, $model->username, $model->display_name, $model->password]);
       return $statement;
     } catch (\Exception $e) {
       throw new ValidationException($e->getMessage());

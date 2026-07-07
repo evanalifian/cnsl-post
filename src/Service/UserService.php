@@ -33,10 +33,10 @@ class UserService
       Helpers::saveValidation($userModel, $user);
 
       $userModel->id = Utils::generateUniqueID();
+      $userModel->username = strtolower($userModel->username);
       $userModel->password = Utils::passwordHash($userModel->password);
 
       self::$userRepository->save($userModel);
-
       Database::commit();
     } catch (\Exception $e) {
       Database::rollback();
@@ -46,10 +46,8 @@ class UserService
 
   public function auth(UserModel $model): ?UserModel
   {
-    $res = $this->getUserByIdentity($model->username);
-
+    $res = self::getUserByIdentity($model->username);
     Helpers::authValidation($model, $res);
-
     return $res;
   }
 
@@ -67,7 +65,6 @@ class UserService
       }
 
       self::$userRepository->update($userID, $model);
-
       Database::commit();
     } catch (\Exception $e) {
       Database::rollback();
