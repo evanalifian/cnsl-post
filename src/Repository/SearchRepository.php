@@ -8,12 +8,10 @@ use App\Model\UserModel;
 class SearchRepository
 {
   private static \PDO $connDB;
-  private static UserModel $userModel;
 
   public function __construct(\PDO $connDB)
   {
     self::$connDB = $connDB;
-    self::$userModel = new UserModel();
   }
 
   public function findUsers(string $query): ?array
@@ -41,15 +39,15 @@ class SearchRepository
       $users = [];
 
       foreach ($result as $row) {
-        self::$userModel->id = $row["id"];
-        self::$userModel->username = $row["username"];
-        self::$userModel->display_name = $row["display_name"];
-        self::$userModel->bio = $row["bio"];
-        self::$userModel->avatar_url = $row["avatar_url"];
-        self::$userModel->created_at = $row["created_at"];
-        self::$userModel->updated_at = $row["updated_at"];
-
-        $users[] = self::$userModel;
+        $userModel = new UserModel();
+        $userModel->id = $row["id"];
+        $userModel->username = $row["username"];
+        $userModel->display_name = $row["display_name"];
+        $userModel->bio = $row["bio"];
+        $userModel->avatar_url = $row["avatar_url"];
+        $userModel->created_at = $row["created_at"];
+        $userModel->updated_at = $row["updated_at"];
+        $users[] = $userModel;
       }
 
       return $users;
