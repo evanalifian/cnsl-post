@@ -35,7 +35,7 @@ Router::add("/profile/update-avatar", "POST", fn() => $user->updateAvatar(), fn(
 Router::add("/profile/delete", "POST", fn() => $user->delete(), fn() => AuthMiddleware::requireAuth());
 Router::add("/logout", "GET", fn() => $user->logout(), fn() => AuthMiddleware::requireAuth());
 Router::add("/search", "GET", fn() => $search->index(), fn() => AuthMiddleware::requireAuth());
-Router::add("/user/([0-9a-zA-Z]*)", "GET", fn(string $username) => $user->viewUser((string) $username), fn() => AuthMiddleware::requireAuth());
+Router::add("/user/([A-Za-z0-9._]+)", "GET", fn(string $username) => $user->viewUser((string) $username), fn() => AuthMiddleware::requireAuth());
 Router::add("/post/create", "GET", fn() => $post->index(), fn() => AuthMiddleware::requireAuth());
 Router::add("/post/create", "POST", fn() => $post->save(), fn() => AuthMiddleware::requireAuth());
 Router::add("/post/([0-9a-z]*)", "GET", fn($postID) => $post->detailPost((string) $postID), fn() => AuthMiddleware::requireAuth());
