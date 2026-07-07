@@ -33,6 +33,7 @@ class UserService
       Helpers::saveValidation($userModel, $user);
 
       $userModel->id = Utils::generateUniqueID();
+      $userModel->username = strtolower($userModel->username);
       $userModel->password = Utils::passwordHash($userModel->password);
 
       self::$userRepository->save($userModel);

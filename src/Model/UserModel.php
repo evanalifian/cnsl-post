@@ -7,7 +7,6 @@ class UserModel
 {
   public string $id;
   public string $username;
-  public string $email;
   public string $password;
   public ?string $display_name = null;
   public ?string $bio = null;

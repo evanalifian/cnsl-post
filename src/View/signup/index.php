@@ -11,19 +11,19 @@
             <label for="username" class="form-label small fw-medium mb-1">Username</label>
             <input type="text"
               class="form-control form-control-sm bg-transparent text-white border-secondary border-opacity-50 rounded-3 shadow-none py-2"
-              id="username" name="username" placeholder="choose a username">
+              id="username" name="username">
           </div>
           <div class="mb-3">
-            <label for="email" class="form-label small fw-medium mb-1">Email Address</label>
-            <input type="email"
+            <label for="display_name" class="form-label small fw-medium mb-1">Name</label>
+            <input type="text"
               class="form-control form-control-sm bg-transparent text-white border-secondary border-opacity-50 rounded-3 shadow-none py-2"
-              id="email" name="email" placeholder="name@example.com">
+              id="display_name" name="display_name">
           </div>
           <div class="mb-4">
             <label for="password" class="form-label small fw-medium mb-1">Password</label>
             <input type="password"
               class="form-control form-control-sm bg-transparent text-white border-secondary border-opacity-50 rounded-3 shadow-none py-2"
-              id="password" name="password" placeholder="create a strong password">
+              id="password" name="password">
           </div>
           <button type="submit" class="btn btn-sm btn-light w-100 py-2 rounded-pill fw-semibold mb-3">Sign Up</button>
         </form>

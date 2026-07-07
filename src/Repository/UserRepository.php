@@ -22,7 +22,6 @@ class UserRepository
       SELECT
           u.id,
           u.username,
-          u.email,
           u.password,
           u.display_name,
           u.bio,
@@ -39,7 +38,6 @@ class UserRepository
       if ($row = $statement->fetch()) {
         self::$userModel->id = $row["id"];
         self::$userModel->username = $row["username"];
-        self::$userModel->email = $row["email"];
         self::$userModel->password = $row["password"];
         self::$userModel->display_name = $row["display_name"];
         self::$userModel->bio = $row["bio"];
@@ -60,10 +58,10 @@ class UserRepository
 
   public function save(UserModel $model): \PDOStatement
   {
-    $statement = self::$connDB->prepare("INSERT INTO users (id, username, email, password) VALUES (?, ?, ?, ?)");
+    $statement = self::$connDB->prepare("INSERT INTO users (id, username, display_name, password) VALUES (?, ?, ?, ?)");
 
     try {
-      $statement->execute([$model->id, $model->username, $model->email, $model->password]);
+      $statement->execute([$model->id, $model->username, $model->display_name, $model->password]);
       return $statement;
     } catch (\Exception $e) {
       throw new ValidationException($e->getMessage());
