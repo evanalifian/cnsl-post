@@ -9,16 +9,16 @@ use App\Model\PostResponseModel;
 
 class PostRepository
 {
-  private static \PDO $connDB;
+  private \PDO $connDB;
 
   public function __construct(\PDO $connDB)
   {
-    self::$connDB = $connDB;
+    $this->connDB = $connDB;
   }
 
   public function savePost(PostModel $model): \PDOStatement
   {
-    $statement = self::$connDB->prepare("INSERT INTO posts (id, user_id, preview_content, content) VALUES (?, ?, ?, ?)");
+    $statement = $this->connDB->prepare("INSERT INTO posts (id, user_id, preview_content, content) VALUES (?, ?, ?, ?)");
     
     try {
       $statement->execute([$model->id, $model->user_id, $model->preview_content, $model->content]);
@@ -32,7 +32,7 @@ class PostRepository
 
   public function savePostImage(PostImageModel $model): \PDOStatement
   {
-    $statement = self::$connDB->prepare("INSERT INTO post_images (id, post_id, image_url) VALUES (?, ?, ?)");
+    $statement = $this->connDB->prepare("INSERT INTO post_images (id, post_id, image_url) VALUES (?, ?, ?)");
     try {
       $statement->execute([$model->id, $model->post_id, $model->image_url]);
       return $statement;
@@ -45,7 +45,7 @@ class PostRepository
 
   public function getAllPosts(): ?array
   {
-    $statement = self::$connDB->prepare("
+    $statement = $this->connDB->prepare("
       SELECT
         p.id AS post_id,
         p.content,
@@ -98,7 +98,7 @@ class PostRepository
 
   public function getAllPostsByUser(string|int $identity): ?array
   {
-    $statement = self::$connDB->prepare("
+    $statement = $this->connDB->prepare("
       SELECT
         p.id AS post_id,
         p.content,
@@ -152,7 +152,7 @@ class PostRepository
 
   public function getPostByID(string $postID): ?PostResponseModel
   {
-    $statement = self::$connDB->prepare("
+    $statement = $this->connDB->prepare("
       SELECT
         p.id AS post_id,
         p.content,
@@ -197,7 +197,7 @@ class PostRepository
 
   public function deletePostByID(string $postID): \PDOStatement
   {
-    $statement = self::$connDB->prepare("DELETE FROM posts WHERE id = ?");
+    $statement = $this->connDB->prepare("DELETE FROM posts WHERE id = ?");
     
     try {
       $statement->execute([$postID]);

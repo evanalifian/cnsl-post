@@ -17,22 +17,18 @@ use App\Utils\Utils;
 
 class UserController
 {
-  private static UserModel $userModel;
-  private static SessionModel $sessionModel;
-  private static UserService $userService;
-  private static SessionService $sessionService;
-  private static PostService $postService;
+  private UserService $userService;
+  private SessionService $sessionService;
+  private PostService $postService;
 
   public function __construct()
   {
-    self::$userModel = new UserModel();
-    self::$sessionModel = new SessionModel();
-    self::$userService = new UserService(new UserRepository(Database::connect()));
-    self::$sessionService = new SessionService(new SessionRepository(Database::connect()), new UserRepository(Database::connect()));
-    self::$postService = new PostService(new PostRepository(Database::connect()));
+    $this->userService = new UserService(new UserRepository(Database::connect()));
+    $this->sessionService = new SessionService(new SessionRepository(Database::connect()), new UserRepository(Database::connect()));
+    $this->postService = new PostService(new PostRepository(Database::connect()));
   }
 
-  private static function renderPage(
+  private function renderPage(
     string $typePage,
     string $pageName,
     string $title,
@@ -46,20 +42,21 @@ class UserController
 
   public function signupPage(): void
   {
-    self::renderPage("page", "signup", "Create Account");
+    $this->renderPage("page", "user/signup", "Create Account");
   }
 
   public function save(): void
   {
     try {
-      self::$userModel->username = htmlspecialchars(trim($_POST["username"]));
-      self::$userModel->display_name = htmlspecialchars(trim($_POST["display_name"]));
-      self::$userModel->password = htmlspecialchars(trim($_POST["password"]));
+      $userModel = new UserModel();
+      $userModel->username = htmlspecialchars(trim($_POST["username"]));
+      $userModel->display_name = htmlspecialchars(trim($_POST["display_name"]));
+      $userModel->password = htmlspecialchars(trim($_POST["password"]));
 
-      self::$userService->save(self::$userModel);
+      $this->userService->save($userModel);
       View::redirect("/login");
     } catch (ValidationException $e) {
-      self::renderPage("page", "signup", "Create Account", [
+      $this->renderPage("page", "user/signup", "Create Account", [
         "scripts" => ["errorToast.js"],
         "components" => ["errorToast.php"],
         "error_message" => $e->getMessage()
@@ -69,23 +66,24 @@ class UserController
 
   public function loginPage(): void
   {
-    self::renderPage("page", "login", "Sign In - PHP Boilerplate");
+    $this->renderPage("page", "user/login", "Sign In - PHP Boilerplate");
   }
 
   public function login(): void
   {
     try {
-      self::$userModel->username = htmlspecialchars(trim($_POST["username"]));
-      self::$userModel->password = htmlspecialchars(trim($_POST["password"]));
+      $userModel = new UserModel();
+      $userModel->username = htmlspecialchars(trim($_POST["username"]));
+      $userModel->password = htmlspecialchars(trim($_POST["password"]));
 
-      self::$userService->auth(self::$userModel);
+      $this->userService->auth($userModel);
 
-      $user = self::$userService->getUserByIdentity(self::$userModel->username);
+      $user = $this->userService->getUserByIdentity($userModel->username);
 
-      self::$sessionService->save($user->id);
+      $this->sessionService->save($user->id);
       View::redirect("/home");
     } catch (ValidationException $e) {
-      self::renderPage("page", "login", "Sign In - PHP Boilerplate", [
+      $this->renderPage("page", "user/login", "Sign In - PHP Boilerplate", [
         "title" => "Sign In - PHP Boilerplate",
         "scripts" => ["errorToast.js"],
         "components" => ["errorToast.php"],
@@ -96,10 +94,10 @@ class UserController
 
   public function profilePage(): void
   {
-    $user = self::$sessionService->current();
-    $posts = self::$postService->getAllPostsByUser($user->id);
+    $user = $this->sessionService->current();
+    $posts = $this->postService->getAllPostsByUser($user->id);
 
-    self::renderPage("app", "profile", "Profile", [
+    $this->renderPage("app", "user/profile", "Profile", [
       "title" => "Profile",
       "user" => $user,
       "posts" => $posts,
@@ -111,9 +109,9 @@ class UserController
 
   public function settingPage(): void
   {
-    $user = self::$sessionService->current();
+    $user = $this->sessionService->current();
 
-    self::renderPage("app", "profile-settings", "Profile Settings", [
+    $this->renderPage("app", "user/profile-settings", "Profile Settings", [
       "title" => "Profile Settings",
       "user" => $user,
       "components" => ["deleteAccountModal.php", "saveAvatarModal.php"],
@@ -123,17 +121,18 @@ class UserController
 
   public function update(): void
   {
-    $user = self::$sessionService->current();
+    $user = $this->sessionService->current();
 
     try {
-      self::$userModel->username = htmlspecialchars(trim($_POST["username"]));
-      self::$userModel->display_name = htmlspecialchars(trim($_POST["display_name"]));
-      self::$userModel->bio = htmlspecialchars(trim($_POST["bio"]));
+      $userModel = new UserModel();
+      $userModel->username = htmlspecialchars(trim($_POST["username"]));
+      $userModel->display_name = htmlspecialchars(trim($_POST["display_name"]));
+      $userModel->bio = htmlspecialchars(trim($_POST["bio"]));
 
-      self::$userService->update($user->id, self::$userModel);
+      $this->userService->update($user->id, $userModel);
       View::redirect("/profile");
     } catch (ValidationException $e) {
-      self::renderPage("app", "profile-settings", "Update Profle", [
+      $this->renderPage("app", "user/profile-settings", "Update Profle", [
         "title" => "Update Profile",
         "user" => $user,
         "components" => ["errorToast.php", "saveAvatarModal.php", "deleteAccountModal.php"],
@@ -145,13 +144,13 @@ class UserController
 
   public function updateAvatar(): void
   {
-    $user = self::$sessionService->current();
+    $user = $this->sessionService->current();
 
     try {
-      self::$userService->updateAvatar($user->id, $_FILES["avatar"]);
+      $this->userService->updateAvatar($user->id, $_FILES["avatar"]);
       View::redirect("/profile/setting");
     } catch (ValidationException $e) {
-      self::renderPage("app", "profile-settings", "Update Profle", [
+      $this->renderPage("app", "user/profile-settings", "Update Profle", [
         "title" => "Update Profile",
         "user" => $user,
         "components" => ["errorToast.php", "saveAvatarModal.php", "deleteAccountModal.php"],
@@ -163,13 +162,13 @@ class UserController
 
   public function delete(): void
   {
-    $user = self::$sessionService->current();
+    $user = $this->sessionService->current();
 
     try {
-      self::$userService->delete($user->id);
+      $this->userService->delete($user->id);
       View::redirect("/");
     } catch (ValidationException $e) {
-      self::renderPage("app", "profile-settings", "Update Profle", [
+      $this->renderPage("app", "user/profile-settings", "Update Profle", [
         "title" => "Update Profile",
         "user" => $user,
         "components" => ["errorToast.php", "saveAvatarModal.php", "deleteAccountModal.php"],
@@ -181,22 +180,22 @@ class UserController
 
   public function logout(): void
   {
-    self::$sessionService->destroy();
+    $this->sessionService->destroy();
     View::redirect("/login");
   }
 
   public function viewUser(string $username): void
   {
-    $user = self::$userService->getUserByIdentity($username);
+    $user = $this->userService->getUserByIdentity($username);
     $user->created_at = Utils::formatJoinTime($user->created_at);
 
-    $currentUser = self::$sessionService->current();
+    $currentUser = $this->sessionService->current();
 
-    View::app("view-user", [
+    View::app("user/view-user", [
       "title" => $username,
       "username" => $username,
       "user" => $user,
-      "posts" => self::$postService->getAllPostsByUser($user->id),
+      "posts" => $this->postService->getAllPostsByUser($user->id),
       "currentUser" => $currentUser,
       "styles" => ["postCard.css"],
       "scripts" => ["postCard.js"]

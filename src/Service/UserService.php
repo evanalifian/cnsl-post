@@ -11,16 +11,16 @@ use App\Utils\Utils;
 
 class UserService
 {
-  private static UserRepository $userRepository;
+  private UserRepository $userRepository;
 
   public function __construct(UserRepository $userRepository)
   {
-    self::$userRepository = $userRepository;
+    $this->userRepository = $userRepository;
   }
 
   public function getUserByIdentity(string|int $identity): ?UserModel
   {
-    return self::$userRepository->getUserByIdentity($identity);
+    return $this->userRepository->getUserByIdentity($identity);
   }
 
   public function save(UserModel $userModel): void
@@ -36,7 +36,7 @@ class UserService
       $userModel->username = strtolower($userModel->username);
       $userModel->password = Utils::passwordHash($userModel->password);
 
-      self::$userRepository->save($userModel);
+      $this->userRepository->save($userModel);
       Database::commit();
     } catch (\Exception $e) {
       Database::rollback();
@@ -64,7 +64,7 @@ class UserService
         throw new ValidationException("User does not match");
       }
 
-      self::$userRepository->update($userID, $model);
+      $this->userRepository->update($userID, $model);
       Database::commit();
     } catch (\Exception $e) {
       Database::rollback();
@@ -83,7 +83,7 @@ class UserService
 
       $avatarUrl = Helpers::replaceAvatar($files, $user->avatar_url, __DIR__ . "/../../public/uploads/avatars", __DIR__ . "/../..");
 
-      self::$userRepository->updateAvatar($userID, $avatarUrl);
+      $this->userRepository->updateAvatar($userID, $avatarUrl);
 
       Database::commit();
     } catch (\Exception $e) {
@@ -103,7 +103,7 @@ class UserService
 
       Helpers::deleteImage(__DIR__ . "/../.." . $user->avatar_url);
 
-      self::$userRepository->delete($userID);
+      $this->userRepository->delete($userID);
 
       Database::commit();
     } catch (\Exception $e) {

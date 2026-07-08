@@ -12,13 +12,13 @@ use App\Service\SessionService;
 
 class SearchController
 {
-  private static SearchService $searchService;
-  private static SessionService $sessionService;
+  private SearchService $searchService;
+  private SessionService $sessionService;
 
   public function __construct()
   {
-    self::$searchService = new SearchService(new SearchRepository(Database::connect()));
-    self::$sessionService = new SessionService(
+    $this->searchService = new SearchService(new SearchRepository(Database::connect()));
+    $this->sessionService = new SessionService(
       new SessionRepository(Database::connect()),
       new UserRepository(Database::connect())
     );
@@ -26,11 +26,11 @@ class SearchController
 
   public function index(): void
   {
-    $user = self::$sessionService->current();
+    $user = $this->sessionService->current();
     $query = $_GET['query'] ?? null;
 
     if ($query) {
-      $users = $query ? self::$searchService->findUsers(htmlspecialchars(trim($query))) : [];
+      $users = $query ? $this->searchService->findUsers(htmlspecialchars(trim($query))) : [];
       View::app("search", [
         "title" => "Search",
         "user" => $user,

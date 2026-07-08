@@ -12,13 +12,13 @@ class SessionService
 {
   public static string $COOKIE_NAME = "X-PHP-BOILERPLATE";
 
-  private static SessionRepository $sessionRepository;
-  private static UserRepository $userRepository;
+  private SessionRepository $sessionRepository;
+  private UserRepository $userRepository;
 
   public function __construct(SessionRepository $sessionRepository, UserRepository $userRepository)
   {
-    self::$sessionRepository = $sessionRepository;
-    self::$userRepository = $userRepository;
+    $this->sessionRepository = $sessionRepository;
+    $this->userRepository = $userRepository;
   }
 
   public function save(string $userId): void
@@ -31,7 +31,7 @@ class SessionService
 
     $session->expired_at = date("Y-m-d H:i:s", $expiredDate);
 
-    self::$sessionRepository->save($session);
+    $this->sessionRepository->save($session);
 
     setcookie(self::$COOKIE_NAME, $session->session_id, $expiredDate, "/");
   }
@@ -39,7 +39,7 @@ class SessionService
   public function destroy()
   {
     $sessionId = $_COOKIE[self::$COOKIE_NAME] ?? '';
-    self::$sessionRepository->deleteById($sessionId);
+    $this->sessionRepository->deleteById($sessionId);
 
     setcookie(self::$COOKIE_NAME, '', 1, "/");
   }
@@ -47,13 +47,13 @@ class SessionService
   public function current(): ?UserModel
   {
     $sessionId = $_COOKIE[self::$COOKIE_NAME] ?? '';
-    $session = self::$sessionRepository->getById($sessionId);
+    $session = $this->sessionRepository->getById($sessionId);
 
     if ($session == null) {
       return null;
     }
 
-    $user = self::$userRepository->getUserByIdentity($session->user_id);
+    $user = $this->userRepository->getUserByIdentity($session->user_id);
 
     $user->created_at = Utils::formatJoinTime($user->created_at);
 

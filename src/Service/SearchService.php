@@ -7,17 +7,17 @@ use App\Repository\SearchRepository;
 
 class SearchService
 {
-  private static SearchRepository $searchRepository;
+  private SearchRepository $searchRepository;
 
   public function __construct(SearchRepository $searchRepository)
   {
-    self::$searchRepository = $searchRepository;
+    $this->searchRepository = $searchRepository;
   }
 
   public function findUsers(string $query): array
   {
     try {
-      return self::$searchRepository->findUsers($query);
+      return $this->searchRepository->findUsers($query);
     } catch (\Exception $e) {
       throw new ValidationException($e->getMessage());
     }

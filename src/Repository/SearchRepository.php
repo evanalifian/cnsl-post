@@ -17,7 +17,7 @@ class SearchRepository
   public function findUsers(string $query): ?array
   {
     try {
-      $statement = self::$connDB->prepare("
+      $statement = $this->connDB->prepare("
         SELECT
           id,
           username,

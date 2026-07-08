@@ -7,16 +7,16 @@ use App\Model\UserModel;
 
 class UserRepository
 {
-  private static \PDO $connDB;
+  private \PDO $connDB;
 
   public function __construct(\PDO $connDB)
   {
-    self::$connDB = $connDB;
+    $this->connDB = $connDB;
   }
 
   public function getUserByIdentity(string|int $identity): ?UserModel
   {
-    $statement = self::$connDB->prepare("
+    $statement = $this->connDB->prepare("
       SELECT
           u.id,
           u.username,
@@ -57,7 +57,7 @@ class UserRepository
 
   public function save(UserModel $model): \PDOStatement
   {
-    $statement = self::$connDB->prepare("INSERT INTO users (id, username, display_name, password) VALUES (?, ?, ?, ?)");
+    $statement = $this->connDB->prepare("INSERT INTO users (id, username, display_name, password) VALUES (?, ?, ?, ?)");
 
     try {
       $statement->execute([$model->id, $model->username, $model->display_name, $model->password]);
@@ -71,7 +71,7 @@ class UserRepository
 
   public function update(string $userID, UserModel $model): \PDOStatement
   {
-    $statement = self::$connDB->prepare("UPDATE users SET username = ?, display_name = ?, bio = ? WHERE id = ?");
+    $statement = $this->connDB->prepare("UPDATE users SET username = ?, display_name = ?, bio = ? WHERE id = ?");
 
     try {
       $statement->execute([$model->username, $model->display_name, $model->bio, $userID]);
@@ -85,7 +85,7 @@ class UserRepository
 
   public function updateAvatar(string $userID, string $avatar_url): \PDOStatement
   {
-    $statement = self::$connDB->prepare("UPDATE users SET avatar_url = ? WHERE id = ?");
+    $statement = $this->connDB->prepare("UPDATE users SET avatar_url = ? WHERE id = ?");
 
     try {
       $statement->execute([$avatar_url, $userID]);
@@ -99,7 +99,7 @@ class UserRepository
 
   public function delete(string $userID): \PDOStatement
   {
-    $statement = self::$connDB->prepare("DELETE FROM users WHERE id = ?");
+    $statement = $this->connDB->prepare("DELETE FROM users WHERE id = ?");
 
     try {
       $statement->execute([$userID]);
