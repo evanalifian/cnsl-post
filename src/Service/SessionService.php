@@ -10,7 +10,7 @@ use App\Utils\Utils;
 
 class SessionService
 {
-  public static string $COOKIE_NAME = "X-PHP-BOILERPLATE";
+  public static string $COOKIE_NAME = "X-CNSL-POST";
 
   private SessionRepository $sessionRepository;
   private UserRepository $userRepository;
@@ -58,5 +58,10 @@ class SessionService
     $user->created_at = Utils::formatJoinTime($user->created_at);
 
     return $user;
+  }
+
+  public function deleteExpired(): void
+  {
+    $this->sessionRepository->deleteExpired();
   }
 }

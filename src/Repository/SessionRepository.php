@@ -50,4 +50,8 @@ class SessionRepository
     $this->connDB->exec("DELETE FROM sessions");
   }
 
+  public function deleteExpired(): void
+  {
+    $this->connDB->exec("DELETE FROM sessions WHERE expired_at <= NOW()");
+  }
 }

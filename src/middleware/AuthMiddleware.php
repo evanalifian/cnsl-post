@@ -22,7 +22,11 @@ class AuthMiddleware
 
   public static function requireAuth(): void
   {
-    $user = self::sessionService()->current();
+    $sessionService = self::sessionService();
+
+    $sessionService->deleteExpired();
+
+    $user = $sessionService->current();
 
     if ($user === null) {
       View::redirect('/login');
