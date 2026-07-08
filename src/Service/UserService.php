@@ -53,16 +53,19 @@ class UserService
 
   public function update(string $userID, UserModel $model): void
   {
-    Helpers::updateValidation($model);
 
     try {
       Database::beginTransaction();
+
+      Helpers::updateValidation($model);
 
       $result = $this->getUserByIdentity($userID);
 
       if (!$result) {
         throw new ValidationException("User does not match");
       }
+
+      $model->username = strtolower($model->username);
 
       $this->userRepository->update($userID, $model);
       Database::commit();

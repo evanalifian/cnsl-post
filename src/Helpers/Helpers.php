@@ -19,7 +19,7 @@ class Helpers
     if (strlen($userModel->username) <= 3) {
       throw new ValidationException("Username must contain at least 3 characters.");
     }
-    if (!preg_match('/^[A-Za-z0-9._]+$/', $userModel->username)) {
+    if (Utils::usernameValidation($userModel->username)) {
       throw new ValidationException("Username may only contain letters, numbers, underscores (_), and periods (.)");
     }
     if (Utils::passwordLength($userModel->password) < 8) {
@@ -44,6 +44,9 @@ class Helpers
   {
     if (empty($userModel->username)) {
       throw new ValidationException("Username can not be empty");
+    }
+    if (Utils::usernameValidation($userModel->username)) {
+      throw new ValidationException("Username may only contain letters, numbers, underscores (_), and periods (.)");
     }
   }
 
