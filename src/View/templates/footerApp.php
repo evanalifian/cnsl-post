@@ -8,7 +8,7 @@
       </a>
     <?php endforeach ?>
     <a href="/profile" class="text-secondary text-decoration-none">
-      <img src="<?= $data["currentUser"] ? $data["currentUser"]->avatar_url : $data["user"]->avatar_url ?>" class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
+      <img src="<?= isset($data["currentUser"]) ? $data["currentUser"]->avatar_url : $data["user"]->avatar_url ?>" class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
               align-items-center justify-content-center flex-shrink-0 object-fit-cover"
         style="width: 28px; height: 28px;" alt="Profile Picture" />
     </a>
