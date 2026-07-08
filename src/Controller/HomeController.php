@@ -17,13 +17,8 @@ class HomeController
 
   public function __construct()
   {
-    $connDB = Database::connect();
-    $userRepository = new UserRepository($connDB);
-    $sessionRepository = new SessionRepository($connDB);
-    $postRepository = new PostRepository($connDB);
-
-    self::$sessionService = new SessionService($sessionRepository, $userRepository);
-    self::$postService = new PostService($postRepository);
+    self::$sessionService = new SessionService(new SessionRepository(Database::connect()), new UserRepository(Database::connect()));
+    self::$postService = new PostService(new PostRepository(Database::connect()));
   }
 
   public function index(): void
