@@ -14,7 +14,7 @@ class SearchService
     $this->searchRepository = $searchRepository;
   }
 
-  public function findUsers(string $query): array
+  public function findUsers(string $query): ?array
   {
     try {
       return $this->searchRepository->findUsers($query);

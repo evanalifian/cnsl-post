@@ -7,27 +7,28 @@ use App\Model\UserModel;
 
 class SearchRepository
 {
-  private static \PDO $connDB;
+  private \PDO $connDB;
 
   public function __construct(\PDO $connDB)
   {
-    self::$connDB = $connDB;
+    $this->connDB = $connDB;
   }
 
   public function findUsers(string $query): ?array
   {
+    $statement = $this->connDB->prepare("
+      SELECT
+        id,
+        username,
+        display_name,
+        bio,
+        avatar_url,
+        created_at,
+        updated_at
+      FROM users
+      WHERE MATCH (username, display_name) AGAINST (? IN BOOLEAN MODE)");
+
     try {
-      $statement = $this->connDB->prepare("
-        SELECT
-          id,
-          username,
-          display_name,
-          bio,
-          avatar_url,
-          created_at,
-          updated_at
-        FROM users
-        WHERE MATCH (username, display_name) AGAINST (? IN BOOLEAN MODE)");
       $statement->execute([$query]);
 
       $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
@@ -53,6 +54,8 @@ class SearchRepository
       return $users;
     } catch (\Exception $e) {
       throw new ValidationException($e->getMessage());
+    } finally {
+      $statement->closeCursor();
     }
   }
 }
