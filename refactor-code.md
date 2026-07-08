@@ -4,12 +4,12 @@ Before modifying any code, analyze this entire project.
 
 Your tasks:
 
-Refactor User Module
+Refactor Post Module
 
-1. UserController
-2. UserService
-3. UserRepository
-4. UserModel
+1. PostController
+2. PostService
+3. PostRepository
+4. PostModel
 5. View
 6. Route
 

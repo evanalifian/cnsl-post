@@ -13,11 +13,11 @@ use App\Utils\Utils;
 
 class PostService
 {
-  private static PostRepository $postRepository;
+  private PostRepository $postRepository;
 
   public function __construct(PostRepository $postRepository)
   {
-    self::$postRepository = $postRepository;
+    $this->postRepository = $postRepository;
   }
 
   public function save(PostModel $postModel, PostImageModel $postImageModel, array $files): void
@@ -36,7 +36,7 @@ class PostService
       Database::beginTransaction();
       $postModel->id = bin2hex(random_bytes(32));
       $postModel->preview_content = Helpers::previewText($postModel->content, 100);
-      self::$postRepository->savePost($postModel);
+      $this->postRepository->savePost($postModel);
       if (!empty($file_name)) {
         Helpers::imageValidation(
           $file_name,
@@ -52,7 +52,7 @@ class PostService
         );
         $postImageModel->post_id = $postModel->id;
         $postImageModel->id = bin2hex(random_bytes(32));
-        self::$postRepository->savePostImage($postImageModel);
+        $this->postRepository->savePostImage($postImageModel);
       }
       Database::commit();
     } catch (\Exception $e) {
@@ -64,7 +64,7 @@ class PostService
 
   public function getAllPosts(): ?array
   {
-    $posts = self::$postRepository->getAllPosts();
+    $posts = $this->postRepository->getAllPosts();
     if ($posts !== null) {
       foreach ($posts as $index => $post) {
         $posts[$index]->created_at = Helpers::timeAgo($post->created_at);
@@ -75,7 +75,7 @@ class PostService
 
   public function getAllPostsByUser(string|int $identity): ?array
   {
-    $posts = self::$postRepository->getAllPostsByUser($identity);
+    $posts = $this->postRepository->getAllPostsByUser($identity);
     if ($posts) {
       foreach ($posts as $index => $post) {
         $posts[$index]->created_at = Helpers::timeAgo($post->created_at);
@@ -87,7 +87,7 @@ class PostService
 
   public function getPostByID(string $postID): ?PostResponseModel
   {
-    $post = self::$postRepository->getPostByID($postID);
+    $post = $this->postRepository->getPostByID($postID);
     if ($post) {
       $post->created_at = Helpers::timeAgo($post->created_at);
       return $post;
@@ -99,11 +99,11 @@ class PostService
   {
     try {
       Database::beginTransaction();
-      $post = self::$postRepository->getPostByID($postID);
+      $post = $this->postRepository->getPostByID($postID);
       if ($post->image_url) {
         Helpers::deleteImage(__DIR__ . "/../.." . $post->image_url);
       }
-      self::$postRepository->deletePostByID($postID);
+      $this->postRepository->deletePostByID($postID);
       Database::commit();
     } catch (\Exception $e) {
       Database::rollback();

@@ -12,21 +12,21 @@ use App\Service\SessionService;
 
 class HomeController
 {
-  private static SessionService $sessionService;
-  private static PostService $postService;
+  private SessionService $sessionService;
+  private PostService $postService;
 
   public function __construct()
   {
-    self::$sessionService = new SessionService(new SessionRepository(Database::connect()), new UserRepository(Database::connect()));
-    self::$postService = new PostService(new PostRepository(Database::connect()));
+    $this->sessionService = new SessionService(new SessionRepository(Database::connect()), new UserRepository(Database::connect()));
+    $this->postService = new PostService(new PostRepository(Database::connect()));
   }
 
   public function index(): void
   {
     View::app("home", [
       "title" => "Home",
-      "user" => self::$sessionService->current(),
-      "posts" => self::$postService->getAllPosts(),
+      "user" => $this->sessionService->current(),
+      "posts" => $this->postService->getAllPosts(),
       "styles" => ["postCard.css"],
       "scripts" => ["postCard.js"]
     ]);
