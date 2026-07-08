@@ -7,11 +7,11 @@ use App\Model\UserModel;
 
 class SearchRepository
 {
-  private \PDO $connDB;
+  private static \PDO $connDB;
 
   public function __construct(\PDO $connDB)
   {
-    $this->connDB = $connDB;
+    self::$connDB = $connDB;
   }
 
   public function findUsers(string $query): ?array
@@ -47,7 +47,6 @@ class SearchRepository
         $userModel->avatar_url = $row["avatar_url"];
         $userModel->created_at = $row["created_at"];
         $userModel->updated_at = $row["updated_at"];
-
         $users[] = $userModel;
       }
 
