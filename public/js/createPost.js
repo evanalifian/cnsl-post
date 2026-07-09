@@ -30,6 +30,7 @@ btnRemovePreview.addEventListener("click", () => {
   btnUploadTrigger.classList.remove("d-none");
 });
 
+const formCreatePost = document.querySelector("form");
 const inputContent = document.querySelector("textarea[name='content']");
 const btnSubmitPost = document.getElementById("btn-submit-post");
 
@@ -39,4 +40,8 @@ inputContent.addEventListener("input", (e) => {
   } else {
     btnSubmitPost.setAttribute("disabled", true);
   }
+});
+
+formCreatePost.addEventListener("submit", (e) => {
+  btnSubmitPost.setAttribute("disabled", true);
 });
