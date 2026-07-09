@@ -41,7 +41,13 @@ class PostController
       "user" => $this->sessionService->current()
     ];
     $data = $items ? $data + $items : $data;
-    $typePage === "page" ? View::render($pageName, $data) : View::app($pageName, $data);
+    
+    if (!isset($data["user"]) && $typePage === "app") {
+      View::render($pageName, $data);
+    } else {
+      $typePage === "page" ? View::render($pageName, $data) : View::app($pageName, $data);
+    }
+    
   }
 
   public function index(): void

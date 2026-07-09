@@ -1,15 +1,16 @@
 <div class="col-12 col-md-11 col-lg-6 px-0 min-h-100 mb-5 pb-5 mb-lg-0 pb-lg-0 mx-auto">
-  <div class="sticky-top bg-black bg-opacity-75 py-3 px-4" style="
-              backdrop-filter: blur(8px);
-              -webkit-backdrop-filter: blur(8px);
-              z-index: 9999;
-            ">
-    <div class="d-flex align-items-center gap-3">
-      <a href="/home" class="text-white text-decoration-none"><i class="bi bi-arrow-left fs-5"></i></a>
-      <h1 class="fw-bold fs-5 mb-0 tracking-tight">Post</h1>
+  <?php if (isset($data["user"])): ?>
+    <div class="sticky-top bg-black bg-opacity-75 py-3 px-4" style="
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                z-index: 9999;
+              ">
+      <div class="d-flex align-items-center gap-3">
+        <a href="/home" class="text-white text-decoration-none"><i class="bi bi-arrow-left fs-5"></i></a>
+        <h1 class="fw-bold fs-5 mb-0 tracking-tight">Post</h1>
+      </div>
     </div>
-  </div>
-
+  <?php endif ?>
   <div class="row g-0">
     <div class="col-12 p-4 sticky-lg-top" style="top: 70px; height: fit-content">
       <div class="d-flex flex-column w-100">

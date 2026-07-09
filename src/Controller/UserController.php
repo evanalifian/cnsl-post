@@ -33,10 +33,17 @@ class UserController
     string $title,
     array $items = [],
   ): void {
-    $data = ["title" => $title];
+    $data = [
+      "title" => $title,
+      "user" => $this->sessionService->current()
+    ];
     $data = $items ? $data + $items : $data;
 
-    $typePage === "page" ? View::render($pageName, $data) : View::app($pageName, $data);
+    if (!isset($data["user"]) && $typePage === "app") {
+      View::render($pageName, $data);
+    } else {
+      $typePage === "page" ? View::render($pageName, $data) : View::app($pageName, $data);
+    }
   }
 
   public function signupPage(): void
@@ -185,18 +192,15 @@ class UserController
 
   public function viewUser(string $username): void
   {
-    $user = $this->userService->getUserByIdentity($username);
-    $currentUser = $this->sessionService->current();
+    $userFound = $this->userService->getUserByIdentity($username);
     
-    if ($user) {
-      $user->created_at = Utils::formatJoinTime($user->created_at);
-  
+    if ($userFound) {
+      $userFound->created_at = Utils::formatJoinTime($userFound->created_at);
 
       $this->renderPage("app", "user/view-user", $username, [
         "username" => $username,
-        "user" => $user,
-        "posts" => $this->postService->getAllPostsByUser($user->id),
-        "currentUser" => $currentUser,
+        "userFound" => $userFound,
+        "posts" => $this->postService->getAllPostsByUser($userFound->id),
         "styles" => ["postCard.css"],
         "scripts" => ["postCard.js", "shareLink.js"]
       ]);

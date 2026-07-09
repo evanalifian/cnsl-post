@@ -19,6 +19,6 @@ class UserRoute
         Router::add("/profile/update-avatar", "POST", fn() => (new UserController())->updateAvatar(), fn() => AuthMiddleware::requireAuth());
         Router::add("/profile/delete", "POST", fn() => (new UserController())->delete(), fn() => AuthMiddleware::requireAuth());
         Router::add("/logout", "GET", fn() => (new UserController())->logout(), fn() => AuthMiddleware::requireAuth());
-        Router::add("/user/([^/]+)", "GET", fn(string $username) => (new UserController())->viewUser((string) $username), fn() => AuthMiddleware::requireAuth());
+        Router::add("/user/([^/]+)", "GET", fn(string $username) => (new UserController())->viewUser((string) $username));
     }
 }
