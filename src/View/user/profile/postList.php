@@ -14,15 +14,24 @@
             </div>
           </div>
           <div class="dropdown">
-            <button class="btn btn-link text-secondary p-0 border-0 shadow-none" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-link text-secondary p-0 border-0 shadow-none" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
               <i class="bi bi-three-dots"></i>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end bg-black border border-secondary border-opacity-50 rounded-3 p-1 shadow">
+            <ul
+              class="dropdown-menu dropdown-menu-end bg-black border border-secondary border-opacity-50 rounded-3 p-1 shadow">
               <li>
-                <button type="button" 
+                <button type="button"
                   class="dropdown-item text-white small rounded-2 d-flex align-items-center gap-2 py-2 share-post-btn"
                   data-share-url="<?= (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]/post/" . $row->post_id ?>">
                   <i class="bi bi-share text-secondary"></i> Share Link
+                </button>
+              </li>
+              <li>
+                <button type="button"
+                  class="dropdown-item text-danger small rounded-2 d-flex align-items-center gap-2 py-2"
+                  data-bs-toggle="modal" data-bs-target="#deletePostModal" data-post-id="<?= $row->post_id ?>">
+                  <i class="bi bi-trash3"></i> Delete Post
                 </button>
               </li>
             </ul>
