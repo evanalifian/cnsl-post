@@ -16,7 +16,7 @@ class Helpers
     if ($userResult) {
       throw new ValidationException("User already exist");
     }
-    if (strlen($userModel->username) <= 3) {
+    if (strlen($userModel->username) < 3) {
       throw new ValidationException("Username must contain at least 3 characters.");
     }
     if (Utils::usernameValidation($userModel->username)) {
