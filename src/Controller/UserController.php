@@ -101,7 +101,7 @@ class UserController
       "user" => $user,
       "posts" => $posts,
       "styles" => ["postCard.css"],
-      "scripts" => ["postCard.js", "postModal.js"],
+      "scripts" => ["postCard.js", "postModal.js", "shareLink.js"],
       "components" => ["postModal.php"]
     ]);
   }
@@ -198,7 +198,7 @@ class UserController
         "posts" => $this->postService->getAllPostsByUser($user->id),
         "currentUser" => $currentUser,
         "styles" => ["postCard.css"],
-        "scripts" => ["postCard.js"]
+        "scripts" => ["postCard.js", "shareLink.js"]
       ]);
       } else {
       $this->renderPage("page", "user/not-found", $username);
