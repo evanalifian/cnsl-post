@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Config\Database;
 use App\Config\View;
 use App\Exception\ValidationException;
-use App\Model\SessionModel;
 use App\Model\UserModel;
 use App\Repository\PostRepository;
 use App\Repository\SessionRepository;
@@ -187,18 +186,22 @@ class UserController
   public function viewUser(string $username): void
   {
     $user = $this->userService->getUserByIdentity($username);
-    $user->created_at = Utils::formatJoinTime($user->created_at);
-
     $currentUser = $this->sessionService->current();
+    
+    if ($user) {
+      $user->created_at = Utils::formatJoinTime($user->created_at);
+  
 
-    View::app("user/view-user", [
-      "title" => $username,
-      "username" => $username,
-      "user" => $user,
-      "posts" => $this->postService->getAllPostsByUser($user->id),
-      "currentUser" => $currentUser,
-      "styles" => ["postCard.css"],
-      "scripts" => ["postCard.js"]
-    ]);
+      $this->renderPage("app", "user/view-user", $username, [
+        "username" => $username,
+        "user" => $user,
+        "posts" => $this->postService->getAllPostsByUser($user->id),
+        "currentUser" => $currentUser,
+        "styles" => ["postCard.css"],
+        "scripts" => ["postCard.js"]
+      ]);
+      } else {
+      $this->renderPage("page", "user/not-found", $username);
+    }
   }
 }
