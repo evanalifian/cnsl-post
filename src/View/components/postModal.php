@@ -21,7 +21,7 @@
             data-bs-dismiss="modal">
             Cancel
           </button>
-          <button type="submit" class="btn btn-sm btn-danger rounded-pill flex-grow-1 fw-semibold shadow-none">
+          <button type="submit" id="btn-delete-post" class="btn btn-sm btn-danger rounded-pill flex-grow-1 fw-semibold shadow-none">
             Delete Permanently
           </button>
         </form>

@@ -16,4 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
       deletePostForm.setAttribute("action", `/post/${postId}/delete`);
     });
   }
+
+  deletePostForm.addEventListener("submit", () => {
+    document.getElementById("btn-delete-post").setAttribute("disabled", true);
+  });
 });
