@@ -20,7 +20,7 @@
             <?php if (isset($data["user"]->display_name)): ?>
               <span class="fw-bold text-white fs-6"><?= $data["user"]->display_name ?></span>
             <?php endif ?>
-            <span class="text-secondary small ms-1">@evanalifian</span>
+            <span class="text-secondary small ms-1">@<?= $data["user"]->username ?></span>
           </div>
 
           <div class="mb-3">
