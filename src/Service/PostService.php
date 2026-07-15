@@ -4,7 +4,10 @@ namespace App\Service;
 
 use App\Config\Database;
 use App\Exception\ValidationException;
-use App\Helpers\Helpers;
+use App\Helpers\ImageHelper;
+use App\Helpers\FileHelper;
+use App\Utils\StringUtil;
+use App\Utils\DateUtil;
 use App\Model\PostImageModel;
 use App\Model\PostModel;
 use App\Model\PostResponseModel;
@@ -35,17 +38,17 @@ class PostService
     try {
       Database::beginTransaction();
       $postModel->id = bin2hex(random_bytes(32));
-      $postModel->preview_content = Helpers::previewText($postModel->content, 100);
+      $postModel->preview_content = StringUtil::previewText($postModel->content, 100);
       $this->postRepository->savePost($postModel);
       if (!empty($file_name)) {
-        Helpers::imageValidation(
+        ImageHelper::imageValidation(
           $file_name,
           $file_type,
           $file_size,
           $file_error,
           5 * 1024 * 1024 // Maksimal 5 MB untuk post
         );
-        $postImageModel->image_url = Helpers::uploadImage(
+        $postImageModel->image_url = ImageHelper::uploadImage(
           $files,
           __DIR__ . "/../../public/uploads/post-images",
           "/public/uploads/post-images"
@@ -56,7 +59,7 @@ class PostService
       }
       Database::commit();
     } catch (\Exception $e) {
-      Helpers::deleteImage(__DIR__ . "/../.." . $postImageModel->image_url);
+      FileHelper::deleteImage(__DIR__ . "/../.." . $postImageModel->image_url);
       Database::rollback();
       throw new ValidationException($e->getMessage());
     }
@@ -67,7 +70,7 @@ class PostService
     $posts = $this->postRepository->getAllPosts();
     if ($posts !== null) {
       foreach ($posts as $index => $post) {
-        $posts[$index]->created_at = Helpers::timeAgo($post->created_at);
+        $posts[$index]->created_at = DateUtil::timeAgo($post->created_at);
       }
     }
     return $posts;
@@ -78,7 +81,7 @@ class PostService
     $posts = $this->postRepository->getAllPostsByUser($identity);
     if ($posts) {
       foreach ($posts as $index => $post) {
-        $posts[$index]->created_at = Helpers::timeAgo($post->created_at);
+        $posts[$index]->created_at = DateUtil::timeAgo($post->created_at);
       }
       return $posts;
     }
@@ -89,7 +92,7 @@ class PostService
   {
     $post = $this->postRepository->getPostByID($postID);
     if ($post) {
-      $post->created_at = Helpers::timeAgo($post->created_at);
+      $post->created_at = DateUtil::timeAgo($post->created_at);
       return $post;
     }
     return null;
@@ -101,7 +104,7 @@ class PostService
       Database::beginTransaction();
       $post = $this->postRepository->getPostByID($postID);
       if ($post->image_url) {
-        Helpers::deleteImage(__DIR__ . "/../.." . $post->image_url);
+        FileHelper::deleteImage(__DIR__ . "/../.." . $post->image_url);
       }
       $this->postRepository->deletePostByID($postID);
       Database::commit();

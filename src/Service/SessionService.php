@@ -6,7 +6,7 @@ use App\Model\SessionModel;
 use App\Model\UserModel;
 use App\Repository\SessionRepository;
 use App\Repository\UserRepository;
-use App\Utils\Utils;
+use App\Utils\DateUtil;
 
 class SessionService
 {
@@ -55,7 +55,7 @@ class SessionService
 
     $user = $this->userRepository->getUserByIdentity($session->user_id);
 
-    $user->created_at = Utils::formatJoinTime($user->created_at);
+    $user->created_at = DateUtil::formatJoinTime($user->created_at);
 
     return $user;
   }

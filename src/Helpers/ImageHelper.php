@@ -3,7 +3,7 @@
 namespace App\Helpers;
 
 use App\Exception\ValidationException;
-use App\Utils\Utils;
+use App\Utils\FileUtil;
 
 class ImageHelper
 {
@@ -52,7 +52,7 @@ class ImageHelper
     string $directory
   ): string {
 
-    $filename = Utils::generateImageName(
+    $filename = FileUtil::generateImageName(
       $file["name"]
     );
 
@@ -61,7 +61,7 @@ class ImageHelper
       . DIRECTORY_SEPARATOR
       . $filename;
 
-    Utils::convertToWebp(
+    FileUtil::convertToWebp(
       $file["tmp_name"],
       $destination,
       $file["type"]

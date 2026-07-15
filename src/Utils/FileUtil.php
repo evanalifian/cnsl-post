@@ -4,39 +4,8 @@ namespace App\Utils;
 
 use App\Exception\ValidationException;
 
-class Utils
+class FileUtil
 {
-  public static function emailValidation(string $email): bool
-  {
-    return !filter_var($email, FILTER_VALIDATE_EMAIL);
-  }
-
-  public static function usernameValidation(string $username): bool
-  {
-    return !preg_match('/^[A-Za-z0-9._]+$/', $username);
-  }
-
-  public static function formatJoinTime(string $datetime_str): string
-  {
-    $date = new \DateTime($datetime_str);
-    return $date->format('M Y');
-  }
-
-  public static function generateUniqueID(): string
-  {
-    return bin2hex(random_bytes(32));
-  }
-
-  public static function passwordLength(string $password): int
-  {
-    return strlen($password);
-  }
-
-  public static function passwordHash(string $password): string
-  {
-    return password_hash($password, PASSWORD_BCRYPT);
-  }
-
   public static function generateImageName(string $originalName): string
   {
     $filename = pathinfo($originalName, PATHINFO_FILENAME);

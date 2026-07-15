@@ -3,7 +3,7 @@
 namespace App\Seeder;
 
 use App\Config\Database;
-use App\Utils\Utils;
+use App\Utils\SecurityUtil;
 
 class UserSeeder
 {
@@ -22,7 +22,7 @@ class UserSeeder
       ) VALUES (?, ?, ?, ?, ?, ?)
     ");
 
-    $password = Utils::passwordHash("password");
+    $password = SecurityUtil::passwordHash("password");
 
     for ($i = 1; $i <= $total; $i++) {
       $statement->execute([

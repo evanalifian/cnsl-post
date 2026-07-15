@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use App\Exception\ValidationException;
 use App\Model\UserModel;
-use App\Utils\Utils;
+use App\Utils\StringUtil;
 
 class ValidationHelper
 {
@@ -22,7 +22,7 @@ class ValidationHelper
     if (!preg_match('/^[A-Za-z0-9._]+$/', $userModel->username)) {
       throw new ValidationException("Username may only contain letters, numbers, underscores (_), and periods (.)");
     }
-    if (Utils::passwordLength($userModel->password) < 8) {
+    if (StringUtil::passwordLength($userModel->password) < 8) {
       throw new ValidationException("Password must be at least 8 characters long.");
     }
   }

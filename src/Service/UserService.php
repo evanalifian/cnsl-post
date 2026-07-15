@@ -4,10 +4,13 @@ namespace App\Service;
 
 use App\Config\Database;
 use App\Exception\ValidationException;
-use App\Helpers\Helpers;
+use App\Helpers\ValidationHelper;
+use App\Helpers\ImageHelper;
+use App\Helpers\FileHelper;
 use App\Model\UserModel;
 use App\Repository\UserRepository;
-use App\Utils\Utils;
+use App\Utils\StringUtil;
+use App\Utils\SecurityUtil;
 
 class UserService
 {
@@ -30,11 +33,11 @@ class UserService
 
       $user = $this->getUserByIdentity($userModel->username);
 
-      Helpers::saveValidation($userModel, $user);
+      ValidationHelper::saveValidation($userModel, $user);
 
-      $userModel->id = Utils::generateUniqueID();
+      $userModel->id = StringUtil::generateUniqueID();
       $userModel->username = strtolower($userModel->username);
-      $userModel->password = Utils::passwordHash($userModel->password);
+      $userModel->password = SecurityUtil::passwordHash($userModel->password);
 
       $this->userRepository->save($userModel);
       Database::commit();
@@ -47,7 +50,7 @@ class UserService
   public function auth(UserModel $model): ?UserModel
   {
     $res = self::getUserByIdentity($model->username);
-    Helpers::authValidation($model, $res);
+    ValidationHelper::authValidation($model, $res);
     return $res;
   }
 
@@ -57,7 +60,7 @@ class UserService
     try {
       Database::beginTransaction();
 
-      Helpers::updateValidation($model);
+      ValidationHelper::updateValidation($model);
 
       $result = $this->getUserByIdentity($userID);
 
@@ -77,14 +80,14 @@ class UserService
 
   public function updateAvatar(string $userID, array $files): void
   {
-    Helpers::imageValidation($files["name"], $files["type"], $files["size"], $files["error"]);
+    ImageHelper::imageValidation($files["name"], $files["type"], $files["size"], $files["error"]);
 
     try {
       Database::beginTransaction();
 
       $user = $this->getUserByIdentity($userID);
 
-      $avatarUrl = Helpers::replaceAvatar($files, $user->avatar_url, __DIR__ . "/../../public/uploads/avatars", __DIR__ . "/../..");
+      $avatarUrl = ImageHelper::replaceAvatar($files, $user->avatar_url, __DIR__ . "/../../public/uploads/avatars", __DIR__ . "/../..");
 
       $this->userRepository->updateAvatar($userID, $avatarUrl);
 
@@ -104,7 +107,7 @@ class UserService
 
       $user = $this->getUserByIdentity($userID);
 
-      Helpers::deleteImage(__DIR__ . "/../.." . $user->avatar_url);
+      FileHelper::deleteImage(__DIR__ . "/../.." . $user->avatar_url);
 
       $this->userRepository->delete($userID);
 

@@ -12,7 +12,7 @@ use App\Repository\UserRepository;
 use App\Service\PostService;
 use App\Service\SessionService;
 use App\Service\UserService;
-use App\Utils\Utils;
+use App\Utils\DateUtil;
 
 class UserController
 {
@@ -195,7 +195,7 @@ class UserController
     $userFound = $this->userService->getUserByIdentity($username);
     
     if ($userFound) {
-      $userFound->created_at = Utils::formatJoinTime($userFound->created_at);
+      $userFound->created_at = DateUtil::formatJoinTime($userFound->created_at);
 
       $this->renderPage("app", "user/view-user", $username, [
         "username" => $username,
