@@ -12,7 +12,10 @@
   </div>
 
   <div class="pt-2 px-4 d-flex justify-content-between align-items-center">
-    <div class="bg-black p-1 rounded-circle d-flex align-items-center justify-content-center" style="z-index: 2;">
+    <div class="bg-black p-1 rounded-circle d-flex align-items-center justify-content-center" 
+         style="z-index: 2; cursor: pointer;" 
+         data-bs-toggle="modal" 
+         data-bs-target="#avatarModal">
       <img src="<?= $data["user"]->avatar_url ?>"
         class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 object-fit-cover"
         style="width: 80px; height: 80px;" alt="Profile Picture" />
@@ -42,6 +45,7 @@
       </div>
     </div>
   </div>
+
   <div class="mt-4 border-top border-secondary border-opacity-25">
     <div class="d-flex border-bottom border-secondary border-opacity-10">
       <div class="px-4 py-3 position-relative fw-bold text-white small tracking-wide text-uppercase" style="cursor: default;">
@@ -59,6 +63,25 @@
       <?php else: ?>
         <?php require_once __DIR__ . "/postList.php" ?>
       <?php endif ?>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="avatarModal" tabindex="-1" aria-labelledby="avatarModalLabel" aria-hidden="true" style="backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-transparent border-0">
+      
+      <div class="d-flex justify-content-end mb-2">
+        <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body p-0 text-center">
+        <img src="<?= $data["user"]->avatar_url ?>" 
+             class="img-fluid rounded-circle border border-secondary border-opacity-25 shadow mx-auto object-fit-cover" 
+             style="max-width: 90%; max-height: 70vh; aspect-ratio: 1/1;" 
+             alt="<?= $data["user"]->display_name ?? $data["user"]->username ?>'s Avatar" />
+      </div>
+
     </div>
   </div>
 </div>
