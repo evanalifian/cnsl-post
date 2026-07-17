@@ -1,0 +1,90 @@
+/* ==========================================================================
+   CNSL-POST — Ultra Minimalist Vercel-inspired Theme
+   ========================================================================== */
+
+/* Global Reset & Body Background */
+body {
+  background-color: #000000 !important;
+  background-image: radial-gradient(
+    circle at 50% 45%,
+    rgba(120, 119, 198, 0.08) 0%,
+    transparent 45%
+  );
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Typography & Visual Effects */
+.text-gradient {
+  background: linear-gradient(
+    180deg,
+    #ffffff 20%,
+    rgba(255, 255, 255, 0.5) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+/* Glassmorphism Header (Navbar) */
+.navbar-blur {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Borders & Dividers */
+.grid-border-bottom {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+.grid-border-top {
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Custom Tombol Vercel */
+.btn-vercel-primary {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.btn-vercel-primary:hover {
+  background-color: #000000;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-vercel-secondary {
+  background-color: transparent;
+  color: #888888;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.btn-vercel-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Form Inputs */
+.form-control-vercel {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+}
+.form-control-vercel::placeholder {
+  color: #4a4a4a !important;
+}
+.form-control-vercel:focus {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25) !important;
+}

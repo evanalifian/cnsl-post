@@ -27,8 +27,7 @@ class HomeController
       "title" => "Home",
       "user" => $this->sessionService->current(),
       "posts" => $this->postService->getAllPosts(),
-      "styles" => ["postCard.css"],
-      "scripts" => ["postCard.js", "shareLink.js"]
+      "scripts" => ["shareLink.js"]
     ]);
   }
 }

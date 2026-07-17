@@ -14,7 +14,7 @@ class UserRoute
         Router::add("/login", "GET", fn() => (new UserController())->loginPage(), fn() => AuthMiddleware::requireGuest());
         Router::add("/login", "POST", fn() => (new UserController())->login(), fn() => AuthMiddleware::requireGuest());
         Router::add("/profile", "GET", fn() => (new UserController())->profilePage(), fn() => AuthMiddleware::requireAuth());
-        Router::add("/profile/setting", "GET", fn() => (new UserController())->settingPage(), fn() => AuthMiddleware::requireAuth());
+        Router::add("/profile/settings", "GET", fn() => (new UserController())->settingPage(), fn() => AuthMiddleware::requireAuth());
         Router::add("/profile/update", "POST", fn() => (new UserController())->update(), fn() => AuthMiddleware::requireAuth());
         Router::add("/profile/update-avatar", "POST", fn() => (new UserController())->updateAvatar(), fn() => AuthMiddleware::requireAuth());
         Router::add("/profile/delete", "POST", fn() => (new UserController())->delete(), fn() => AuthMiddleware::requireAuth());

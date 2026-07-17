@@ -12,13 +12,11 @@ imageFileInput.addEventListener("change", function () {
   const file = this.files[0];
   if (file) {
     const reader = new FileReader();
-
     reader.addEventListener("load", function () {
       imagePreview.setAttribute("src", this.result);
       previewContainer.classList.remove("d-none");
       btnUploadTrigger.classList.add("d-none");
     });
-
     reader.readAsDataURL(file);
   }
 });
@@ -30,18 +28,10 @@ btnRemovePreview.addEventListener("click", () => {
   btnUploadTrigger.classList.remove("d-none");
 });
 
-const formCreatePost = document.querySelector("form");
+// Perbaikan logika kalkulasi karakter real-time
 const inputContent = document.querySelector("textarea[name='content']");
-const btnSubmitPost = document.getElementById("btn-submit-post");
+const minChars = document.getElementById("minChars");
 
-inputContent.addEventListener("input", (e) => {
-  if (e.target.value) {
-    btnSubmitPost.removeAttribute("disabled");
-  } else {
-    btnSubmitPost.setAttribute("disabled", true);
-  }
-});
-
-formCreatePost.addEventListener("submit", (e) => {
-  btnSubmitPost.setAttribute("disabled", true);
+inputContent.addEventListener("input", () => {
+  minChars.innerText = inputContent.value.length;
 });

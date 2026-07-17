@@ -78,7 +78,10 @@ class PostController
   public function detailPost(string $postID): void
   {
     $post = $this->postService->getPostByID($postID);
-    $this->renderPage("app", "post/detail", "Detail post", ["post" => $post]);
+    $this->renderPage("app", "post/detail", "Detail post", [
+      "post" => $post,
+      "scripts" => ["shareLink.js"]
+    ]);
   }
 
   public function deletePost(string $postID): void

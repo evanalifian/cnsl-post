@@ -100,10 +100,14 @@ class UserService
     }
   }
 
-  public function delete(string $userID): void
+  public function delete(string $userID, string $confirmText): void
   {
     try {
       Database::beginTransaction();
+
+      if (strtolower($confirmText) !== "delete-my-account") {
+        throw new ValidationException("You must type confirmation first");
+      }
 
       $user = $this->getUserByIdentity($userID);
 
