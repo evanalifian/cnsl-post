@@ -1,67 +1,43 @@
-Identity & Role:
-Kamu adalah seorang Software Architect dan Code Refactoring Expert senior. Tugas utama kamu adalah merapikan (cleanup) dan melakukan refactor pada basis kode (codebase) yang saya berikan agar lebih modular, clean, dan mengikuti best practices.
+Halo AI, saya memiliki proyek web statis dengan struktur folder sebagai berikut:
 
-Context & Directory Structure:
-Berikut adalah struktur folder dari proyek saya saat ini sebagai acuan letak file dan penulisan namespace/path:
+```bash
+designs:.
++---app
+|       create.html
+|       detail.html
+|       home.html
+|       profile.html
+|       search.html
+|       settings.html
+|       style.css
+|       view_user.html
+|       
+\---view
+        about.html
+        landing.html
+        login.html
+        signup.html
+        style.css
+```
 
-root:
-├───public
-│   ├───assets
-│   ├───css
-│   ├───js
-│   └───uploads
-│       ├───avatars
-│       └───post-images
-├───src
-│   ├───Config
-│   ├───Controller
-│   ├───Exception
-│   ├───Helpers      <-- Folder untuk Helper
-│   ├───Middleware
-│   ├───Model
-│   ├───Repository
-│   ├───Seeder
-│   ├───Service
-│   ├───Utils        <-- Folder untuk Utility
-│   └───View
-│       ├───about
-│       ├───components
-│       ├───home
-│       ├───landing
-│       ├───post
-│       │   ├───create
-│       │   └───detail
-│       ├───search
-│       ├───templates
-│       └───user
-│           ├───login
-│           ├───not-found
-│           ├───profile
-│           ├───profile-settings
-│           ├───signup
-│           └───view-user
-├───index.php
-├───seeder.php
-├───composer.json
-├───composer.lock
-├───.env
-└───.htaccess
+Tantangan saat ini: 
+Saat ini terdapat dua berkas 'style.css' di masing-masing folder (app/ dan view/). Masalahnya, kedua file CSS ini berisi aturan global yang bercampur, dan beberapa halaman memanggil kedua file tersebut sekaligus. Hal ini menyebabkan banyak sekali selektor/atribut CSS yang tidak terpakai (dead code/unused CSS) di halaman-halaman tertentu.
 
+Tugas Anda:
+Lakukan refactoring, pembersihan, dan pemisahan file CSS agar lebih modular, efisien, dan bersih. Ikuti instruksi berikut secara ketat:
 
-Objective:
-Lakukan refactor pada kode yang saya lampirkan dengan fokus utama memisahkan fungsi-fungsi pendukung ke dalam modul tersendiri di dalam folder `src/Helpers` atau `src/Utils` berdasarkan ketentuan berikut:
+1. Buat Berkas CSS Global/Shared (Core CSS):
+   Ekstrak semua utility class bersama, reset dasar, variabel tema/warna gelap, dan gaya komponen global yang dipakai di KEDUA folder (misalnya gaya navbar blur, grid-border, tipografi dasar, .form-control-vercel, dll.) ke dalam satu berkas CSS khusus. Berikan rekomendasi nama dan lokasi folder barunya (misal: root/assets/css/global.css atau root/css/base.css).
 
-1. Separate Helpers (src/Helpers):
-   - Identifikasi fungsi atau logika yang sangat terikat dengan domain aplikasi/bisnis (context-aware). Contoh: fungsi yang memformat data spesifik untuk UI/view ini saja, fungsi pengecekan status user tertentu, atau manipulasi objek yang spesifik untuk halaman ini.
-   - Pisahkan fungsi-fungsi ini ke dalam file atau modul baru di bawah direktori `src/Helpers`.
+2. Pisahkan CSS Modular Spesifik (Scoped CSS):
+   Bagi sisa aturan CSS yang hanya spesifik digunakan oleh halaman tertentu. 
+   - Kumpulkan utility/style khusus fitur dashboard (seperti layout sidebar aplikasi, list-group-vercel, area danger zone, dll.) untuk file-file di dalam folder /app.
+   - Kumpulkan utility/style khusus fitur auth/informasi (seperti form login/signup, landing page, text-gradient, dll.) untuk file-file di dalam folder /view.
 
-2. Separate Utils (src/Utils):
-   - Identifikasi fungsi yang bersifat umum, murni (pure functions), tidak terikat domain bisnis aplikasi, dan bisa digunakan kembali di proyek mana pun (context-agnostic). Contoh: format tanggal/mata uang universal, manipulasi string dasar, kalkulasi matematika, atau generator string acak.
-   - Pisahkan fungsi-fungsi ini ke dalam file atau modul baru di bawah direktori `src/Utils`.
+3. Bersihkan Atribut yang Tidak Terpakai (Purge Unused CSS):
+   Pastikan tidak ada selektor CSS mati yang terbawa ke dalam berkas baru jika selektor tersebut sama sekali tidak diimplementasikan di kode HTML berkas manapun.
 
-Guidelines & Constraints:
-- JANGAN MENGUBAH FUNGSI ATAU LOGIKA UTAMA. Kode hasil refactor harus bekerja 100% sama dengan kode aslinya (no breaking changes).
-- Bersihkan kode dari komentar yang tidak perlu, kode yang mati (dead code), atau formatting yang tidak konsisten.
-- Berikan output dalam bentuk struktur file/folder baru yang direkomendasikan dengan mengacu pada directory tree di atas.
-- Tuliskan kode hasil pemisahan (baik di folder `src/Helpers`, `src/Utils`, maupun kode utama setelah didefrag) secara lengkap dan siap pakai.
-- Pastikan untuk menuliskan baris import/require dengan jelas (gunakan path yang benar sesuai struktur folder di atas, misalnya mengarah ke `src/Helpers/...` atau `src/Utils/...`).
+4. Berikan Panduan Pemanggilan Tag <link> Baru:
+   Tunjukkan bagaimana pembaruan tag <link href="..."> pada setiap file HTML (baik di folder /app maupun /view) agar memanggil berkas CSS global baru dan berkas CSS spesifiknya secara benar dengan jalur relatif yang tepat.
+
+Sebagai langkah awal, tolong analisis arsitektur pemisahan CSS ini terlebih dahulu dan berikan struktur folder CSS baru yang ideal beserta skema pembagian kelasnya. Setelah saya setuju, saya akan memberikan isi kode dari file HTML dan file CSS saat ini secara bertahap untuk Anda bersihkan.

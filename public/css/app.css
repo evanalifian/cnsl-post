@@ -1,0 +1,94 @@
+/* ==========================================================================
+   KUSTOMISASI BOOTSTRAP COMPONENT (CARD & LIST GROUP)
+   ========================================================================== */
+
+/* 1. Kustomisasi Bootstrap Card untuk Post Card */
+.card-vercel {
+  background-color: rgba(255, 255, 255, 0.01) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 6px !important;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+.card-vercel:hover {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+/* 2. Kustomisasi Bootstrap List Group untuk Sidebar Navigasi */
+.list-group-vercel {
+  background: transparent !important;
+  border: none !important;
+}
+.list-group-vercel .list-group-item {
+  background-color: transparent !important;
+  border: none !important;
+  color: #888888 !important;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.65rem 1rem !important;
+  border-radius: 6px !important;
+  margin-bottom: 2px;
+  transition: all 0.15s ease;
+}
+.list-group-vercel .list-group-item:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+.list-group-vercel .list-group-item.active {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Aturan Desain Aksi Modal Khas Vercel */
+.v-modal-item,
+.v-modal-item-danger {
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
+}
+
+.v-modal-item:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #ffffff !important;
+}
+
+.v-modal-item-danger:hover {
+  background: rgba(239, 68, 68, 0.08) !important;
+}
+
+/* Kustomisasi backdrop modal agar tampak blur premium */
+.modal-backdrop {
+  background-color: #000000 !important;
+}
+.modal-backdrop.show {
+  opacity: 0.75;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Clickable Vercel Post Card Interaction */
+.post-card-clickable {
+  display: block;
+  outline: none;
+}
+
+.post-card-clickable .transition-vercel {
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+/* Ketika card disorot (Hover Effect) */
+.post-card-clickable:hover .transition-vercel {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+/* Ketika card ditekan / aktif (Active State) */
+.post-card-clickable:active .transition-vercel {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}

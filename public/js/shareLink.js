@@ -11,7 +11,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
       function showSuccessFeedback() {
         const originalHTML = btnElement.innerHTML;
-        btnElement.innerHTML = `<i class="bi bi-check2 text-success"></i> <span class="text-success">Copied!</span>`;
+        btnElement.innerHTML = `
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span style="color: #10b981;">Copied!</span>
+        `;
+
         setTimeout(() => {
           btnElement.innerHTML = originalHTML;
         }, 2000);

@@ -1,27 +1,41 @@
-<div class="col-12 d-block d-lg-none fixed-bottom bg-black border-top border-secondary border-opacity-25 py-3 px-2 z-3">
-  <div class="d-flex flex-row justify-content-around align-items-center mx-auto" style="max-width: 500px">
-    <?php foreach ($navLinks as $nav): ?>
-      <a href="<?= $nav["path"] ?>"
-        class="
-      <?= $nav["path"] === $_SERVER['REQUEST_URI'] ? $activeNavItemMobile : $navItemMobile ?>">
-        <?= $nav["icon"] ?>
-      </a>
-    <?php endforeach ?>
-    <a href="/profile" class="text-secondary text-decoration-none">
-      <img src="<?= isset($data["currentUser"]) ? $data["currentUser"]->avatar_url : $data["user"]->avatar_url ?>" class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded-circle d-flex
-              align-items-center justify-content-center flex-shrink-0 object-fit-cover"
-        style="width: 28px; height: 28px;" alt="Profile Picture" />
+</div>
+</div>
+</main>
+<div class="d-block d-md-none fixed-bottom navbar-blur grid-border-top py-2 px-3" style="z-index: 1030">
+  <div class="d-flex justify-content-around align-items-center">
+    <a href="home.html" class="text-white p-2">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      </svg>
+    </a>
+    <a href="search.html" class="text-secondary p-2">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </a>
+    <a href="create.html" class="text-secondary p-2">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="16"></line>
+        <line x1="8" y1="12" x2="16" y2="12"></line>
+      </svg>
+    </a>
+    <a href="profile.html" class="text-secondary p-2">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
     </a>
   </div>
-</div>
-</div>
 </div>
 <?php if (isset($data["components"])): ?>
   <?php foreach ($data["components"] as $component) {
     require_once __DIR__ . "/../components/$component";
   } ?>
 <?php endif ?>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <?php if (isset($data["scripts"])): ?>
   <?php foreach ($data["scripts"] as $script): ?>
     <script src="/public/js/<?= $script ?>"></script>

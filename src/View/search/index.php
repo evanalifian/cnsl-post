@@ -1,33 +1,37 @@
-<div class="col-12 col-md-10 col-lg-6 px-0 min-h-100 mb-5 pb-5 mb-lg-0 pb-lg-0 mx-auto">
-
-  <div class="sticky-top bg-black bg-opacity-75 border-bottom border-secondary border-opacity-25 py-3 px-4"
-    style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 1020;">
-    <h1 class="fw-bold fs-5 mb-3 tracking-tight">Search</h1>
-
-    <form action="/search" method="GET"
-      class="input-group border border-secondary border-opacity-50 rounded-pill overflow-hidden bg-secondary bg-opacity-10 focus-within-border-light">
-      <span class="input-group-text bg-transparent border-0 text-secondary ps-3">
-        <i class="bi bi-search"></i>
-      </span>
-      <input type="text" name="query"
-        class="form-control bg-transparent border-0 text-white shadow-none py-2-5 ps-1 fs-6"
-        value="<?= isset($_GET['query']) ? htmlspecialchars($_GET['query']) : '' ?>"
-        placeholder="Search username or name..." aria-label="Search username" autocomplete="off" />
-      <button class="btn btn-light rounded-pill px-4 m-1 fw-semibold fs-7" type="submit">
+<div class="col-12 col-md-9" style="padding-top: 70px;">
+  <div class="d-flex flex-column gap-4">
+    <div class="pb-4 grid-border-bottom">
+      <h2 class="fw-bold fs-4 text-gradient mb-3 tracking-tight">
         Search
-      </button>
-    </form>
+      </h2>
+      <form action="/search" method="GET" class="d-flex gap-2 p-1 rounded-2" style="
+                    background-color: rgba(255, 255, 255, 0.02);
+                    border: 1px solid rgba(255, 255, 255, 0.08);
+                  ">
+        <div class="input-group">
+          <span class="input-group-text bg-transparent border-0 text-secondary ps-3">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+          <input type="text" name="query" class="form-control bg-transparent border-0 text-white shadow-none py-2 fs-7"
+            value="<?= isset($_GET['query']) ? htmlspecialchars($_GET['query']) : '' ?>"
+            placeholder="Search username or name" autocomplete="off" />
+        </div>
+        <button class="btn btn-sm btn-vercel-primary px-4 py-2 fs-7" type="submit">
+          Search
+        </button>
+      </form>
+    </div>
+    <?php
+    if (isset($data["users"]) && !empty($data["users"])) {
+      require_once __DIR__ . "/userList.php";
+    } else if (isset($_GET['query'])) {
+      require_once __DIR__ . "/usersNotFound.php";
+    } else {
+      require_once __DIR__ . "/searchBanner.php";
+    }
+    ?>
   </div>
-
-  <?php
-  // 1. JIKA USER SUDAH MELAKUKAN PENCARIAN DAN HASILNYA ADA
-  if (isset($data["users"]) && !empty($data["users"])) {
-    require_once __DIR__ . "/userList.php";
-  } else if (isset($_GET['query'])) {
-    require_once __DIR__ . "/usersNotFound.php";
-  } else {
-    require_once __DIR__ . "/searchBanner.php";
-  }
-  ?>
-
 </div>

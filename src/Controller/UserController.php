@@ -107,9 +107,8 @@ class UserController
       "title" => "Profile",
       "user" => $user,
       "posts" => $posts,
-      "styles" => ["postCard.css"],
-      "scripts" => ["postCard.js", "postModal.js", "shareLink.js"],
-      "components" => ["postModal.php"]
+      "scripts" => ["shareLink.js"],
+      "components" => ["avatarModal.php", "optionModal.php"]
     ]);
   }
 
