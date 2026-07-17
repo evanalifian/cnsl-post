@@ -1,3 +1,29 @@
+<?php
+
+$navMenu = [
+  [
+    "name" => "Home",
+    "icon" => '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>',
+    "path" => "/home"
+  ],
+  [
+    "name" => "search",
+    "icon" => '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+    "path" => "/search"
+  ],
+  [
+    "name" => "Create Post",
+    "icon" => '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>',
+    "path" => "/post/create"
+  ],
+  [
+    "name" => "Profile",
+    "icon" => '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>',
+    "path" => "/profile"
+  ],
+];
+
+?>
 <!doctype html>
 <html lang="en" class="h-100" data-bs-theme="dark">
 
@@ -11,6 +37,7 @@
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
 
   <link rel="stylesheet" href="/public/css/global.css" />
+  <link rel="stylesheet" href="/public/css/app.css" />
   <link rel="stylesheet" href="/public/css/app.css" />
   <?php if (isset($data["styles"])): ?>
     <?php foreach ($data["styles"] as $style): ?>
@@ -55,39 +82,10 @@
         <div class="col-md-3 d-none d-md-block">
           <div class="sticky-top" style="top: 115px">
             <div class="list-group list-group-vercel row-gap-1">
-              <a href="/home" class="list-group-item list-group-item-action active d-flex align-items-center gap-3">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
-                <span>Home</span>
-              </a>
-              <a href="/search" class="list-group-item list-group-item-action d-flex align-items-center gap-3">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-                <span>Search</span>
-              </a>
-              <a href="/post/create" class="list-group-item list-group-item-action d-flex align-items-center gap-3">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="8" x2="12" y2="16"></line>
-                  <line x1="8" y1="12" x2="16" y2="12"></line>
-                </svg>
-                <span>Create Post</span>
-              </a>
-              <a href="/profile" class="list-group-item list-group-item-action d-flex align-items-center gap-3">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-                <span>Profile</span>
-              </a>
+              <?php foreach ($navMenu as $menu): ?>
+                <a href="<?= $menu["path"] ?>"
+                  class="list-group-item list-group-item-action d-flex align-items-center gap-3 <?= $_SERVER['REQUEST_URI'] === $menu["path"] ? "active" : "" ?>"><?= $menu["icon"] ?><span><?= $menu["name"] ?></span></a>
+              <?php endforeach; ?>
             </div>
           </div>
         </div>

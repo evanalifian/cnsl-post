@@ -2,7 +2,7 @@
   <div class="d-flex flex-column gap-4">
     <!-- Bagian Header Profile: Vercel Repository & Horizontal Telemetry Layout -->
     <div class="mb-5 px-1">
-      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start gap-3 pb-3 border-bottom"
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 pb-3 border-bottom"
         style="border-color: rgba(255, 255, 255, 0.08) !important">
         <div class="d-flex align-items-center gap-3">
           <div class="bg-black p-1 rounded-circle d-flex align-items-center justify-content-center"

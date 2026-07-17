@@ -119,8 +119,8 @@ class UserController
     $this->renderPage("app", "user/profile-settings", "Profile Settings", [
       "title" => "Profile Settings",
       "user" => $user,
-      "components" => ["deleteAccountModal.php", "saveAvatarModal.php"],
-      "scripts" => ["saveAvatarModal.js"]
+      "styles" => ["settings.css"],
+      "components" => ["deleteAccountModal.php"]
     ]);
   }
 
@@ -140,8 +140,9 @@ class UserController
       $this->renderPage("app", "user/profile-settings", "Update Profle", [
         "title" => "Update Profile",
         "user" => $user,
-        "components" => ["errorToast.php", "saveAvatarModal.php", "deleteAccountModal.php"],
-        "scripts" => ["errorToast.js", "saveAvatarModal.js"],
+        "styles" => ["settings.css"],
+        "components" => ["errorToast.php", "deleteAccountModal.php"],
+        "scripts" => ["errorToast.js"],
         "error_message" => $e->getMessage()
       ]);
     }
@@ -153,13 +154,14 @@ class UserController
 
     try {
       $this->userService->updateAvatar($user->id, $_FILES["avatar"]);
-      View::redirect("/profile/setting");
+      View::redirect("/profile/settings");
     } catch (ValidationException $e) {
       $this->renderPage("app", "user/profile-settings", "Update Profle", [
         "title" => "Update Profile",
         "user" => $user,
-        "components" => ["errorToast.php", "saveAvatarModal.php", "deleteAccountModal.php"],
-        "scripts" => ["errorToast.js", "saveAvatarModal.js"],
+        "styles" => ["settings.css"],
+        "components" => ["errorToast.php", "deleteAccountModal.php"],
+        "scripts" => ["errorToast.js"],
         "error_message" => $e->getMessage()
       ]);
     }
@@ -170,14 +172,15 @@ class UserController
     $user = $this->sessionService->current();
 
     try {
-      $this->userService->delete($user->id);
+      $this->userService->delete($user->id, htmlspecialchars(trim($_POST["confirm_text"])));
       View::redirect("/");
     } catch (ValidationException $e) {
       $this->renderPage("app", "user/profile-settings", "Update Profle", [
         "title" => "Update Profile",
         "user" => $user,
-        "components" => ["errorToast.php", "saveAvatarModal.php", "deleteAccountModal.php"],
-        "scripts" => ["errorToast.js", "saveAvatarModal.js"],
+        "styles" => ["settings.css"],
+        "components" => ["errorToast.php", "deleteAccountModal.php"],
+        "scripts" => ["errorToast.js"],
         "error_message" => $e->getMessage()
       ]);
     }
@@ -192,7 +195,7 @@ class UserController
   public function viewUser(string $username): void
   {
     $userFound = $this->userService->getUserByIdentity($username);
-    
+
     if ($userFound) {
       $userFound->created_at = DateUtil::formatJoinTime($userFound->created_at);
 
@@ -203,7 +206,7 @@ class UserController
         "styles" => ["postCard.css"],
         "scripts" => ["postCard.js", "shareLink.js"]
       ]);
-      } else {
+    } else {
       $this->renderPage("page", "user/not-found", $username);
     }
   }

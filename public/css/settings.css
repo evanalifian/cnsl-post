@@ -1,0 +1,26 @@
+.btn-vercel-danger {
+  background-color: transparent;
+  color: #ff4d4d;
+  border: 1px solid rgba(255, 77, 77, 0.2);
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.btn-vercel-danger:hover {
+  background-color: rgba(255, 77, 77, 0.1);
+  color: #ff3333;
+  border-color: rgba(255, 77, 77, 0.5);
+}
+.btn-vercel-danger-solid {
+  background-color: #ff4d4d;
+  color: #ffffff;
+  border: 1px solid #ff4d4d;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.btn-vercel-danger-solid:hover {
+  background-color: #000000;
+  color: #ff4d4d;
+  border-color: rgba(255, 77, 77, 0.5);
+}

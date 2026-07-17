@@ -10,17 +10,9 @@
     </div>
     <form action="/post/create" method="POST" enctype="multipart/form-data">
       <div class="d-flex gap-3">
-        <div
-          class="bg-dark bg-opacity-50 border border-secondary border-opacity-50 rounded d-flex align-items-center justify-content-center text-white flex-shrink-0"
-          style="
-                      width: 40px;
-                      height: 40px;
-                      font-family: monospace;
-                      font-size: 0.8rem;
-                      border-color: rgba(255, 255, 255, 0.08) !important;
-                    ">
-          &lt;/&gt;
-        </div>
+        <img src="<?= $data["user"]->avatar_url ?>"
+          class="bg-secondary bg-opacity-25 border border-secondary border-opacity-50 rounded d-flex align-items-center justify-content-center flex-shrink-0 object-fit-cover"
+          style="width: 42px; height: 42px;" alt="Profile Picture" loading="lazy" />
         <div class="w-100">
           <div class="mb-3">
             <span class="fw-bold text-white fs-7"><?= $data["user"]->display_name ?: "" ?></span>
