@@ -21,8 +21,7 @@
           <div class="mb-4">
             <textarea name="content"
               class="form-control bg-transparent border-0 text-white shadow-none p-0 fs-7 lh-base" style="resize: none;"
-              rows="8" placeholder="What's happening? Conclude your thoughts here..." maxlength="300"
-              required></textarea>
+              rows="8" placeholder="What's happening? Conclude your thoughts here..." maxlength="300"></textarea>
           </div>
           <div class="mb-4">
             <input type="file" name="image" id="imageFileInput" accept="image/*" class="d-none" />
@@ -54,7 +53,7 @@
                         border-color: rgba(255, 255, 255, 0.08) !important;
                       ">
             <img id="imagePreview" src="#" alt="Attachment Preview" class="img-fluid w-100"
-              style="max-height: 300px; object-fit: cover" />
+              style="object-fit: cover" />
 
             <button type="button" id="btnRemovePreview"
               class="btn btn-dark bg-black bg-opacity-75 text-white position-absolute top-0 end-0 m-2 rounded-circle d-flex align-items-center justify-content-center p-0 shadow-none"
@@ -70,7 +69,7 @@
             </button>
           </div>
           <div class="d-flex align-items-center justify-content-between pt-3 grid-border-top">
-            <button type="submit" id="btn-submit-post" disabled class="btn btn-sm btn-vercel-primary px-4 py-2 fs-7">
+            <button type="submit" id="btn-submit-post" class="btn btn-sm btn-vercel-primary px-4 py-2 fs-7">
               Post
             </button>
           </div>

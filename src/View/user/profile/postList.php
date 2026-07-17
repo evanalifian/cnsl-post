@@ -22,7 +22,7 @@
           <?= htmlspecialchars($row->preview_content) ?>
         </p>
         <?php if (isset($row->image_url)): ?>
-          <div class="mb-3 border border-secondary border-opacity-25 rounded" style="overflow: hidden; max-height: 320px">
+          <div class="mb-3 border border-secondary border-opacity-25 rounded" style="overflow: hidden; max-height: 320px;">
             <img src="<?= $row->image_url ?>" class="img-fluid w-100" style="
                           object-fit: cover;
                           filter: grayscale(10%) contrast(102%);

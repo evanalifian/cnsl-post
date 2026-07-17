@@ -3,6 +3,7 @@ const btnUploadTrigger = document.getElementById("btnUploadTrigger");
 const previewContainer = document.getElementById("previewContainer");
 const imagePreview = document.getElementById("imagePreview");
 const btnRemovePreview = document.getElementById("btnRemovePreview");
+const btnSubmitPost = document.getElementById("btn-submit-post");
 
 btnUploadTrigger.addEventListener("click", () => {
   imageFileInput.click();
@@ -26,12 +27,4 @@ btnRemovePreview.addEventListener("click", () => {
   imagePreview.setAttribute("src", "#");
   previewContainer.classList.add("d-none");
   btnUploadTrigger.classList.remove("d-none");
-});
-
-// Perbaikan logika kalkulasi karakter real-time
-const inputContent = document.querySelector("textarea[name='content']");
-const minChars = document.getElementById("minChars");
-
-inputContent.addEventListener("input", () => {
-  minChars.innerText = inputContent.value.length;
 });
