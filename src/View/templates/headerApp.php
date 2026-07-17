@@ -61,17 +61,7 @@ $navMenu = [
       <div class="d-flex align-items-center">
         <a href="/profile"
           class="btn btn-sm btn-vercel-secondary px-3 py-1-5 fs-7 d-flex align-items-center gap-2 text-white">
-          <div
-            class="bg-dark bg-opacity-50 border border-secondary border-opacity-25 rounded d-flex align-items-center justify-content-center text-white"
-            style="
-                width: 20px;
-                height: 20px;
-                font-size: 0.6rem;
-                font-family: monospace;
-              ">
-            EA
-          </div>
-          <span class="d-none d-sm-inline">@evanalifian</span>
+          <span class="d-none d-sm-inline">@<?= $data["user"]->username ?></span>
         </a>
       </div>
     </div>
