@@ -1,6 +1,6 @@
-documents
 designs
 vendor
+PROMPT.md
 .env
 *.sql
 *.zip

@@ -1,43 +1,87 @@
-Halo AI, saya memiliki proyek web statis dengan struktur folder sebagai berikut:
+### 📝 Prompt untuk AI Check-Up OpenAPI
 
-```bash
-designs:.
-+---app
-|       create.html
-|       detail.html
-|       home.html
-|       profile.html
-|       search.html
-|       settings.html
-|       style.css
-|       view_user.html
-|       
-\---view
-        about.html
-        landing.html
-        login.html
-        signup.html
-        style.css
+**Aturan Evaluasi:**
+Tolong bertindak sebagai Senior API Architect dan review file OpenAPI 3.0.3 berikut (`cnsl-post-openapi.json`).
+
+
+Evaluasi dan koreksi spesifikasi OpenAPI ini dengan mengacu pada **prinsip RESTful API Best Practices & Standard OpenAPI 3.0**:
+
+
+1. **Resource Naming & HTTP Methods (Fokus Utama):**
+
+* Pastikan URL menggunakan **kata benda (plural)**, bukan kata kerja (misal: ubah `/users/signup` atau `/users/login` agar sesuai standar atau pindahkan ke resource/action style yang benar).
+
+
+* Pastikan HTTP Method digunakan secara semantik dan tepat untuk setiap tindakan CRUD.
+
+
+* Pada endpoint update user (`/users`), periksa mengapa menggunakan `PUT` tanpa ID di path (`/users/{userID}`). Evaluasi perbedaan penggunaan `PUT` vs `PATCH` untuk pembaruan sebagian (partial update).
+
+
+
+
+2. **Struktur Resource & Hierarchy:**
+
+* Konsistensi penggunaan Path Parameter (misal: ID user harus spesifik pada path untuk tindakan individual seperti GET, PUT, PATCH, DELETE).
+
+
+* Gunakan *Query Parameter* untuk pencarian/filtering (seperti `?identity=...`).
+
+
+
+
+3. **Kelengkapan Dokumen OpenAPI:**
+
+* Isi bagian `responses` untuk tiap operation yang saat ini masih kosong (`responses: {}`). Berikan contoh status code HTTP yang sesuai (seperti 200, 201, 400, 401, 404, 500).
+
+
+* Refactor schema yang digunakan berulang ke dalam bagian `components/schemas` serta gunakan `$ref` agar dokumen RAPI dan modular.
+
+
+* Tambahkan `tags` untuk mengelompokkan endpoint.
+
+
+
+
+
+
+**Output yang diharapkan:**
+1. **Daftar Masalah/Catatan Reviu:** Jelaskan poin-poin yang kurang sesuai beserta alasannya berdasarkan standar RESTful API.
+
+
+2. **File JSON Hasil Perbaikan:** Berikan file JSON OpenAPI lengkap yang sudah diperbaiki.
+
+
+
+
+**Berikut adalah file JSON yang perlu direview:**
+```json
+<PASTE_ISI_FILE_CNSL_POST_OPENAPI_JSON_DI_SINI
 ```
 
-Tantangan saat ini: 
-Saat ini terdapat dua berkas 'style.css' di masing-masing folder (app/ dan view/). Masalahnya, kedua file CSS ini berisi aturan global yang bercampur, dan beberapa halaman memanggil kedua file tersebut sekaligus. Hal ini menyebabkan banyak sekali selektor/atribut CSS yang tidak terpakai (dead code/unused CSS) di halaman-halaman tertentu.
 
-Tugas Anda:
-Lakukan refactoring, pembersihan, dan pemisahan file CSS agar lebih modular, efisien, dan bersih. Ikuti instruksi berikut secara ketat:
 
-1. Buat Berkas CSS Global/Shared (Core CSS):
-   Ekstrak semua utility class bersama, reset dasar, variabel tema/warna gelap, dan gaya komponen global yang dipakai di KEDUA folder (misalnya gaya navbar blur, grid-border, tipografi dasar, .form-control-vercel, dll.) ke dalam satu berkas CSS khusus. Berikan rekomendasi nama dan lokasi folder barunya (misal: root/assets/css/global.css atau root/css/base.css).
+---
 
-2. Pisahkan CSS Modular Spesifik (Scoped CSS):
-   Bagi sisa aturan CSS yang hanya spesifik digunakan oleh halaman tertentu. 
-   - Kumpulkan utility/style khusus fitur dashboard (seperti layout sidebar aplikasi, list-group-vercel, area danger zone, dll.) untuk file-file di dalam folder /app.
-   - Kumpulkan utility/style khusus fitur auth/informasi (seperti form login/signup, landing page, text-gradient, dll.) untuk file-file di dalam folder /view.
+### 💡 Catatan / Ringkasan Poin Kunci Sebelum Kamu Kirim Prompt:
 
-3. Bersihkan Atribut yang Tidak Terpakai (Purge Unused CSS):
-   Pastikan tidak ada selektor CSS mati yang terbawa ke dalam berkas baru jika selektor tersebut sama sekali tidak diimplementasikan di kode HTML berkas manapun.
+Berdasarkan referensi standar RESTful API dan OpenAPI, berikut beberapa poin utama pada file JSON-mu yang akan disesuaikan oleh AI:
 
-4. Berikan Panduan Pemanggilan Tag <link> Baru:
-   Tunjukkan bagaimana pembaruan tag <link href="..."> pada setiap file HTML (baik di folder /app maupun /view) agar memanggil berkas CSS global baru dan berkas CSS spesifiknya secara benar dengan jalur relatif yang tepat.
+* **Resource Naming (`/users/signup` & `/users/login`)**:
+RESTful API disarankan menggunakan kata benda. Kata kerja seperti `signup` / `login` pada RESTful API biasa ditangani dengan:
 
-Sebagai langkah awal, tolong analisis arsitektur pemisahan CSS ini terlebih dahulu dan berikan struktur folder CSS baru yang ideal beserta skema pembagian kelasnya. Setelah saya setuju, saya akan memberikan isi kode dari file HTML dan file CSS saat ini secara bertahap untuk Anda bersihkan.
+
+* `/users` (POST) untuk pendaftaran/membuat user baru.
+
+
+* `/sessions` atau `/auth/login` (POST) untuk proses otentikasi/login.
+
+
+
+
+* **Penggunaan `PUT` pada `/users**`:
+Endpoint untuk pembaruan data user spesifik idealnya adalah `PUT /users/{userID}` atau `PATCH /users/{userID}` (bukan `PUT /users` tanpa ID di URI).
+
+
+* **Lengkapi `responses**`:
+Saat ini objek `"responses": {}` masih kosong pada seluruh endpoint-mu. Mengacu pada OpenAPI, setiap operation wajib memiliki minimal satu response status code (misal `200 OK`, `201 Created`, `400 Bad Request`).

@@ -1,0 +1,391 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "cnsl-post RESTful API",
+    "version": "1.0",
+    "description": "cnsl-post RESTful API documentation.",
+    "contact": {
+      "name": "Evan Rafa Radya Alifian",
+      "url": "https://evanalifian.vercel.app",
+      "email": "evanalifian@gmail.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/license/mit"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://cnsl-post.test",
+      "description": "cnsl-post RESTful API server environments."
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Endpoints related to user management"
+    },
+    {
+      "name": "Auth",
+      "description": "Endpoints related to authentication and sessions"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create new user (Sign up)",
+        "description": "Create new user with input username, name (optional), and password.",
+        "requestBody": {
+          "required": true,
+          "description": "A request body that need to register account.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSignupRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get users by identity.",
+        "description": "Get all user by matching query parameter with username or name.",
+        "parameters": [
+          {
+            "name": "identity",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "examples": {
+              "evanalifian": {
+                "value": "evanalifian"
+              },
+              "John": {
+                "value": "John Doe"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with list of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login user",
+        "description": "Login user by username and password. Creates a new session.",
+        "requestBody": {
+          "required": true,
+          "description": "A request body that need to sign in account.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful, session created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userID}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get detail user information.",
+        "description": "Get detail user information by sending user ID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserIDParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Update user info.",
+        "description": "Update specific user information fields like name, bio, or avatar partially.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserIDParam"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "A request body to update user information.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Delete user.",
+        "description": "Delete user by choosing a specific ID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UserIDParam"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User successfully deleted"
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "UserIDParam": {
+        "name": "userID",
+        "description": "User ID to identify a specific user.",
+        "required": true,
+        "in": "path",
+        "schema": {
+          "type": "string"
+        },
+        "examples": {
+          "evanalifian": {
+            "value": "idevanalifian123"
+          }
+        }
+      }
+    },
+    "schemas": {
+      "UserSignupRequest": {
+        "type": "object",
+        "required": ["username", "password"],
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "description": "Username must contain at least 3 characters."
+          },
+          "name": {
+            "type": "string",
+            "description": "User's full name"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "description": "Password contain at least 8 characters."
+          }
+        },
+        "example": {
+          "username": "evanalifian",
+          "name": "Evan Alifian",
+          "password": "securepassword"
+        }
+      },
+      "UserLoginRequest": {
+        "type": "object",
+        "required": ["username", "password"],
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 3
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8
+          }
+        },
+        "example": {
+          "username": "evanalifian",
+          "password": "securepassword"
+        }
+      },
+      "UserUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 3
+          },
+          "name": {
+            "type": "string"
+          },
+          "bio": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "name": "Evan Alifian",
+          "bio": "A passionate developer",
+          "avatar": "evan.png"
+        }
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "bio": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}
