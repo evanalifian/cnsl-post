@@ -59,7 +59,17 @@
             }
           },
           "400": {
-            "description": "Bad Request - Invalid input",
+            "description": "Bad Request - Missing or invalid required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Something went wrong on the server",
             "content": {
               "application/json": {
                 "schema": {
@@ -72,36 +82,42 @@
       },
       "get": {
         "tags": ["Users"],
-        "summary": "Get users by identity.",
-        "description": "Get all user by matching query parameter with username or name.",
+        "summary": "Search users",
+        "description": "Search users by keyword (matches username or name). Returns empty list if no user found.",
         "parameters": [
           {
-            "name": "identity",
-            "required": false,
+            "name": "q",
             "in": "query",
+            "required": false,
+            "description": "Search keyword for username or name",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
-            "examples": {
-              "evanalifian": {
-                "value": "evanalifian"
-              },
-              "John": {
-                "value": "John Doe"
-              }
-            }
+            "example": "evanalifian"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful response with list of users",
+            "description": "Successfully retrieved users (returns empty array if no match found)",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserResponse"
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Users retrieved successfully"
+                    },
+                    "status_code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      }
+                    }
                   }
                 }
               }
@@ -240,7 +256,14 @@
             }
           },
           "404": {
-            "description": "User not found"
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         }
       },
@@ -355,7 +378,7 @@
           "avatar": "evan.png"
         }
       },
-      "UserResponse": {
+      "User": {
         "type": "object",
         "properties": {
           "id": {
@@ -375,13 +398,28 @@
           }
         }
       },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "User created successfully"
+          },
+          "status_code": {
+            "type": "integer"
+          },
+          "data": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
       "ErrorResponse": {
         "type": "object",
         "properties": {
           "message": {
             "type": "string"
           },
-          "code": {
+          "status_code": {
             "type": "integer"
           }
         }
